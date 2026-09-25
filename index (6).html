@@ -1,0 +1,562 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>María Pilar Sabena · Tecnología, producto y comunicación</title>
+<meta name="description" content="CV de María Pilar Sabena, estudiante de último año de Ingeniería en Computación (UNC). Tecnología, producto y comunicación.">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚡</text></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@500;600;700&family=Sora:wght@300;400;500;600&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet">
+<style>
+:root{
+  --void:#04060e;
+  --deep:#0a1024;
+  --panel:rgba(14,22,48,.55);
+  --line:rgba(96,140,255,.18);
+  --blue:#3d7bff;
+  --cyan:#3ee6ff;
+  --violet:#8b5cf6;
+  --text:#e4eaff;
+  --muted:#8a95bf;
+  --display:'Chakra Petch',system-ui,sans-serif;
+  --body:'Sora',system-ui,sans-serif;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{
+  font-family:var(--body);font-weight:300;color:var(--text);line-height:1.7;
+  background:radial-gradient(1200px 700px at 80% -10%,rgba(139,92,246,.16),transparent 60%),
+             radial-gradient(900px 600px at -10% 40%,rgba(61,123,255,.12),transparent 60%),
+             var(--void);
+  min-height:100vh;overflow-x:hidden;
+}
+#bg{position:fixed;inset:0;width:100%;height:100%;z-index:0;pointer-events:none}
+main,footer,nav{position:relative;z-index:1}
+a{color:var(--cyan)}
+:focus-visible{outline:2px solid var(--cyan);outline-offset:3px;border-radius:4px}
+
+/* NAV */
+nav{position:fixed;top:0;left:0;right:0;z-index:10;display:flex;justify-content:space-between;align-items:center;
+  padding:1rem clamp(1.2rem,4vw,3rem);background:linear-gradient(var(--void),rgba(4,6,14,0));}
+.gh{display:flex;align-items:center;gap:.5rem;color:var(--text);text-decoration:none;font-family:var(--display);font-weight:600;font-size:.95rem;padding:.45rem .9rem;border:1px solid var(--line);border-radius:6px;transition:all .2s}
+.gh:hover{color:var(--cyan);border-color:var(--cyan);box-shadow:0 0 18px rgba(62,230,255,.25)}
+.right{display:flex;align-items:center;gap:.8rem}
+.langsw{display:flex;border:1px solid var(--line);border-radius:6px;overflow:hidden}
+.langsw button{background:none;border:0;color:var(--muted);font-family:var(--display);font-weight:600;font-size:.85rem;padding:.45rem .75rem;cursor:pointer;transition:all .2s}
+.langsw button:hover{color:var(--text)}
+.langsw button[aria-pressed="true"]{background:linear-gradient(120deg,var(--blue),var(--violet));color:#fff}
+.brand{font-family:var(--display);font-weight:700;font-size:1.1rem;color:var(--text);text-decoration:none;letter-spacing:.5px}
+.brand span{color:var(--cyan)}
+nav ul{display:flex;gap:1.6rem;list-style:none}
+nav ul a{color:var(--muted);text-decoration:none;font-size:.88rem;transition:color .2s}
+nav ul a:hover{color:var(--text)}
+@media(max-width:720px){nav ul{display:none}nav{justify-content:flex-end}}
+
+/* HERO */
+.hero{min-height:100vh;display:grid;align-items:center;padding:6rem clamp(1.2rem,6vw,6rem) 4rem;position:relative}
+#net{position:absolute;inset:0;width:100%;height:100%}
+.hero-inner{position:relative;max-width:900px}
+.status{display:inline-flex;align-items:center;gap:.6rem;font-size:.85rem;color:var(--muted);margin-bottom:1.6rem}
+.status i{width:8px;height:8px;border-radius:50%;background:var(--cyan);box-shadow:0 0 12px var(--cyan);animation:blink 2.4s infinite}
+@keyframes blink{50%{opacity:.35}}
+h1{font-family:var(--display);font-weight:700;font-size:clamp(2.8rem,8vw,6.2rem);line-height:.98;letter-spacing:-1px;
+  background:linear-gradient(100deg,#fff 20%,#a9c3ff 55%,#b79bff 90%);-webkit-background-clip:text;background-clip:text;color:transparent}
+.role{font-family:var(--display);font-weight:500;font-size:clamp(1.1rem,2.4vw,1.5rem);color:var(--cyan);margin:1.2rem 0 1.4rem}
+.lead{max-width:58ch;color:#c3cbeb;font-size:1.05rem}
+.actions{display:flex;flex-wrap:wrap;gap:.9rem;margin-top:2.2rem}
+.btn{font-family:var(--display);font-weight:600;font-size:.95rem;text-decoration:none;padding:.8rem 1.5rem;border-radius:6px;transition:all .25s}
+.btn-main{background:linear-gradient(120deg,var(--blue),var(--violet));color:#fff;box-shadow:0 0 0 1px rgba(255,255,255,.08) inset,0 8px 30px rgba(61,123,255,.35)}
+.btn-main:hover{box-shadow:0 0 0 1px rgba(255,255,255,.2) inset,0 10px 40px rgba(62,230,255,.45);transform:translateY(-2px)}
+.btn-ghost{border:1px solid var(--line);color:var(--text)}
+.btn-ghost:hover{border-color:var(--cyan);color:var(--cyan)}
+
+/* SECTIONS */
+section.block{padding:6rem clamp(1.2rem,6vw,6rem);max-width:1200px;margin:0 auto}
+h2{font-family:var(--display);font-weight:700;font-size:clamp(1.9rem,4vw,2.8rem);margin-bottom:2.4rem;display:flex;align-items:center;gap:.8rem}
+h2::before{content:'';width:10px;height:10px;background:var(--cyan);box-shadow:0 0 14px var(--cyan)}
+.sub{color:var(--muted);max-width:60ch;margin-bottom:3rem}
+
+/* ABOUT */
+.about{display:grid;grid-template-columns:1.4fr 1fr;gap:3rem;align-items:start}
+.about p{color:#c9d1ef;margin-bottom:1rem;max-width:62ch}
+.facts{border-left:1px solid var(--line);padding-left:1.6rem;display:grid;gap:1.3rem}
+.facts div strong{display:block;font-family:var(--display);font-size:1.25rem;color:var(--text)}
+.facts div span{color:var(--muted);font-size:.9rem}
+@media(max-width:820px){.about{grid-template-columns:1fr}}
+
+/* TIMELINE */
+.timeline{position:relative;padding-left:2.6rem}
+.timeline::before{content:'';position:absolute;left:11px;top:6px;bottom:6px;width:2px;
+  background:linear-gradient(var(--cyan),var(--blue),var(--violet));opacity:.55}
+.node{position:relative;margin-bottom:2.2rem;padding:1.4rem 1.6rem;border:1px solid var(--line);border-radius:10px;
+  background:var(--panel);backdrop-filter:blur(8px);transition:transform .35s,border-color .35s,box-shadow .35s;cursor:default;outline:none}
+.node::before{content:'';position:absolute;left:-2.6rem;top:1.7rem;width:14px;height:14px;margin-left:5px;border-radius:50%;
+  background:var(--void);border:2px solid var(--cyan);transition:all .35s}
+.node::after{content:'';position:absolute;left:calc(-2.6rem + 10px);top:0;width:4px;height:14px;border-radius:2px;
+  background:var(--cyan);box-shadow:0 0 10px var(--cyan);opacity:0}
+.node:hover,.node:focus-within,.node:focus{transform:scale(1.015);border-color:rgba(62,230,255,.55);
+  box-shadow:0 0 40px rgba(62,230,255,.12),0 0 0 1px rgba(62,230,255,.15) inset}
+.node:hover::before,.node:focus::before{background:var(--cyan);box-shadow:0 0 18px var(--cyan),0 0 40px var(--blue)}
+.node:hover::after,.node:focus::after{animation:packet 1.1s ease-in-out infinite}
+@keyframes packet{0%{top:-10px;opacity:0}30%{opacity:1}100%{top:calc(100% + 10px);opacity:0}}
+.when{font-family:'JetBrains Mono',monospace;font-size:.8rem;color:var(--cyan)}
+.node h3{font-family:var(--display);font-weight:600;font-size:1.35rem;margin:.2rem 0}
+.node .org{color:var(--muted);font-size:.92rem}
+.more{display:grid;grid-template-rows:0fr;transition:grid-template-rows .45s ease,opacity .45s;opacity:.0}
+.more>div{overflow:hidden}
+.node:hover .more,.node:focus .more,.node:focus-within .more{grid-template-rows:1fr;opacity:1}
+.more ul{list-style:none;margin-top:1rem;display:grid;gap:.7rem}
+.more li{padding-left:1.2rem;position:relative;color:#c9d1ef;font-size:.95rem;max-width:70ch}
+.more li::before{content:'';position:absolute;left:0;top:.65em;width:6px;height:6px;background:var(--violet);box-shadow:0 0 8px var(--violet)}
+.more li b{color:var(--text);font-weight:500}
+.hint{font-size:.8rem;color:var(--muted);margin-top:-1.8rem;margin-bottom:2rem}
+@media(hover:none){.more{grid-template-rows:1fr;opacity:1}.hint{display:none}}
+
+/* AI */
+.ai{position:relative;border:1px solid rgba(139,92,246,.4);border-radius:14px;padding:clamp(1.6rem,4vw,3rem);
+  background:linear-gradient(135deg,rgba(61,123,255,.12),rgba(139,92,246,.14));overflow:hidden}
+.ai::before{content:'';position:absolute;inset:-1px;background:linear-gradient(90deg,transparent,rgba(62,230,255,.25),transparent);
+  transform:translateX(-100%);animation:scan 6s linear infinite}
+@keyframes scan{to{transform:translateX(100%)}}
+.ai p{position:relative;max-width:62ch;color:#d3d9f5;font-size:1.05rem}
+.tools{position:relative;display:flex;flex-wrap:wrap;gap:.6rem;margin-top:1.6rem}
+.tools span{font-family:var(--display);font-size:.88rem;padding:.4rem .9rem;border:1px solid rgba(62,230,255,.35);border-radius:4px;color:var(--cyan);background:rgba(4,6,14,.4)}
+
+/* SKILLS */
+.skills{display:grid;grid-template-columns:1.6fr 1fr;gap:2rem;align-items:center}
+#graph{width:100%;height:auto;display:block;overflow:visible}
+#graph line{stroke:rgba(96,140,255,.22);stroke-width:1.2;transition:stroke .3s,stroke-width .3s}
+#graph line.on{stroke:var(--cyan);stroke-width:2;stroke-dasharray:6 6;animation:flow 1s linear infinite}
+@keyframes flow{to{stroke-dashoffset:-12}}
+#graph g.sk{cursor:pointer}
+#graph g.sk circle{fill:#0b1330;stroke:var(--blue);stroke-width:1.5;transition:all .3s}
+#graph g.sk text{fill:var(--text);font-family:var(--display);font-size:14px;font-weight:600;text-anchor:middle;pointer-events:none}
+#graph g.sk:hover circle,#graph g.sk:focus circle{stroke:var(--cyan)}
+#graph g.sk.lit circle{fill:#11235a;stroke:var(--cyan);filter:drop-shadow(0 0 8px var(--cyan))}
+#graph g.sk.sel circle{fill:url(#selGrad);stroke:#fff}
+#graph g.sk.dim{opacity:.35}
+.info{border:1px solid var(--line);border-radius:10px;padding:1.6rem;background:var(--panel);min-height:200px}
+.info h3{font-family:var(--display);font-size:1.5rem;color:var(--cyan);margin-bottom:.6rem}
+.info p{color:#c9d1ef;font-size:.95rem}
+.info small{display:block;margin-top:1rem;color:var(--muted)}
+@media(max-width:900px){.skills{grid-template-columns:1fr}}
+
+/* EDUCATION + LANG */
+.edu{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:1.4rem}
+.edu article{border-top:2px solid var(--blue);padding-top:1.2rem}
+.edu h3{font-family:var(--display);font-weight:600;font-size:1.2rem}
+.edu .org{color:var(--muted);font-size:.9rem;margin-bottom:.6rem}
+.edu p{color:#c9d1ef;font-size:.93rem}
+.areas{margin-top:3rem;display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:1.4rem}
+.areas div h4{font-family:var(--display);font-weight:600;color:var(--cyan);margin-bottom:.4rem}
+.areas div p{color:var(--muted);font-size:.9rem}
+.langs{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1.4rem}
+.lang strong{font-family:var(--display);font-size:1.2rem;display:block}
+.lang span{color:var(--muted);font-size:.9rem}
+.bar{display:flex;gap:4px;margin-top:.6rem}
+.bar i{flex:1;height:6px;border-radius:1px;background:rgba(96,140,255,.18)}
+.bar i.f{background:linear-gradient(90deg,var(--blue),var(--cyan));box-shadow:0 0 8px rgba(62,230,255,.4)}
+
+/* FOOTER */
+footer{padding:8rem clamp(1.2rem,6vw,6rem) 3rem;text-align:center}
+.cta-big{font-family:var(--display);font-weight:700;font-size:clamp(2rem,6vw,4.2rem);line-height:1.05;
+  background:linear-gradient(100deg,#fff,#9fc0ff,#b79bff);-webkit-background-clip:text;background-clip:text;color:transparent}
+.contact{display:flex;justify-content:center;flex-wrap:wrap;gap:1.4rem;margin:2.4rem 0 4rem}
+.contact a{color:var(--text);text-decoration:none;border-bottom:1px solid var(--line);padding-bottom:2px;transition:all .2s}
+.contact a:hover{color:var(--cyan);border-color:var(--cyan)}
+.copy{color:var(--muted);font-size:.8rem}
+
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+<canvas id="bg" aria-hidden="true"></canvas>
+
+<nav>
+  <ul>
+    <li><a href="#sobre-mi">Sobre mí</a></li>
+    <li><a href="#experiencia">Experiencia</a></li>
+    <li><a href="#ia">IA</a></li>
+    <li><a href="#skills">Skills</a></li>
+    <li><a href="#formacion">Formación</a></li>
+  </ul>
+  <div class="right">
+  <div class="langsw" role="group" aria-label="Idioma / Language">
+    <button type="button" data-l="es" aria-pressed="true">ES</button>
+    <button type="button" data-l="en" aria-pressed="false">EN</button>
+  </div>
+  <a href="https://github.com/pilarsabena" class="gh" target="_blank" rel="noopener" aria-label="GitHub de María Pilar Sabena">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 .5C5.7.5.5 5.7.5 12c0 5.1 3.3 9.4 7.9 10.9.6.1.8-.3.8-.6v-2c-3.2.7-3.9-1.5-3.9-1.5-.5-1.3-1.3-1.7-1.3-1.7-1-.7.1-.7.1-.7 1.2.1 1.8 1.2 1.8 1.2 1 1.8 2.8 1.3 3.5 1 .1-.8.4-1.3.7-1.6-2.6-.3-5.3-1.3-5.3-5.7 0-1.3.5-2.3 1.2-3.1-.1-.3-.5-1.5.1-3.1 0 0 1-.3 3.2 1.2a11 11 0 0 1 5.8 0c2.2-1.5 3.2-1.2 3.2-1.2.6 1.6.2 2.8.1 3.1.8.8 1.2 1.9 1.2 3.1 0 4.4-2.7 5.4-5.3 5.7.4.4.8 1.1.8 2.2v3.3c0 .3.2.7.8.6A11.5 11.5 0 0 0 23.5 12C23.5 5.7 18.3.5 12 .5z"/></svg>
+    <span>pilarsabena</span>
+  </a>
+  </div>
+</nav>
+
+<main>
+  <header class="hero" id="inicio">
+    <canvas id="net" aria-hidden="true"></canvas>
+    <div class="hero-inner">
+      <p class="status"><i></i>Córdoba, Argentina · Abierta a nuevas oportunidades</p>
+      <h1>María Pilar<br>Sabena</h1>
+      <p class="role">Ingeniería en Computación · Tecnología, producto y comunicación</p>
+      <p class="lead">Estoy en el último año de Ingeniería en Computación, con formación en economía y experiencia en ventas internacionales. Me interesa el punto donde la tecnología se encuentra con las personas.</p>
+      <div class="actions">
+        <a class="btn btn-main" href="#experiencia">Ver experiencia</a>
+        <a class="btn btn-ghost" href="mailto:pilar.sabena@mi.unc.edu.ar">Escribime</a>
+      </div>
+    </div>
+  </header>
+
+  <section class="block" id="sobre-mi">
+    <h2>Sobre mí</h2>
+    <div class="about">
+      <div>
+        <p>Me gusta entender qué necesita una persona y convertirlo en algo concreto: una web, un sistema o una forma más clara de contar el valor de un producto.</p>
+        <p>Combino una base técnica sólida con experiencia comercial y un fuerte interés por las culturas y los idiomas. Uso la inteligencia artificial como aliada diaria para crear, analizar y comunicar.</p>
+      </div>
+      <div class="facts">
+        <div><strong>5° año</strong><span>Ingeniería en Computación, UNC</span></div>
+        <div><strong>3 idiomas</strong><span>Español, inglés e italiano</span></div>
+        <div><strong>Ciudadanía argentina e italiana</strong><span>Disponibilidad para trabajar en la UE</span></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="block" id="experiencia">
+    <h2>Experiencia</h2>
+    <div class="timeline">
+      <article class="node" tabindex="0">
+        <span class="when">2025 — hoy</span>
+        <h3>Desarrollo, producto y análisis de datos</h3>
+        <p class="org">Forest S.R.L. · Córdoba</p>
+        <div class="more"><div><ul>
+          <li><b>Sistema de gestión, en desarrollo (Proyecto Integrador y Práctica Supervisada).</b> Estoy desarrollando una app para registrar las visitas a cada servicio (qué se vio, qué se hizo y qué falta) y seguir los pedidos de insumos desde el pedido hasta la entrega, midiendo los tiempos de cada etapa.</li>
+          <li><b>Sitio web institucional.</b> Desarrollo y publicación de forestsrl.com.ar.</li>
+          <li><b>Análisis de datos contables</b> para apoyar la gestión administrativa y el control interno.</li>
+        </ul></div></div>
+      </article>
+      <article class="node" tabindex="0">
+        <span class="when">2023 — 2024</span>
+        <h3>Clases particulares</h3>
+        <p class="org">Estudiantes universitarios</p>
+        <div class="more"><div><ul>
+          <li>Clases de apoyo en teoría de señales y electrónica: explicar conceptos técnicos de forma simple.</li>
+        </ul></div></div>
+      </article>
+      <article class="node" tabindex="0">
+        <span class="when">2022 — 2023</span>
+        <h3>Encargada de ventas</h3>
+        <p class="org">Programa Work and Travel · California, EE.UU.</p>
+        <div class="more"><div><ul>
+          <li>Venta directa de productos de cuidado de la piel en inglés, con clientes de distintos países y culturas.</li>
+          <li>Ciclo completo de venta en el día: sampling, demostración del producto, detección de necesidades, negociación y cierre.</li>
+          <li><b>Superé de forma consistente los objetivos de venta.</b></li>
+        </ul></div></div>
+      </article>
+    </div>
+  </section>
+
+  <section class="block" id="ia">
+    <h2>La IA como aliada</h2>
+    <div class="ai">
+      <p>Uso la inteligencia artificial como herramienta de trabajo diaria para diseñar, programar y documentar soluciones. Mi foco está en entender el problema, definir qué se necesita y revisar críticamente lo que se genera, apoyándome en mi formación en algoritmos e ingeniería de software.</p>
+      <div class="tools"><span>Claude</span><span>Claude Code</span></div>
+    </div>
+  </section>
+
+  <section class="block" id="skills">
+    <h2>Skills</h2>
+    <div class="skills">
+      <svg id="graph" viewBox="0 -10 800 540" role="group" aria-label="Red de habilidades">
+        <defs><radialGradient id="selGrad"><stop offset="0" stop-color="#3ee6ff"/><stop offset="1" stop-color="#3d7bff"/></radialGradient></defs>
+        <g id="edges"></g><g id="nodes"></g>
+      </svg>
+      <div class="info" aria-live="polite">
+        <h3 id="i-title">IA</h3>
+        <p id="i-text"></p>
+      </div>
+    </div>
+  </section>
+
+  <section class="block" id="formacion">
+    <h2>Formación</h2>
+    <div class="edu">
+      <article>
+        <h3>Ingeniería en Computación</h3>
+        <p class="org">Universidad Nacional de Córdoba · 2022 — en curso</p>
+        <p>Último cuatrimestre. Proyecto Integrador y Práctica Supervisada en Forest S.R.L. Optativa: Gestión de Calidad del Software.</p>
+      </article>
+      <article>
+        <h3>Bachiller en Ciencias Económicas</h3>
+        <p class="org">Colegio La Salle Argüello · 2015 — 2020</p>
+        <p>Promedio 8,45 y menciones de honor. Delegada del Consejo de Convivencia, representando a más de 200 estudiantes.</p>
+      </article>
+      <article>
+        <h3>Inglés</h3>
+        <p class="org">Instituto Saint Marks · 2015 — 2020</p>
+        <p>Seis años de formación. Reconocida como mejor estudiante y mejor compañera.</p>
+      </article>
+    </div>
+    <div class="areas">
+      <div><h4>Software</h4><p>Algoritmos y Estructuras de Datos, Ingeniería del Software, Programación Concurrente</p></div>
+      <div><h4>Sistemas y redes</h4><p>Sistemas Operativos, Redes de Computadoras, Comunicaciones de Datos</p></div>
+      <div><h4>Hardware</h4><p>Arquitectura de Computadoras, Sistemas de Computación, Electrónica Digital</p></div>
+      <div><h4>Modelado y datos</h4><p>Modelos y Simulación, Probabilidad y Estadística, Sistemas de Control</p></div>
+    </div>
+
+    <h2 style="margin-top:5rem">Idiomas</h2>
+    <div class="langs" style="margin-top:2rem">
+      <div class="lang"><strong>Español</strong><span>Nativo</span><div class="bar"><i class="f"></i><i class="f"></i><i class="f"></i><i class="f"></i><i class="f"></i></div></div>
+      <div class="lang"><strong>Inglés</strong><span>Avanzado / bilingüe</span><div class="bar"><i class="f"></i><i class="f"></i><i class="f"></i><i class="f"></i><i class="f"></i></div></div>
+      <div class="lang"><strong>Italiano</strong><span>Conversacional</span><div class="bar"><i class="f"></i><i class="f"></i><i class="f"></i><i></i><i></i></div></div>
+      <div class="lang"><strong>Portugués</strong><span>Comprensión lectora</span><div class="bar"><i class="f"></i><i class="f"></i><i></i><i></i><i></i></div></div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <p class="cta-big">Let's build something interesting.</p>
+  <div class="contact">
+    <a href="mailto:pilar.sabena@mi.unc.edu.ar">pilar.sabena@mi.unc.edu.ar</a>
+    <a href="#" target="_blank" rel="noopener">LinkedIn</a>
+    <a href="https://github.com/pilarsabena" target="_blank" rel="noopener">GitHub</a>
+  </div>
+  <p class="copy">© 2026 María Pilar Sabena</p>
+</footer>
+
+<script>
+const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+const mouse = {x:-9999, y:-9999};
+addEventListener('mousemove', e => { mouse.x = e.clientX; mouse.y = e.clientY; });
+addEventListener('mouseleave', () => { mouse.x = mouse.y = -9999; });
+const ripples = [];
+addEventListener('click', e => ripples.push({x:e.clientX, y:e.clientY, r:0, a:.6}));
+
+/* ── FONDO: lluvia de bits + partículas ── */
+(() => {
+  const c = document.getElementById('bg'), ctx = c.getContext('2d');
+  let W, H, cols = [], parts = [];
+  const FS = 14, GAP = 26;
+  function init(){
+    W = c.width = innerWidth; H = c.height = innerHeight;
+    cols = Array.from({length: Math.ceil(W/GAP)}, (_,i) => ({
+      x: i*GAP + 6, y: Math.random()*H*-1, v: .4 + Math.random()*1.1,
+      len: 5 + (Math.random()*9|0), bits: Array.from({length:14}, () => Math.random()<.5?'0':'1'),
+      hue: Math.random()<.7 ? '62,230,255' : '139,92,246', on: Math.random()<.55
+    }));
+    const n = Math.min(70, (W*H)/22000|0);
+    parts = Array.from({length:n}, () => ({x:Math.random()*W, y:Math.random()*H, vx:(Math.random()-.5)*.25, vy:(Math.random()-.5)*.25, s:Math.random()<.35?3:1.6}));
+  }
+  init(); addEventListener('resize', init);
+  ctx.font = FS + "px 'JetBrains Mono', monospace";
+  function frame(){
+    ctx.clearRect(0,0,W,H);
+    ctx.font = FS + "px 'JetBrains Mono', monospace";
+    // lluvia
+    cols.forEach(col => {
+      if(!col.on) return;
+      col.y += col.v;
+      if(col.y - col.len*FS > H){ col.y = -Math.random()*200; col.v = .4 + Math.random()*1.1; }
+      if(Math.random()<.03) col.bits[Math.random()*14|0] = Math.random()<.5?'0':'1';
+      const dx = col.x - mouse.x, near = Math.abs(dx) < 60;
+      const shift = near ? Math.sign(dx||1)*(60-Math.abs(dx))*.35 : 0;
+      for(let k=0;k<col.len;k++){
+        const y = col.y - k*FS;
+        if(y < -FS || y > H+FS) continue;
+        const a = (k===0 ? .55 : .22*(1-k/col.len)) * (near ? 1.8 : 1);
+        ctx.fillStyle = `rgba(${col.hue},${Math.min(a,.9)})`;
+        ctx.fillText(col.bits[k%14], col.x + shift, y);
+      }
+    });
+    // partículas y conexiones
+    parts.forEach(p => {
+      p.x += p.vx; p.y += p.vy;
+      const dx = p.x - mouse.x, dy = p.y - mouse.y, d = Math.hypot(dx,dy);
+      if(d < 120 && d > 0){ p.x += dx/d*.8; p.y += dy/d*.8; }
+      if(p.x<0)p.x=W; if(p.x>W)p.x=0; if(p.y<0)p.y=H; if(p.y>H)p.y=0;
+      ctx.fillStyle = d < 160 ? 'rgba(62,230,255,.9)' : 'rgba(96,140,255,.45)';
+      ctx.fillRect(p.x, p.y, p.s, p.s);
+      if(d < 170){
+        ctx.strokeStyle = `rgba(62,230,255,${(1-d/170)*.4})`; ctx.lineWidth = .8;
+        ctx.beginPath(); ctx.moveTo(p.x,p.y); ctx.lineTo(mouse.x,mouse.y); ctx.stroke();
+      }
+    });
+    for(let i=0;i<parts.length;i++) for(let j=i+1;j<parts.length;j++){
+      const a = parts[i], b = parts[j], d = Math.hypot(a.x-b.x, a.y-b.y);
+      if(d < 110){ ctx.strokeStyle = `rgba(96,140,255,${(1-d/110)*.14})`; ctx.lineWidth = .6;
+        ctx.beginPath(); ctx.moveTo(a.x,a.y); ctx.lineTo(b.x,b.y); ctx.stroke(); }
+    }
+    // ondas al hacer click
+    for(let i=ripples.length-1;i>=0;i--){
+      const r = ripples[i]; r.r += 3; r.a -= .012;
+      if(r.a <= 0){ ripples.splice(i,1); continue; }
+      ctx.strokeStyle = `rgba(62,230,255,${r.a})`; ctx.lineWidth = 1.2;
+      ctx.beginPath(); ctx.arc(r.x, r.y, r.r, 0, Math.PI*2); ctx.stroke();
+    }
+    if(!reduce) requestAnimationFrame(frame);
+  }
+  frame();
+})();
+
+/* ── HERO: red de nodos alrededor del nombre ── */
+(() => {
+  const c = document.getElementById('net'), ctx = c.getContext('2d');
+  let W, H, nodes = [], rect;
+  function init(){
+    rect = c.getBoundingClientRect();
+    W = c.width = rect.width; H = c.height = rect.height;
+    const n = Math.min(55, (W*H)/14000|0);
+    nodes = Array.from({length:n}, () => ({x:Math.random()*W, y:Math.random()*H, vx:(Math.random()-.5)*.35, vy:(Math.random()-.5)*.35, r:1+Math.random()*2, ph:Math.random()*6}));
+  }
+  init(); addEventListener('resize', init);
+  let t = 0;
+  function frame(){
+    rect = c.getBoundingClientRect(); t += .02;
+    const mx = mouse.x - rect.left, my = mouse.y - rect.top;
+    ctx.clearRect(0,0,W,H);
+    nodes.forEach(n => {
+      n.x += n.vx; n.y += n.vy;
+      if(n.x<0||n.x>W) n.vx*=-1; if(n.y<0||n.y>H) n.vy*=-1;
+      const d = Math.hypot(n.x-mx, n.y-my);
+      if(d < 180){ n.x += (mx-n.x)*.004; n.y += (my-n.y)*.004; }
+    });
+    for(let i=0;i<nodes.length;i++) for(let j=i+1;j<nodes.length;j++){
+      const a=nodes[i], b=nodes[j], d=Math.hypot(a.x-b.x,a.y-b.y);
+      if(d < 150){
+        const nearM = Math.hypot((a.x+b.x)/2-mx, (a.y+b.y)/2-my) < 180;
+        ctx.strokeStyle = nearM ? `rgba(62,230,255,${(1-d/150)*.6})` : `rgba(139,92,246,${(1-d/150)*.22})`;
+        ctx.lineWidth = nearM ? 1.1 : .7;
+        ctx.beginPath(); ctx.moveTo(a.x,a.y); ctx.lineTo(b.x,b.y); ctx.stroke();
+        // paquete de datos viajando por la conexión
+        if(nearM){ const k=(t*.6+i*.13)%1; ctx.fillStyle='rgba(255,255,255,.85)';
+          ctx.fillRect(a.x+(b.x-a.x)*k-1, a.y+(b.y-a.y)*k-1, 2.5, 2.5); }
+      }
+    }
+    nodes.forEach(n => {
+      const glow = .55 + Math.sin(t+n.ph)*.3;
+      ctx.beginPath(); ctx.arc(n.x,n.y,n.r,0,Math.PI*2);
+      ctx.fillStyle = `rgba(62,230,255,${glow})`; ctx.shadowColor='#3ee6ff'; ctx.shadowBlur=8; ctx.fill(); ctx.shadowBlur=0;
+    });
+    if(!reduce) requestAnimationFrame(frame);
+  }
+  frame();
+})();
+
+/* ── SKILLS: red de nodos seleccionable ── */
+(() => {
+  const S = {
+    'IA':         {x:400,y:250,r:46,en:'AI',t:{es:'Uso diario de Claude y Claude Code para diseñar, programar, analizar y documentar. Mi foco: definir bien el problema y revisar lo que se genera.',en:'I use Claude and Claude Code every day to design, build, analyze and document. My focus is on asking the right questions and reviewing what comes out.'}},
+    'Python':     {x:270,y:110,r:36,t:{es:'Programación, automatización y procesamiento de datos.',en:'Programming, automation and working with data.'}},
+    'SQL':        {x:545,y:120,r:32,t:{es:'Consultas y modelado de bases de datos relacionales.',en:'Building and querying databases.'}},
+    'Datos':      {x:660,y:230,r:36,en:'Data',t:{es:'Análisis de datos para apoyar la toma de decisiones y el control de gestión.',en:'Turning numbers into insights that help teams decide.'}},
+    'Web':        {x:560,y:380,r:36,t:{es:'HTML, CSS y JavaScript. Creación, publicación y mantenimiento de sitios web.',en:'HTML, CSS and JavaScript. Building, launching and looking after websites.'}},
+    'Git':        {x:400,y:430,r:30,t:{es:'Control de versiones con Git y GitHub.',en:'Version control with Git and GitHub.'}},
+    'C / C++':    {x:230,y:370,r:36,t:{es:'Programación estructurada y de bajo nivel.',en:'Structured and low-level programming.'}},
+    'Java':       {x:110,y:250,r:30,t:{es:'Programación orientada a objetos.',en:'Object-oriented programming.'}},
+    'MATLAB':     {x:95,y:330,r:32,t:{es:'Modelado y simulación de señales y sistemas de control.',en:'Modeling and simulating signals and control systems.'}},
+    'Verilog':    {x:240,y:470,r:32,t:{es:'Diseño de hardware digital. Implementación de un microprocesador completo sobre placa.',en:'Digital hardware design. I built a complete microprocessor running on a real board.'}},
+    'Electrónica':{x:100,y:95,r:40,en:'Electronics',t:{es:'Electrónica digital, arquitectura de computadoras y teoría de señales.',en:'Digital electronics, computer architecture and signals.'}},
+    'Producto':   {x:710,y:400,r:38,en:'Product',t:{es:'Relevar necesidades reales de usuarios y convertirlas en soluciones concretas.',en:'Listening to what users really need and turning it into something that works.'}},
+    'Ventas':     {x:710,y:80,r:34,en:'Sales',t:{es:'Venta directa: sampling, demostración del producto, negociación y cierre.',en:'Face-to-face sales: letting people try the product, showing its value and closing the deal.'}}
+  };
+  const E = Object.keys(S).filter(k=>k!=='IA').map(k=>['IA',k]).concat([
+    ['Python','SQL'],['Python','Datos'],['SQL','Datos'],['Web','Git'],['Web','Producto'],
+    ['C / C++','Java'],['C / C++','Electrónica'],['C / C++','Python'],['MATLAB','C / C++'],
+    ['Verilog','C / C++'],['Verilog','MATLAB'],['Datos','Producto'],['Ventas','Producto'],
+    ['Ventas','Datos'],['Java','Python'],['Electrónica','Python']]);
+  const ns='http://www.w3.org/2000/svg', eg=document.getElementById('edges'), ng=document.getElementById('nodes');
+  const lines = E.map(([a,b]) => { const l=document.createElementNS(ns,'line');
+    l.setAttribute('x1',S[a].x); l.setAttribute('y1',S[a].y); l.setAttribute('x2',S[b].x); l.setAttribute('y2',S[b].y);
+    eg.appendChild(l); return {a,b,l}; });
+  const groups = {}, labels = {}; let current = 'IA';
+  Object.entries(S).forEach(([k,v]) => {
+    const g=document.createElementNS(ns,'g'); g.setAttribute('class','sk'); g.setAttribute('tabindex','0'); g.setAttribute('role','button'); g.setAttribute('aria-label',k);
+    const c=document.createElementNS(ns,'circle'); c.setAttribute('cx',v.x); c.setAttribute('cy',v.y); c.setAttribute('r',v.r);
+    const t=document.createElementNS(ns,'text'); t.setAttribute('x',v.x); t.setAttribute('y',v.y+5); t.textContent=k;
+    if(k.length>8||(v.en||'').length>8) t.setAttribute('font-size','12');
+    g.append(c,t); ng.appendChild(g); groups[k]=g; labels[k]=t;
+    g.addEventListener('click', e => { e.stopPropagation(); select(k); });
+    g.addEventListener('keydown', e => { if(e.key==='Enter'||e.key===' '){ e.preventDefault(); select(k);} });
+  });
+  function select(k){
+    const linked = new Set([k]);
+    lines.forEach(o => { const on = o.a===k||o.b===k; o.l.classList.toggle('on',on); if(on){linked.add(o.a);linked.add(o.b);} });
+    Object.entries(groups).forEach(([n,g]) => { g.classList.toggle('sel',n===k); g.classList.toggle('lit',linked.has(n)&&n!==k); g.classList.toggle('dim',!linked.has(n)); });
+    current = k; const L = window.LANG || 'es';
+    document.getElementById('i-title').textContent = L==='en' && S[k].en ? S[k].en : k;
+    document.getElementById('i-text').textContent = S[k].t[L];
+  }
+  window.relabelSkills = () => {
+    const L = window.LANG || 'es';
+    Object.entries(labels).forEach(([k,t]) => t.textContent = L==='en' && S[k].en ? S[k].en : k);
+    select(current);
+  };
+  select('IA');
+})();
+
+/* ── IDIOMA ES / EN ── */
+(() => {
+  const EN = {
+    'Sobre mí':'About me','Experiencia':'Experience','IA':'AI','Formación':'Education',
+    '<i></i>Córdoba, Argentina · Abierta a nuevas oportunidades':'<i></i>Córdoba, Argentina · Open to new opportunities',
+    'Ingeniería en Computación · Tecnología, producto y comunicación':'Computer Engineering · Tech, product &amp; communication',
+    'Estoy en el último año de Ingeniería en Computación, con formación en economía y experiencia en ventas internacionales. Me interesa el punto donde la tecnología se encuentra con las personas.':'I’m in my final year of Computer Engineering, with a background in economics and international sales experience. What excites me most is where technology meets people.',
+    'Ver experiencia':'See my experience','Escribime':'Let’s talk',
+    'Me gusta entender qué necesita una persona y convertirlo en algo concreto: una web, un sistema o una forma más clara de contar el valor de un producto.':'I love figuring out what people actually need and turning it into something real: a website, a tool, or a clearer way to show why a product matters.',
+    'Combino una base técnica sólida con experiencia comercial y un fuerte interés por las culturas y los idiomas. Uso la inteligencia artificial como aliada diaria para crear, analizar y comunicar.':'I bring together a solid technical background, real sales experience and a genuine love for languages and cultures. AI is part of my everyday toolkit for creating, analyzing and communicating.',
+    '5° año':'Final year','Ingeniería en Computación, UNC':'Computer Engineering, UNC',
+    '3 idiomas':'3 languages','Español, inglés e italiano':'Spanish, English and Italian',
+    'Ciudadanía argentina e italiana':'Argentinian and Italian citizen','Disponibilidad para trabajar en la UE':'Free to work anywhere in the EU',
+    '2025 — hoy':'2025 — present',
+    'Desarrollo, producto y análisis de datos':'Development, product &amp; data',
+    '<b>Sistema de gestión, en desarrollo (Proyecto Integrador y Práctica Supervisada).</b> Estoy desarrollando una app para registrar las visitas a cada servicio (qué se vio, qué se hizo y qué falta) y seguir los pedidos de insumos desde el pedido hasta la entrega, midiendo los tiempos de cada etapa.':'<b>Management app (my capstone project, in progress).</b> I’m building a tool that helps supervisors log each site visit (what they saw, what was done and what’s still needed) and follows every supply order from request to delivery, so the team can see how long each step really takes.',
+    '<b>Sitio web institucional.</b> Desarrollo y publicación de forestsrl.com.ar.':'<b>Company website.</b> Built and launched forestsrl.com.ar.',
+    '<b>Análisis de datos contables</b> para apoyar la gestión administrativa y el control interno.':'<b>Accounting data analysis</b> that helps the team make better decisions and keep things on track.',
+    'Clases particulares':'Private tutoring','Estudiantes universitarios':'University students',
+    'Clases de apoyo en teoría de señales y electrónica: explicar conceptos técnicos de forma simple.':'Helped fellow students with signals and electronics, turning complex ideas into simple explanations.',
+    'Encargada de ventas':'Sales lead','Programa Work and Travel · California, EE.UU.':'Work and Travel · California, USA',
+    'Venta directa de productos de cuidado de la piel en inglés, con clientes de distintos países y culturas.':'Sold skincare products face to face, in English, to people from all over the world.',
+    'Ciclo completo de venta en el día: sampling, demostración del producto, detección de necesidades, negociación y cierre.':'Handled the whole sale in a single conversation: letting people try the product, showing how it works, understanding what they needed and closing the deal.',
+    '<b>Superé de forma consistente los objetivos de venta.</b>':'<b>Consistently beat my sales targets.</b>',
+    'La IA como aliada':'AI as an ally',
+    'Uso la inteligencia artificial como herramienta de trabajo diaria para diseñar, programar y documentar soluciones. Mi foco está en entender el problema, definir qué se necesita y revisar críticamente lo que se genera, apoyándome en mi formación en algoritmos e ingeniería de software.':'AI is part of how I work every day: I use it to design, build and document solutions. What I bring is knowing which problem to solve, asking the right questions and taking a critical look at the results, backed by a solid foundation in software engineering.',
+    'Ingeniería en Computación':'Computer Engineering',
+    'Universidad Nacional de Córdoba · 2022 — en curso':'National University of Córdoba · 2022 — present',
+    'Último cuatrimestre. Proyecto Integrador y Práctica Supervisada en Forest S.R.L. Optativa: Gestión de Calidad del Software.':'In my final semester, doing my capstone project and internship at Forest S.R.L., plus an elective in Software Quality Management.',
+    'Bachiller en Ciencias Económicas':'High school diploma in Economics',
+    'Promedio 8,45 y menciones de honor. Delegada del Consejo de Convivencia, representando a más de 200 estudiantes.':'Graduated with an 8.45/10 average and honors. My classmates elected me to represent more than 200 students on the student council.',
+    'Inglés':'English',
+    'Seis años de formación. Reconocida como mejor estudiante y mejor compañera.':'Six years of English studies, where I was named both best student and best classmate.',
+    'Sistemas y redes':'Systems and networks','Modelado y datos':'Modeling and data',
+    'Algoritmos y Estructuras de Datos, Ingeniería del Software, Programación Concurrente':'Algorithms and Data Structures, Software Engineering, Concurrent Programming',
+    'Sistemas Operativos, Redes de Computadoras, Comunicaciones de Datos':'Operating Systems, Computer Networks, Data Communications',
+    'Arquitectura de Computadoras, Sistemas de Computación, Electrónica Digital':'Computer Architecture, Computer Systems, Digital Electronics',
+    'Modelos y Simulación, Probabilidad y Estadística, Sistemas de Control':'Modeling and Simulation, Probability and Statistics, Control Systems',
+    'Idiomas':'Languages','Español':'Spanish','Nativo':'Native','Avanzado / bilingüe':'Fluent',
+    'Italiano':'Italian','Conversacional':'Conversational','Portugués':'Portuguese','Comprensión lectora':'Reading'
+  };
+  const els = [];
+  document.querySelectorAll('nav a, p, h2, h3, h4, strong, span, li, .btn').forEach(el => {
+    if(el.id === 'i-title' || el.id === 'i-text') return;
+    const es = el.innerHTML.trim();
+    if(EN[es]) els.push({el, es, en: EN[es]});
+  });
+  const btns = document.querySelectorAll('.langsw button');
+  function setLang(L){
+    window.LANG = L;
+    document.documentElement.lang = L;
+    els.forEach(o => o.el.innerHTML = o[L]);
+    btns.forEach(b => b.setAttribute('aria-pressed', b.dataset.l === L));
+    document.title = L === 'en' ? 'María Pilar Sabena · Technology, product and communication' : 'María Pilar Sabena · Tecnología, producto y comunicación';
+    if(window.relabelSkills) window.relabelSkills();
+    try{ localStorage.setItem('lang', L); }catch(e){}
+  }
+  btns.forEach(b => b.addEventListener('click', e => { e.stopPropagation(); setLang(b.dataset.l); }));
+  let saved = 'es'; try{ saved = localStorage.getItem('lang') || 'es'; }catch(e){}
+  setLang(saved);
+})();
+</script>
+</body>
+</html>
