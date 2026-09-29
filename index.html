@@ -24,7 +24,7 @@
   --body:'Sora',system-ui,sans-serif;
 }
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-html{scroll-behavior:smooth}
+html{scroll-behavior:smooth;overflow-x:clip}
 body{
   font-family:var(--body);font-weight:300;color:var(--text);line-height:1.7;
   background:radial-gradient(1200px 700px at 80% -10%,rgba(139,92,246,.16),transparent 60%),
@@ -52,10 +52,13 @@ nav{position:fixed;top:0;left:0;right:0;z-index:10;display:flex;justify-content:
 nav ul{display:flex;gap:1.6rem;list-style:none}
 nav ul a{color:var(--muted);text-decoration:none;font-size:.88rem;transition:color .2s}
 nav ul a:hover{color:var(--text)}
-@media(max-width:720px){nav ul{display:none}nav{justify-content:flex-end}}
+@media(max-width:720px){nav ul{display:none}nav{justify-content:flex-end;padding:.8rem 1rem}
+  .gh span{display:none}.gh{padding:.45rem .6rem}
+  section.block{padding:4rem 1.2rem}.node{padding:1.2rem}
+  .node:hover,.node:focus,.node:focus-within{transform:none}}
 
 /* HERO */
-.hero{min-height:100vh;display:grid;align-items:center;padding:6rem clamp(1.2rem,6vw,6rem) 4rem;position:relative}
+.hero{min-height:100vh;min-height:100svh;display:grid;align-items:center;padding:6rem clamp(1.2rem,6vw,6rem) 4rem;position:relative}
 #net{position:absolute;inset:0;width:100%;height:100%}
 .hero-inner{position:relative;max-width:900px}
 .status{display:inline-flex;align-items:center;gap:.6rem;font-size:.85rem;color:var(--muted);margin-bottom:1.6rem}
@@ -141,7 +144,7 @@ h2::before{content:'';width:10px;height:10px;background:var(--cyan);box-shadow:0
 .info h3{font-family:var(--display);font-size:1.5rem;color:var(--cyan);margin-bottom:.6rem}
 .info p{color:#c9d1ef;font-size:.95rem}
 .info small{display:block;margin-top:1rem;color:var(--muted)}
-@media(max-width:900px){.skills{grid-template-columns:1fr}}
+@media(max-width:900px){.skills{grid-template-columns:1fr}.info{min-height:0}}
 
 /* EDUCATION + LANG */
 .edu{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:1.4rem}
@@ -330,8 +333,12 @@ footer{padding:8rem clamp(1.2rem,6vw,6rem) 3rem;text-align:center}
 <script>
 const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
 const mouse = {x:-9999, y:-9999};
-addEventListener('mousemove', e => { mouse.x = e.clientX; mouse.y = e.clientY; });
-addEventListener('mouseleave', () => { mouse.x = mouse.y = -9999; });
+let touchTm;
+addEventListener('pointermove', e => { mouse.x = e.clientX; mouse.y = e.clientY; });
+addEventListener('pointerdown', e => { mouse.x = e.clientX; mouse.y = e.clientY; });
+addEventListener('pointerup', e => { if(e.pointerType !== 'mouse'){ clearTimeout(touchTm); touchTm = setTimeout(() => { mouse.x = mouse.y = -9999; }, 700); } });
+addEventListener('pointercancel', () => { mouse.x = mouse.y = -9999; });
+document.addEventListener('mouseleave', () => { mouse.x = mouse.y = -9999; });
 const ripples = [];
 addEventListener('click', e => ripples.push({x:e.clientX, y:e.clientY, r:0, a:.6}));
 
@@ -350,7 +357,8 @@ addEventListener('click', e => ripples.push({x:e.clientX, y:e.clientY, r:0, a:.6
     const n = Math.min(70, (W*H)/22000|0);
     parts = Array.from({length:n}, () => ({x:Math.random()*W, y:Math.random()*H, vx:(Math.random()-.5)*.25, vy:(Math.random()-.5)*.25, s:Math.random()<.35?3:1.6}));
   }
-  init(); addEventListener('resize', init);
+  init(); let lastW = innerWidth;
+  addEventListener('resize', () => { if(innerWidth !== lastW){ lastW = innerWidth; init(); } else { H = c.height = innerHeight; } });
   ctx.font = FS + "px 'JetBrains Mono', monospace";
   function frame(){
     ctx.clearRect(0,0,W,H);
@@ -411,7 +419,8 @@ addEventListener('click', e => ripples.push({x:e.clientX, y:e.clientY, r:0, a:.6
     const n = Math.min(55, (W*H)/14000|0);
     nodes = Array.from({length:n}, () => ({x:Math.random()*W, y:Math.random()*H, vx:(Math.random()-.5)*.35, vy:(Math.random()-.5)*.35, r:1+Math.random()*2, ph:Math.random()*6}));
   }
-  init(); addEventListener('resize', init);
+  init(); let lastWn = innerWidth;
+  addEventListener('resize', () => { if(innerWidth !== lastWn){ lastWn = innerWidth; init(); } });
   let t = 0;
   function frame(){
     rect = c.getBoundingClientRect(); t += .02;
@@ -468,14 +477,12 @@ addEventListener('click', e => ripples.push({x:e.clientX, y:e.clientY, r:0, a:.6
     ['Verilog','C / C++'],['Verilog','MATLAB'],['Datos','Producto'],['Ventas','Producto'],
     ['Ventas','Datos'],['Java','Python'],['Electrónica','Python']]);
   const ns='http://www.w3.org/2000/svg', eg=document.getElementById('edges'), ng=document.getElementById('nodes');
-  const lines = E.map(([a,b]) => { const l=document.createElementNS(ns,'line');
-    l.setAttribute('x1',S[a].x); l.setAttribute('y1',S[a].y); l.setAttribute('x2',S[b].x); l.setAttribute('y2',S[b].y);
-    eg.appendChild(l); return {a,b,l}; });
+  const lines = E.map(([a,b]) => { const l=document.createElementNS(ns,'line'); eg.appendChild(l); return {a,b,l}; });
   const groups = {}, labels = {}; let current = 'IA';
   Object.entries(S).forEach(([k,v]) => {
     const g=document.createElementNS(ns,'g'); g.setAttribute('class','sk'); g.setAttribute('tabindex','0'); g.setAttribute('role','button'); g.setAttribute('aria-label',k);
-    const c=document.createElementNS(ns,'circle'); c.setAttribute('cx',v.x); c.setAttribute('cy',v.y); c.setAttribute('r',v.r);
-    const t=document.createElementNS(ns,'text'); t.setAttribute('x',v.x); t.setAttribute('y',v.y+5); t.textContent=k;
+    const c=document.createElementNS(ns,'circle'); c.setAttribute('r',v.r);
+    const t=document.createElementNS(ns,'text'); t.textContent=k; v.c=c; v.tx=t;
     if(k.length>8||(v.en||'').length>8) t.setAttribute('font-size','12');
     g.append(c,t); ng.appendChild(g); groups[k]=g; labels[k]=t;
     g.addEventListener('click', e => { e.stopPropagation(); select(k); });
@@ -489,6 +496,28 @@ addEventListener('click', e => ripples.push({x:e.clientX, y:e.clientY, r:0, a:.6
     document.getElementById('i-title').textContent = L==='en' && S[k].en ? S[k].en : k;
     document.getElementById('i-text').textContent = S[k].t[L];
   }
+  // Posiciones: escritorio (las de S) o celular (óvalo vertical alrededor de IA)
+  const svg = document.getElementById('graph');
+  const ring = ['Python','SQL','Datos','Ventas','Producto','Web','Git','Verilog','MATLAB','C / C++','Java','Electrónica'];
+  Object.values(S).forEach(v => { v.dx = v.x; v.dy = v.y; });
+  let mode = '';
+  function layout(){
+    const narrow = svg.parentElement.clientWidth < 560;
+    if((narrow ? 'n' : 'w') === mode) return;
+    mode = narrow ? 'n' : 'w';
+    if(narrow){
+      svg.setAttribute('viewBox','0 0 400 620');
+      S['IA'].x = 200; S['IA'].y = 310;
+      ring.forEach((k,i) => { const a = (-90 + i*30) * Math.PI/180;
+        S[k].x = 200 + 158*Math.cos(a); S[k].y = 310 + 250*Math.sin(a); });
+    } else {
+      svg.setAttribute('viewBox','0 -10 800 540');
+      Object.values(S).forEach(v => { v.x = v.dx; v.y = v.dy; });
+    }
+    Object.values(S).forEach(v => { v.c.setAttribute('cx',v.x); v.c.setAttribute('cy',v.y); v.tx.setAttribute('x',v.x); v.tx.setAttribute('y',v.y+5); });
+    lines.forEach(o => { o.l.setAttribute('x1',S[o.a].x); o.l.setAttribute('y1',S[o.a].y); o.l.setAttribute('x2',S[o.b].x); o.l.setAttribute('y2',S[o.b].y); });
+  }
+  layout(); addEventListener('resize', layout);
   window.relabelSkills = () => {
     const L = window.LANG || 'es';
     Object.entries(labels).forEach(([k,t]) => t.textContent = L==='en' && S[k].en ? S[k].en : k);
