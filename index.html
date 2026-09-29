@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>María Pilar Sabena · Tecnología, producto y comunicación</title>
+<title>María Pilar Sabena · Ingeniería en Computación</title>
 <meta name="description" content="CV de María Pilar Sabena, estudiante de último año de Ingeniería en Computación (UNC). Tecnología, producto y comunicación.">
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚡</text></svg>">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -149,9 +149,10 @@ h2::before{content:'';width:10px;height:10px;background:var(--cyan);box-shadow:0
 .edu h3{font-family:var(--display);font-weight:600;font-size:1.2rem}
 .edu .org{color:var(--muted);font-size:.9rem;margin-bottom:.6rem}
 .edu p{color:#c9d1ef;font-size:.93rem}
-.areas{margin-top:3rem;display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:1.4rem}
-.areas div h4{font-family:var(--display);font-weight:600;color:var(--cyan);margin-bottom:.4rem}
-.areas div p{color:var(--muted);font-size:.9rem}
+.areas{margin-top:3rem;display:flex;flex-wrap:wrap;gap:.8rem}
+.areas h4{font-family:var(--display);font-weight:600;font-size:1rem;letter-spacing:1.5px;text-transform:uppercase;color:var(--cyan);
+  padding:.6rem 1.2rem;border:1px solid rgba(62,230,255,.35);border-radius:6px;background:rgba(4,6,14,.45);transition:all .25s}
+.areas h4:hover{border-color:var(--cyan);box-shadow:0 0 20px rgba(62,230,255,.25);transform:translateY(-2px)}
 .langs{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1.4rem}
 .lang strong{font-family:var(--display);font-size:1.2rem;display:block}
 .lang span{color:var(--muted);font-size:.9rem}
@@ -198,9 +199,8 @@ footer{padding:8rem clamp(1.2rem,6vw,6rem) 3rem;text-align:center}
   <header class="hero" id="inicio">
     <canvas id="net" aria-hidden="true"></canvas>
     <div class="hero-inner">
-      <p class="status"><i></i>Córdoba, Argentina · Abierta a nuevas oportunidades</p>
       <h1>María Pilar<br>Sabena</h1>
-      <p class="role">Ingeniería en Computación · Tecnología, producto y comunicación</p>
+      <p class="role">Ingeniería en Computación</p>
       <p class="lead">Estoy en el último año de Ingeniería en Computación, con formación en economía y experiencia en ventas internacionales. Me interesa el punto donde la tecnología se encuentra con las personas.</p>
       <div class="actions">
         <a class="btn btn-main" href="#experiencia">Ver experiencia</a>
@@ -219,7 +219,7 @@ footer{padding:8rem clamp(1.2rem,6vw,6rem) 3rem;text-align:center}
       <div class="facts">
         <div><strong>5° año</strong><span>Ingeniería en Computación, UNC</span></div>
         <div><strong>3 idiomas</strong><span>Español, inglés e italiano</span></div>
-        <div><strong>Ciudadanía argentina e italiana</strong><span>Disponibilidad para trabajar en la UE</span></div>
+        <div><strong>Ciudadanía argentina e italiana</strong></div>
       </div>
     </div>
   </section>
@@ -242,7 +242,7 @@ footer{padding:8rem clamp(1.2rem,6vw,6rem) 3rem;text-align:center}
         <h3>Clases particulares</h3>
         <p class="org">Estudiantes universitarios</p>
         <div class="more"><div><ul>
-          <li>Clases de apoyo en teoría de señales y electrónica: explicar conceptos técnicos de forma simple.</li>
+          <li>Clases de apoyo en Física, Análisis Matemático y Electrónica.</li>
         </ul></div></div>
       </article>
       <article class="node" tabindex="0">
@@ -286,7 +286,7 @@ footer{padding:8rem clamp(1.2rem,6vw,6rem) 3rem;text-align:center}
       <article>
         <h3>Ingeniería en Computación</h3>
         <p class="org">Universidad Nacional de Córdoba · 2022 — en curso</p>
-        <p>Último cuatrimestre. Proyecto Integrador y Práctica Supervisada en Forest S.R.L. Optativa: Gestión de Calidad del Software.</p>
+        <p>Último cuatrimestre. Proyecto Integrador y Práctica Supervisada en Forest S.R.L. Optativa: Gestión de Calidad del Software. Cursando Arquitectura de Computadoras.</p>
       </article>
       <article>
         <h3>Bachiller en Ciencias Económicas</h3>
@@ -300,10 +300,7 @@ footer{padding:8rem clamp(1.2rem,6vw,6rem) 3rem;text-align:center}
       </article>
     </div>
     <div class="areas">
-      <div><h4>Software</h4><p>Algoritmos y Estructuras de Datos, Ingeniería del Software, Programación Concurrente</p></div>
-      <div><h4>Sistemas y redes</h4><p>Sistemas Operativos, Redes de Computadoras, Comunicaciones de Datos</p></div>
-      <div><h4>Hardware</h4><p>Arquitectura de Computadoras, Sistemas de Computación, Electrónica Digital</p></div>
-      <div><h4>Modelado y datos</h4><p>Modelos y Simulación, Probabilidad y Estadística, Sistemas de Control</p></div>
+      <h4>Software</h4><h4>Sistemas y redes</h4><h4>Hardware</h4><h4>Modelado y datos</h4>
     </div>
 
     <h2 style="margin-top:5rem">Idiomas</h2>
@@ -320,8 +317,7 @@ footer{padding:8rem clamp(1.2rem,6vw,6rem) 3rem;text-align:center}
   <p class="cta-big">Let's build something interesting.</p>
   <div class="contact">
     <a href="mailto:pilar.sabena@mi.unc.edu.ar">pilar.sabena@mi.unc.edu.ar</a>
-    <a href="#" target="_blank" rel="noopener">LinkedIn</a>
-    <a href="https://github.com/pilarsabena" target="_blank" rel="noopener">GitHub</a>
+    <a href="https://www.linkedin.com/in/mar%C3%ADa-pilar-sabena-19a236238" target="_blank" rel="noopener">LinkedIn</a>
   </div>
   <p class="copy">© 2026 María Pilar Sabena</p>
 </footer>
@@ -500,22 +496,20 @@ addEventListener('click', e => ripples.push({x:e.clientX, y:e.clientY, r:0, a:.6
 (() => {
   const EN = {
     'Sobre mí':'About me','Experiencia':'Experience','IA':'AI','Formación':'Education',
-    '<i></i>Córdoba, Argentina · Abierta a nuevas oportunidades':'<i></i>Córdoba, Argentina · Open to new opportunities',
-    'Ingeniería en Computación · Tecnología, producto y comunicación':'Computer Engineering · Tech, product &amp; communication',
     'Estoy en el último año de Ingeniería en Computación, con formación en economía y experiencia en ventas internacionales. Me interesa el punto donde la tecnología se encuentra con las personas.':'I’m in my final year of Computer Engineering, with a background in economics and international sales experience. What excites me most is where technology meets people.',
     'Ver experiencia':'See my experience','Escribime':'Let’s talk',
     'Me gusta entender qué necesita una persona y convertirlo en algo concreto: una web, un sistema o una forma más clara de contar el valor de un producto.':'I love figuring out what people actually need and turning it into something real: a website, a tool, or a clearer way to show why a product matters.',
     'Combino una base técnica sólida con experiencia comercial y un fuerte interés por las culturas y los idiomas. Uso la inteligencia artificial como aliada diaria para crear, analizar y comunicar.':'I bring together a solid technical background, real sales experience and a genuine love for languages and cultures. AI is part of my everyday toolkit for creating, analyzing and communicating.',
     '5° año':'Final year','Ingeniería en Computación, UNC':'Computer Engineering, UNC',
     '3 idiomas':'3 languages','Español, inglés e italiano':'Spanish, English and Italian',
-    'Ciudadanía argentina e italiana':'Argentinian and Italian citizen','Disponibilidad para trabajar en la UE':'Free to work anywhere in the EU',
+    'Ciudadanía argentina e italiana':'Argentinian and Italian citizen',
     '2025 — hoy':'2025 — present',
     'Desarrollo, producto y análisis de datos':'Development, product &amp; data',
     '<b>Sistema de gestión, en desarrollo (Proyecto Integrador y Práctica Supervisada).</b> Estoy desarrollando una app para registrar las visitas a cada servicio (qué se vio, qué se hizo y qué falta) y seguir los pedidos de insumos desde el pedido hasta la entrega, midiendo los tiempos de cada etapa.':'<b>Management app (my capstone project, in progress).</b> I’m building a tool that helps supervisors log each site visit (what they saw, what was done and what’s still needed) and follows every supply order from request to delivery, so the team can see how long each step really takes.',
     '<b>Sitio web institucional.</b> Desarrollo y publicación de forestsrl.com.ar.':'<b>Company website.</b> Built and launched forestsrl.com.ar.',
     '<b>Análisis de datos contables</b> para apoyar la gestión administrativa y el control interno.':'<b>Accounting data analysis</b> that helps the team make better decisions and keep things on track.',
     'Clases particulares':'Private tutoring','Estudiantes universitarios':'University students',
-    'Clases de apoyo en teoría de señales y electrónica: explicar conceptos técnicos de forma simple.':'Helped fellow students with signals and electronics, turning complex ideas into simple explanations.',
+    'Clases de apoyo en Física, Análisis Matemático y Electrónica.':'Tutored fellow students in physics, calculus and electronics.',
     'Encargada de ventas':'Sales lead','Programa Work and Travel · California, EE.UU.':'Work and Travel · California, USA',
     'Venta directa de productos de cuidado de la piel en inglés, con clientes de distintos países y culturas.':'Sold skincare products face to face, in English, to people from all over the world.',
     'Ciclo completo de venta en el día: sampling, demostración del producto, detección de necesidades, negociación y cierre.':'Handled the whole sale in a single conversation: letting people try the product, showing how it works, understanding what they needed and closing the deal.',
@@ -524,16 +518,12 @@ addEventListener('click', e => ripples.push({x:e.clientX, y:e.clientY, r:0, a:.6
     'Uso la inteligencia artificial como herramienta de trabajo diaria para diseñar, programar y documentar soluciones. Mi foco está en entender el problema, definir qué se necesita y revisar críticamente lo que se genera, apoyándome en mi formación en algoritmos e ingeniería de software.':'AI is part of how I work every day: I use it to design, build and document solutions. What I bring is knowing which problem to solve, asking the right questions and taking a critical look at the results, backed by a solid foundation in software engineering.',
     'Ingeniería en Computación':'Computer Engineering',
     'Universidad Nacional de Córdoba · 2022 — en curso':'National University of Córdoba · 2022 — present',
-    'Último cuatrimestre. Proyecto Integrador y Práctica Supervisada en Forest S.R.L. Optativa: Gestión de Calidad del Software.':'In my final semester, doing my capstone project and internship at Forest S.R.L., plus an elective in Software Quality Management.',
+    'Último cuatrimestre. Proyecto Integrador y Práctica Supervisada en Forest S.R.L. Optativa: Gestión de Calidad del Software. Cursando Arquitectura de Computadoras.':'In my final semester, doing my capstone project and internship at Forest S.R.L., plus an elective in Software Quality Management and a Computer Architecture course.',
     'Bachiller en Ciencias Económicas':'High school diploma in Economics',
     'Promedio 8,45 y menciones de honor. Delegada del Consejo de Convivencia, representando a más de 200 estudiantes.':'Graduated with an 8.45/10 average and honors. My classmates elected me to represent more than 200 students on the student council.',
     'Inglés':'English',
     'Seis años de formación. Reconocida como mejor estudiante y mejor compañera.':'Six years of English studies, where I was named both best student and best classmate.',
     'Sistemas y redes':'Systems and networks','Modelado y datos':'Modeling and data',
-    'Algoritmos y Estructuras de Datos, Ingeniería del Software, Programación Concurrente':'Algorithms and Data Structures, Software Engineering, Concurrent Programming',
-    'Sistemas Operativos, Redes de Computadoras, Comunicaciones de Datos':'Operating Systems, Computer Networks, Data Communications',
-    'Arquitectura de Computadoras, Sistemas de Computación, Electrónica Digital':'Computer Architecture, Computer Systems, Digital Electronics',
-    'Modelos y Simulación, Probabilidad y Estadística, Sistemas de Control':'Modeling and Simulation, Probability and Statistics, Control Systems',
     'Idiomas':'Languages','Español':'Spanish','Nativo':'Native','Avanzado / bilingüe':'Fluent',
     'Italiano':'Italian','Conversacional':'Conversational','Portugués':'Portuguese','Comprensión lectora':'Reading'
   };
@@ -549,7 +539,7 @@ addEventListener('click', e => ripples.push({x:e.clientX, y:e.clientY, r:0, a:.6
     document.documentElement.lang = L;
     els.forEach(o => o.el.innerHTML = o[L]);
     btns.forEach(b => b.setAttribute('aria-pressed', b.dataset.l === L));
-    document.title = L === 'en' ? 'María Pilar Sabena · Technology, product and communication' : 'María Pilar Sabena · Tecnología, producto y comunicación';
+    document.title = L === 'en' ? 'María Pilar Sabena · Computer Engineering' : 'María Pilar Sabena · Ingeniería en Computación';
     if(window.relabelSkills) window.relabelSkills();
     try{ localStorage.setItem('lang', L); }catch(e){}
   }
