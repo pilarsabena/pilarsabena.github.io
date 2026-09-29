@@ -168,6 +168,10 @@ footer{padding:8rem clamp(1.2rem,6vw,6rem) 3rem;text-align:center}
 .contact a{color:var(--text);text-decoration:none;border-bottom:1px solid var(--line);padding-bottom:2px;transition:all .2s}
 .contact a:hover{color:var(--cyan);border-color:var(--cyan)}
 .copy{color:var(--muted);font-size:.8rem}
+.toast{position:fixed;left:50%;bottom:2rem;transform:translate(-50%,20px);opacity:0;pointer-events:none;z-index:20;
+  font-family:var(--display);font-weight:600;padding:.7rem 1.3rem;border-radius:6px;color:#fff;
+  background:linear-gradient(120deg,var(--blue),var(--violet));box-shadow:0 8px 30px rgba(61,123,255,.4);transition:all .3s}
+.toast.show{opacity:1;transform:translate(-50%,0)}
 
 @media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
 </style>
@@ -204,7 +208,7 @@ footer{padding:8rem clamp(1.2rem,6vw,6rem) 3rem;text-align:center}
       <p class="lead">Estoy en el último año de Ingeniería en Computación, con formación en economía y experiencia en ventas internacionales. Me interesa el punto donde la tecnología se encuentra con las personas.</p>
       <div class="actions">
         <a class="btn btn-main" href="#experiencia">Ver experiencia</a>
-        <a class="btn btn-ghost" href="mailto:pilar.sabena@mi.unc.edu.ar">Escribime</a>
+        <a class="btn btn-ghost" href="https://www.linkedin.com/in/mar%C3%ADa-pilar-sabena-19a236238" target="_blank" rel="noopener">Escribime</a>
       </div>
     </div>
   </header>
@@ -316,11 +320,12 @@ footer{padding:8rem clamp(1.2rem,6vw,6rem) 3rem;text-align:center}
 <footer>
   <p class="cta-big">Let's build something interesting.</p>
   <div class="contact">
-    <a href="mailto:pilar.sabena@mi.unc.edu.ar">pilar.sabena@mi.unc.edu.ar</a>
+    <a href="mailto:pilar.sabena@mi.unc.edu.ar" id="mail">pilar.sabena@mi.unc.edu.ar</a>
     <a href="https://www.linkedin.com/in/mar%C3%ADa-pilar-sabena-19a236238" target="_blank" rel="noopener">LinkedIn</a>
   </div>
   <p class="copy">© 2026 María Pilar Sabena</p>
 </footer>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
 
 <script>
 const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -546,6 +551,21 @@ addEventListener('click', e => ripples.push({x:e.clientX, y:e.clientY, r:0, a:.6
   btns.forEach(b => b.addEventListener('click', e => { e.stopPropagation(); setLang(b.dataset.l); }));
   let saved = 'es'; try{ saved = localStorage.getItem('lang') || 'es'; }catch(e){}
   setLang(saved);
+})();
+
+/* ── Copiar mail al hacer click ── */
+(() => {
+  const a = document.getElementById('mail'), toast = document.getElementById('toast');
+  let tm;
+  a.addEventListener('click', e => {
+    if(!navigator.clipboard) return;
+    e.preventDefault();
+    navigator.clipboard.writeText('pilar.sabena@mi.unc.edu.ar').then(() => {
+      toast.textContent = window.LANG === 'en' ? 'Email copied!' : '¡Mail copiado!';
+      toast.classList.add('show'); clearTimeout(tm);
+      tm = setTimeout(() => toast.classList.remove('show'), 2200);
+    }).catch(() => { location.href = a.href; });
+  });
 })();
 </script>
 </body>
