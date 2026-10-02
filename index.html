@@ -125,9 +125,10 @@ h2::before{content:'';width:10px;height:10px;background:var(--cyan);box-shadow:0
 .ai::before{content:'';position:absolute;inset:-1px;background:linear-gradient(90deg,transparent,rgba(62,230,255,.25),transparent);
   transform:translateX(-100%);animation:scan 6s linear infinite}
 @keyframes scan{to{transform:translateX(100%)}}
-.ai p{position:relative;max-width:62ch;color:#d3d9f5;font-size:1.05rem}
-.tools{position:relative;display:flex;flex-wrap:wrap;gap:.6rem;margin-top:1.6rem}
-.tools span{font-family:var(--display);font-size:.88rem;padding:.4rem .9rem;border:1px solid rgba(62,230,255,.35);border-radius:4px;color:var(--cyan);background:rgba(4,6,14,.4)}
+.ai{text-align:center}
+.ai p{position:relative;max-width:62ch;margin:0 auto;color:#d3d9f5;font-size:1.05rem}
+.tools{position:relative;display:flex;flex-wrap:wrap;justify-content:center;gap:.7rem;margin:2rem auto 0;max-width:680px}
+.tools span{flex:0 0 calc(25% - .53rem);text-align:center;font-family:var(--display);font-size:.88rem;padding:.4rem .9rem;border:1px solid rgba(62,230,255,.35);border-radius:4px;color:var(--cyan);background:rgba(4,6,14,.4)}
 
 /* SKILLS */
 .skills{display:grid;grid-template-columns:1.6fr 1fr;gap:2rem;align-items:center}
@@ -147,6 +148,7 @@ h2::before{content:'';width:10px;height:10px;background:var(--cyan);box-shadow:0
 .info p{color:#c9d1ef;font-size:.95rem}
 .info small{display:block;margin-top:1rem;color:var(--muted)}
 @media(max-width:900px){.skills{grid-template-columns:1fr}.info{min-height:0}}
+@media(max-width:560px){.tools span{flex-basis:calc(50% - .35rem)}}
 
 /* EDUCATION + LANG */
 .edu{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:1.4rem}
@@ -272,7 +274,7 @@ footer{padding:8rem clamp(1.2rem,6vw,6rem) 3rem;text-align:center}
     <h2>La IA como aliada</h2>
     <div class="ai">
       <p>Uso la inteligencia artificial como herramienta de trabajo diaria para diseñar, programar y documentar soluciones. Mi foco está en entender el problema, definir qué se necesita y revisar críticamente lo que se genera, apoyándome en mi formación en algoritmos e ingeniería de software.</p>
-      <div class="tools"><span>Claude</span><span>Claude Code</span></div>
+      <div class="tools"><span>Claude</span><span>Claude Code</span><span>ChatGPT</span><span>Codex</span><span>Cursor</span><span>Gemini</span><span>DeepSeek</span></div>
     </div>
   </section>
 
@@ -351,7 +353,7 @@ addEventListener('click', e => ripples.push({x:e.clientX, y:e.clientY, r:0, a:.6
   let W, H, cols = [], parts = [];
   const FS = 14, GAP = 26;
   // Las partículas rodean la sección que se está mirando y después vuelven a su lugar
-  let mode = 'free', modeT = 0, active = null;
+  let mode = 'free', modeT = 0, active = null, prevGlow = 0;
   const secs = [...document.querySelectorAll('section.block')];
   function perim(r, u){
     const w = r.w, h = r.h, P = 2*(w+h); let d = ((u%1)+1)%1 * P;
@@ -366,11 +368,12 @@ addEventListener('click', e => ripples.push({x:e.clientX, y:e.clientY, r:0, a:.6
     for(const sec of secs){ const r = sec.getBoundingClientRect(); if(r.top < mid && r.bottom > mid){ cur = sec; break; } }
     if(cur === active) return;
     active = cur;
-    if(!cur) return;
+    if(!cur){ if(mode === 'gather'){ mode = 'release'; modeT = performance.now(); } return; }
     if(mode === 'free') parts.forEach(p => { p.hx = p.x; p.hy = p.y; p.svx = p.vx; p.svy = p.vy; });
     mode = 'gather'; modeT = performance.now();
   }
   addEventListener('scroll', check, {passive:true});
+  addEventListener('resize', check);
   function init(){
     W = c.width = innerWidth; H = c.height = innerHeight;
     cols = Array.from({length: Math.ceil(W/GAP)}, (_,i) => ({
@@ -405,14 +408,13 @@ addEventListener('click', e => ripples.push({x:e.clientX, y:e.clientY, r:0, a:.6
     });
     // partículas y conexiones
     const now = performance.now(), mt = now - modeT;
-    if(mode === 'gather' && mt > 3200){ mode = 'release'; modeT = now; }
-    else if(mode === 'release' && mt > 1800){ mode = 'free'; parts.forEach(p => { p.vx = p.svx; p.vy = p.svy; }); }
+    if(mode === 'release' && mt > 1800){ mode = 'free'; parts.forEach(p => { p.vx = p.svx; p.vy = p.svy; }); }
     let rr = null;
     if(mode === 'gather' && active){
       const b = active.getBoundingClientRect(), ins = Math.min(28, b.width*.04);
       rr = {x: b.left + ins, y: b.top + ins, w: b.width - ins*2, h: b.height - ins*2};
     }
-    const glow = mode === 'gather' ? Math.min(1, mt/600) : mode === 'release' ? Math.max(0, 1 - mt/900) : 0;
+    const glow = mode === 'gather' ? (prevGlow = Math.min(1, Math.max(prevGlow, mt/600))) : mode === 'release' ? (prevGlow = 0, Math.max(0, 1 - mt/900)) : 0;
     parts.forEach((p,i) => {
       let d;
       if(mode === 'free'){
@@ -578,7 +580,7 @@ addEventListener('click', e => ripples.push({x:e.clientX, y:e.clientY, r:0, a:.6
 /* ── SKILLS: red de nodos seleccionable ── */
 (() => {
   const S = {
-    'IA':         {x:400,y:250,r:46,en:'AI',t:{es:'Uso diario de Claude y Claude Code para diseñar, programar, analizar y documentar. Mi foco: definir bien el problema y revisar lo que se genera.',en:'I use Claude and Claude Code every day to design, build, analyze and document. My focus is on asking the right questions and reviewing what comes out.'}},
+    'IA':         {x:400,y:250,r:46,en:'AI',t:{es:'Uso diario de Claude, Claude Code, ChatGPT, Codex, Cursor, Gemini y DeepSeek para diseñar, programar, analizar y documentar. Mi foco: definir bien el problema y revisar lo que se genera.',en:'I use Claude, Claude Code, ChatGPT, Codex, Cursor, Gemini and DeepSeek every day to design, build, analyze and document. My focus is on asking the right questions and reviewing what comes out.'}},
     'Python':     {x:270,y:110,r:36,t:{es:'Programación, automatización y procesamiento de datos.',en:'Programming, automation and working with data.'}},
     'SQL':        {x:545,y:120,r:32,t:{es:'Consultas y modelado de bases de datos relacionales.',en:'Building and querying databases.'}},
     'Datos':      {x:660,y:230,r:36,en:'Data',t:{es:'Análisis de datos para apoyar la toma de decisiones y el control de gestión.',en:'Turning numbers into insights that help teams decide.'}},
