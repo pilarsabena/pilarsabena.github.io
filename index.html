@@ -350,6 +350,27 @@ addEventListener('click', e => ripples.push({x:e.clientX, y:e.clientY, r:0, a:.6
   const c = document.getElementById('bg'), ctx = c.getContext('2d');
   let W, H, cols = [], parts = [];
   const FS = 14, GAP = 26;
+  // Las partículas rodean la sección que se está mirando y después vuelven a su lugar
+  let mode = 'free', modeT = 0, active = null;
+  const secs = [...document.querySelectorAll('section.block')];
+  function perim(r, u){
+    const w = r.w, h = r.h, P = 2*(w+h); let d = ((u%1)+1)%1 * P;
+    if(d < w) return [r.x + d, r.y]; d -= w;
+    if(d < h) return [r.x + w, r.y + d]; d -= h;
+    if(d < w) return [r.x + w - d, r.y + h]; d -= w;
+    return [r.x, r.y + h - d];
+  }
+  function check(){
+    if(reduce) return;
+    const mid = innerHeight*.45; let cur = null;
+    for(const sec of secs){ const r = sec.getBoundingClientRect(); if(r.top < mid && r.bottom > mid){ cur = sec; break; } }
+    if(cur === active) return;
+    active = cur;
+    if(!cur) return;
+    if(mode === 'free') parts.forEach(p => { p.hx = p.x; p.hy = p.y; p.svx = p.vx; p.svy = p.vy; });
+    mode = 'gather'; modeT = performance.now();
+  }
+  addEventListener('scroll', check, {passive:true});
   function init(){
     W = c.width = innerWidth; H = c.height = innerHeight;
     cols = Array.from({length: Math.ceil(W/GAP)}, (_,i) => ({
@@ -357,7 +378,7 @@ addEventListener('click', e => ripples.push({x:e.clientX, y:e.clientY, r:0, a:.6
       len: 5 + (Math.random()*9|0), bits: Array.from({length:14}, () => Math.random()<.5?'0':'1'),
       hue: Math.random()<.7 ? '62,230,255' : '139,92,246', on: Math.random()<.55
     }));
-    const n = Math.min(70, (W*H)/22000|0);
+    const n = Math.min(70, Math.max(40, (W*H)/22000|0)); mode = 'free';
     parts = Array.from({length:n}, () => ({x:Math.random()*W, y:Math.random()*H, vx:(Math.random()-.5)*.25, vy:(Math.random()-.5)*.25, s:Math.random()<.35?3:1.6}));
   }
   init(); let lastW = innerWidth;
@@ -383,13 +404,29 @@ addEventListener('click', e => ripples.push({x:e.clientX, y:e.clientY, r:0, a:.6
       }
     });
     // partículas y conexiones
-    parts.forEach(p => {
-      p.x += p.vx; p.y += p.vy;
-      const dx = p.x - mouse.x, dy = p.y - mouse.y, d = Math.hypot(dx,dy);
-      if(d < 120 && d > 0){ p.x += dx/d*.8; p.y += dy/d*.8; }
-      if(p.x<0)p.x=W; if(p.x>W)p.x=0; if(p.y<0)p.y=H; if(p.y>H)p.y=0;
-      ctx.fillStyle = d < 160 ? 'rgba(62,230,255,.9)' : 'rgba(96,140,255,.45)';
-      ctx.fillRect(p.x, p.y, p.s, p.s);
+    const now = performance.now(), mt = now - modeT;
+    if(mode === 'gather' && mt > 3200){ mode = 'release'; modeT = now; }
+    else if(mode === 'release' && mt > 1800){ mode = 'free'; parts.forEach(p => { p.vx = p.svx; p.vy = p.svy; }); }
+    let rr = null;
+    if(mode === 'gather' && active){
+      const b = active.getBoundingClientRect(), ins = Math.min(28, b.width*.04);
+      rr = {x: b.left + ins, y: b.top + ins, w: b.width - ins*2, h: b.height - ins*2};
+    }
+    const glow = mode === 'gather' ? Math.min(1, mt/600) : mode === 'release' ? Math.max(0, 1 - mt/900) : 0;
+    parts.forEach((p,i) => {
+      let d;
+      if(mode === 'free'){
+        p.x += p.vx; p.y += p.vy;
+        const dx = p.x - mouse.x, dy = p.y - mouse.y; d = Math.hypot(dx,dy);
+        if(d < 120 && d > 0){ p.x += dx/d*.8; p.y += dy/d*.8; }
+        if(p.x<0)p.x=W; if(p.x>W)p.x=0; if(p.y<0)p.y=H; if(p.y>H)p.y=0;
+      } else {
+        const [tx,ty] = rr ? perim(rr, i/parts.length + mt*.00003) : [p.hx, p.hy];
+        p.vx += (tx - p.x)*.02; p.vy += (ty - p.y)*.02; p.vx *= .86; p.vy *= .86;
+        p.x += p.vx; p.y += p.vy; d = 9999;
+      }
+      ctx.fillStyle = glow > 0 ? `rgba(62,230,255,${.45 + .5*glow})` : d < 160 ? 'rgba(62,230,255,.9)' : 'rgba(96,140,255,.45)';
+      const sz = p.s*(1 + glow*.9); ctx.fillRect(p.x - sz/2, p.y - sz/2, sz, sz);
       if(d < 170){
         ctx.strokeStyle = `rgba(62,230,255,${(1-d/170)*.4})`; ctx.lineWidth = .8;
         ctx.beginPath(); ctx.moveTo(p.x,p.y); ctx.lineTo(mouse.x,mouse.y); ctx.stroke();
@@ -397,7 +434,7 @@ addEventListener('click', e => ripples.push({x:e.clientX, y:e.clientY, r:0, a:.6
     });
     for(let i=0;i<parts.length;i++) for(let j=i+1;j<parts.length;j++){
       const a = parts[i], b = parts[j], d = Math.hypot(a.x-b.x, a.y-b.y);
-      if(d < 110){ ctx.strokeStyle = `rgba(96,140,255,${(1-d/110)*.14})`; ctx.lineWidth = .6;
+      if(d < 110){ ctx.strokeStyle = glow > 0 ? `rgba(62,230,255,${(1-d/110)*(.14 + .6*glow)})` : `rgba(96,140,255,${(1-d/110)*.14})`; ctx.lineWidth = .6 + .9*glow;
         ctx.beginPath(); ctx.moveTo(a.x,a.y); ctx.lineTo(b.x,b.y); ctx.stroke(); }
     }
     // ondas al hacer click
