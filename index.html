@@ -130,7 +130,25 @@ h2::before{content:'';width:10px;height:10px;background:var(--cyan);box-shadow:0
 .tools{position:relative;display:flex;flex-wrap:wrap;justify-content:center;gap:.7rem;margin:2rem auto 0;max-width:680px}
 .tools span{flex:0 0 calc(25% - .53rem);text-align:center;font-family:var(--display);font-size:.88rem;padding:.4rem .9rem;border:1px solid rgba(62,230,255,.35);border-radius:4px;color:var(--cyan);background:rgba(4,6,14,.4)}
 
+/* VALUE */
+.value{display:grid;grid-template-columns:repeat(3,1fr);gap:1.4rem;perspective:900px}
+.vcard{position:relative;padding:2rem 1.6rem;border-radius:14px;border:1px solid var(--line);overflow:hidden;
+  background:linear-gradient(160deg,rgba(61,123,255,.14),rgba(139,92,246,.10) 60%,rgba(4,6,14,.4));
+  transition:transform .4s,border-color .4s,box-shadow .4s;transform-style:preserve-3d}
+.vcard::after{content:'';position:absolute;inset:0;background:radial-gradient(400px circle at var(--mx,50%) var(--my,0%),rgba(62,230,255,.16),transparent 45%);opacity:0;transition:opacity .3s;pointer-events:none}
+.vcard:hover{border-color:rgba(62,230,255,.5);box-shadow:0 20px 50px rgba(61,123,255,.25)}
+.vcard:hover::after{opacity:1}
+.vnum{font-family:var(--display);font-weight:700;font-size:3rem;line-height:1;display:block;margin-bottom:1rem;
+  background:linear-gradient(120deg,var(--cyan),var(--violet));-webkit-background-clip:text;background-clip:text;color:transparent}
+.vcard h3{font-family:var(--display);font-weight:600;font-size:1.3rem;margin-bottom:.6rem;transform:translateZ(30px)}
+.vcard p{color:#c9d1ef;font-size:.95rem;transform:translateZ(20px)}
+@media(max-width:900px){.value{grid-template-columns:1fr}}
+
 /* SKILLS */
+.g3d{position:relative;width:100%;aspect-ratio:1/0.82;cursor:grab;touch-action:pan-y}
+.g3d:active{cursor:grabbing}
+#graph3d{width:100%;height:100%;display:block}
+@media(max-width:560px){.g3d{aspect-ratio:1/1.05}}
 .skills{display:grid;grid-template-columns:1.6fr 1fr;gap:2rem;align-items:center}
 #graph{width:100%;height:auto;display:block;overflow:visible}
 #graph line{stroke:rgba(96,140,255,.22);stroke-width:1.2;transition:stroke .3s,stroke-width .3s}
@@ -189,6 +207,7 @@ footer{padding:8rem clamp(1.2rem,6vw,6rem) 3rem;text-align:center}
 <nav>
   <ul>
     <li><a href="#sobre-mi">Sobre mí</a></li>
+    <li><a href="#aporte">Lo que aporto</a></li>
     <li><a href="#experiencia">Experiencia</a></li>
     <li><a href="#ia">IA</a></li>
     <li><a href="#skills">Skills</a></li>
@@ -212,8 +231,8 @@ footer{padding:8rem clamp(1.2rem,6vw,6rem) 3rem;text-align:center}
     <canvas id="namefx" aria-hidden="true"></canvas>
     <div class="hero-inner">
       <h1>María Pilar<br>Sabena</h1>
-      <p class="role">Ingeniería en Computación</p>
-      <p class="lead">Estoy en el último año de Ingeniería en Computación, con formación en economía y experiencia en ventas internacionales. Me interesa el punto donde la tecnología se encuentra con las personas.</p>
+      <p class="role">Ingeniería en Computación · Marketing de producto y ventas</p>
+      <p class="lead">Combino ingeniería, economía y experiencia en ventas internacionales para conectar productos tecnológicos con las personas que los usan.</p>
       <div class="actions">
         <a class="btn btn-main" href="#experiencia">Ver experiencia</a>
         <a class="btn btn-ghost" href="https://www.linkedin.com/in/mar%C3%ADa-pilar-sabena-19a236238" target="_blank" rel="noopener">Escribime</a>
@@ -236,12 +255,21 @@ footer{padding:8rem clamp(1.2rem,6vw,6rem) 3rem;text-align:center}
     </div>
   </section>
 
+  <section class="block" id="aporte">
+    <h2>Lo que aporto</h2>
+    <div class="value">
+      <article class="vcard"><span class="vnum">01</span><h3>Entiendo la tecnología que vendo</h3><p>Como ingeniera, puedo explicar cómo funciona un producto técnico y por qué importa, sin perder al cliente en el camino.</p></article>
+      <article class="vcard"><span class="vnum">02</span><h3>Experiencia real en ventas</h3><p>Vendí cara a cara en EE.UU., en inglés, a clientes de todo el mundo, cerrando cada venta en el momento.</p></article>
+      <article class="vcard"><span class="vnum">03</span><h3>Comunicación sin fronteras</h3><p>Hablo español, inglés e italiano, y tengo facilidad para conectar con personas de distintas culturas.</p></article>
+    </div>
+  </section>
+
   <section class="block" id="experiencia">
     <h2>Experiencia</h2>
     <div class="timeline">
       <article class="node" tabindex="0">
         <span class="when">2025 — hoy</span>
-        <h3>Desarrollo, producto y análisis de datos</h3>
+        <h3>Producto, datos y desarrollo web</h3>
         <p class="org">Forest S.R.L. · Córdoba</p>
         <div class="more"><div><ul>
           <li><b>Sistema de gestión, en desarrollo (Proyecto Integrador y Práctica Supervisada).</b> Estoy desarrollando una app para registrar las visitas a cada servicio (qué se vio, qué se hizo y qué falta) y seguir los pedidos de insumos desde el pedido hasta la entrega, midiendo los tiempos de cada etapa.</li>
@@ -281,10 +309,7 @@ footer{padding:8rem clamp(1.2rem,6vw,6rem) 3rem;text-align:center}
   <section class="block" id="skills">
     <h2>Skills</h2>
     <div class="skills">
-      <svg id="graph" viewBox="0 -10 800 540" role="group" aria-label="Red de habilidades">
-        <defs><radialGradient id="selGrad"><stop offset="0" stop-color="#3ee6ff"/><stop offset="1" stop-color="#3d7bff"/></radialGradient></defs>
-        <g id="edges"></g><g id="nodes"></g>
-      </svg>
+      <div class="g3d"><canvas id="graph3d" role="img" aria-label="Red de habilidades en 3D"></canvas></div>
       <div class="info" aria-live="polite">
         <h3 id="i-title">IA</h3>
         <p id="i-text"></p>
@@ -577,82 +602,174 @@ addEventListener('click', e => ripples.push({x:e.clientX, y:e.clientY, r:0, a:.6
   document.querySelectorAll('.langsw button').forEach(b => b.addEventListener('click', () => setTimeout(() => build(true), 50)));
 })();
 
-/* ── SKILLS: red de nodos seleccionable ── */
+/* ── SKILLS 3D: esferas que giran, se arrastran y se seleccionan ── */
 (() => {
   const S = {
-    'IA':         {x:400,y:250,r:46,en:'AI',t:{es:'Uso diario de Claude, Claude Code, ChatGPT, Codex, Cursor, Gemini y DeepSeek para diseñar, programar, analizar y documentar. Mi foco: definir bien el problema y revisar lo que se genera.',en:'I use Claude, Claude Code, ChatGPT, Codex, Cursor, Gemini and DeepSeek every day to design, build, analyze and document. My focus is on asking the right questions and reviewing what comes out.'}},
-    'Python':     {x:270,y:110,r:36,t:{es:'Programación, automatización y procesamiento de datos.',en:'Programming, automation and working with data.'}},
-    'SQL':        {x:545,y:120,r:32,t:{es:'Consultas y modelado de bases de datos relacionales.',en:'Building and querying databases.'}},
-    'Datos':      {x:660,y:230,r:36,en:'Data',t:{es:'Análisis de datos para apoyar la toma de decisiones y el control de gestión.',en:'Turning numbers into insights that help teams decide.'}},
-    'Web':        {x:560,y:380,r:36,t:{es:'HTML, CSS y JavaScript. Creación, publicación y mantenimiento de sitios web.',en:'HTML, CSS and JavaScript. Building, launching and looking after websites.'}},
-    'Git':        {x:400,y:430,r:30,t:{es:'Control de versiones con Git y GitHub.',en:'Version control with Git and GitHub.'}},
-    'C / C++':    {x:230,y:370,r:36,t:{es:'Programación estructurada y de bajo nivel.',en:'Structured and low-level programming.'}},
-    'Java':       {x:110,y:250,r:30,t:{es:'Programación orientada a objetos.',en:'Object-oriented programming.'}},
-    'MATLAB':     {x:95,y:330,r:32,t:{es:'Modelado y simulación de señales y sistemas de control.',en:'Modeling and simulating signals and control systems.'}},
-    'Verilog':    {x:240,y:470,r:32,t:{es:'Diseño de hardware digital. Implementación de un microprocesador completo sobre placa.',en:'Digital hardware design. I built a complete microprocessor running on a real board.'}},
-    'Electrónica':{x:100,y:95,r:40,en:'Electronics',t:{es:'Electrónica digital, arquitectura de computadoras y teoría de señales.',en:'Digital electronics, computer architecture and signals.'}},
-    'Producto':   {x:710,y:400,r:38,en:'Product',t:{es:'Relevar necesidades reales de usuarios y convertirlas en soluciones concretas.',en:'Listening to what users really need and turning it into something that works.'}},
-    'Ventas':     {x:710,y:80,r:34,en:'Sales',t:{es:'Venta directa: sampling, demostración del producto, negociación y cierre.',en:'Face-to-face sales: letting people try the product, showing its value and closing the deal.'}}
+    'IA':           {en:'AI', g:'c', t:{es:'Uso diario de Claude, Claude Code, ChatGPT, Codex, Cursor, Gemini y DeepSeek para crear, analizar y comunicar. Mi foco: definir bien el problema y revisar lo que se genera.',en:'I use Claude, Claude Code, ChatGPT, Codex, Cursor, Gemini and DeepSeek every day to create, analyze and communicate. My focus is on asking the right questions and reviewing what comes out.'}},
+    'Ventas':       {en:'Sales', g:'m', t:{es:'Venta cara a cara: hacer probar el producto, mostrar su valor, negociar y cerrar en el momento.',en:'Face-to-face selling: letting people try the product, showing its value, negotiating and closing on the spot.'}},
+    'Marketing':    {en:'Marketing', g:'m', t:{es:'Sampling y demostraciones de producto: lograr que el cliente lo pruebe, lo entienda y lo quiera.',en:'Sampling and product demos: getting people to try it, understand it and want it.'}},
+    'Producto':     {en:'Product', g:'m', t:{es:'Relevar necesidades reales de usuarios y convertirlas en soluciones concretas.',en:'Listening to what users really need and turning it into something that works.'}},
+    'Comunicación': {en:'Communication', g:'m', t:{es:'Explicar ideas complejas de forma simple, en español, inglés e italiano.',en:'Explaining complex ideas simply, in Spanish, English and Italian.'}},
+    'Negociación':  {en:'Negotiation', g:'m', t:{es:'Entender qué necesita el cliente y encontrar el acuerdo que funcione para los dos.',en:'Understanding what the customer needs and finding the deal that works for both sides.'}},
+    'Datos':        {en:'Data', g:'m', t:{es:'Análisis de datos para apoyar la toma de decisiones y el control de gestión.',en:'Turning numbers into insights that help teams decide.'}},
+    'Python':       {g:'t', t:{es:'Programación, automatización y procesamiento de datos.',en:'Programming, automation and working with data.'}},
+    'SQL':          {g:'t', t:{es:'Consultas y modelado de bases de datos relacionales.',en:'Building and querying databases.'}},
+    'Web':          {g:'t', t:{es:'HTML, CSS y JavaScript. Creación, publicación y mantenimiento de sitios web.',en:'HTML, CSS and JavaScript. Building, launching and looking after websites.'}},
+    'C / C++':      {g:'t', t:{es:'Programación estructurada y de bajo nivel.',en:'Structured and low-level programming.'}},
+    'Verilog':      {g:'t', t:{es:'Diseño de hardware digital. Implementación de un microprocesador completo sobre placa.',en:'Digital hardware design. I built a complete microprocessor running on a real board.'}},
+    'Electrónica':  {en:'Electronics', g:'t', t:{es:'Electrónica digital, arquitectura de computadoras y teoría de señales.',en:'Digital electronics, computer architecture and signals.'}}
   };
-  const E = Object.keys(S).filter(k=>k!=='IA').map(k=>['IA',k]).concat([
-    ['Python','SQL'],['Python','Datos'],['SQL','Datos'],['Web','Git'],['Web','Producto'],
-    ['C / C++','Java'],['C / C++','Electrónica'],['C / C++','Python'],['MATLAB','C / C++'],
-    ['Verilog','C / C++'],['Verilog','MATLAB'],['Datos','Producto'],['Ventas','Producto'],
-    ['Ventas','Datos'],['Java','Python'],['Electrónica','Python']]);
-  const ns='http://www.w3.org/2000/svg', eg=document.getElementById('edges'), ng=document.getElementById('nodes');
-  const lines = E.map(([a,b]) => { const l=document.createElementNS(ns,'line'); eg.appendChild(l); return {a,b,l}; });
-  const groups = {}, labels = {}; let current = 'IA';
-  Object.entries(S).forEach(([k,v]) => {
-    const g=document.createElementNS(ns,'g'); g.setAttribute('class','sk'); g.setAttribute('tabindex','0'); g.setAttribute('role','button'); g.setAttribute('aria-label',k);
-    const c=document.createElementNS(ns,'circle'); c.setAttribute('r',v.r);
-    const t=document.createElementNS(ns,'text'); t.textContent=k; v.c=c; v.tx=t;
-    if(k.length>8||(v.en||'').length>8) t.setAttribute('font-size','12');
-    g.append(c,t); ng.appendChild(g); groups[k]=g; labels[k]=t;
-    g.addEventListener('click', e => { e.stopPropagation(); select(k); });
-    g.addEventListener('keydown', e => { if(e.key==='Enter'||e.key===' '){ e.preventDefault(); select(k);} });
+  const E = Object.keys(S).filter(k => k!=='IA').map(k => ['IA',k]).concat([
+    ['Ventas','Marketing'],['Ventas','Negociación'],['Ventas','Comunicación'],['Marketing','Producto'],
+    ['Marketing','Comunicación'],['Negociación','Comunicación'],['Producto','Datos'],['Producto','Web'],
+    ['Datos','Python'],['Datos','SQL'],['Python','SQL'],['C / C++','Python'],['C / C++','Verilog'],['Verilog','Electrónica']]);
+
+  // Posiciones en una esfera (los de marketing y ventas arriba, los técnicos abajo)
+  const keys = Object.keys(S).filter(k => k!=='IA'), N = keys.length;
+  keys.forEach((k,i) => {
+    const y = 1 - (i + .5)/N*2, r = Math.sqrt(1 - y*y), a = i*2.39996;
+    Object.assign(S[k], {x: Math.cos(a)*r, y: -y*.92, z: Math.sin(a)*r, base: S[k].g==='m' ? 1 : .86});
   });
+  Object.assign(S['IA'], {x:0, y:0, z:0, base:1.3});
+
+  const c = document.getElementById('graph3d'), ctx = c.getContext('2d'), box = c.parentElement;
+  const DPR = Math.min(devicePixelRatio || 1, 2);
+  let W, H, R, XS = 1.18, ay = .4, ax = -.25, vy = .0025, current = 'IA', proj = {}, hover = null;
+  let tAy = null, idleUntil = 0, linked = new Set(Object.keys(S));
+  function size(){ W = box.clientWidth; H = box.clientHeight; c.width = W*DPR; c.height = H*DPR; ctx.setTransform(DPR,0,0,DPR,0,0); R = Math.min(W*(W < 560 ? .34 : .38), H*.42); XS = W < 560 ? 1 : 1.18; }
+  size(); addEventListener('resize', size);
+
+  const COL = { m:['#ffd1f0','#c45cff','#3a1366'], t:['#c9f6ff','#2f8cff','#0b2466'], c:['#ffffff','#3ee6ff','#2a3fd0'] };
+
+  function project(){
+    const ca = Math.cos(ay), sa = Math.sin(ay), cb = Math.cos(ax), sb = Math.sin(ax), F = 3.2;
+    for(const k in S){
+      const n = S[k];
+      let x = n.x*ca - n.z*sa, z = n.x*sa + n.z*ca, y = n.y;
+      const y2 = y*cb - z*sb, z2 = y*sb + z*cb;
+      const sc = F/(F + z2);
+      proj[k] = {x: W/2 + x*R*XS*sc, y: H/2 + y2*R*sc, z: z2, s: sc, r: (W < 560 ? 15 : 24)*n.base*sc};
+    }
+  }
+
+  function label(k){ return (window.LANG==='en' && S[k].en) ? S[k].en : k; }
+
+  function draw(now){
+    if(tAy !== null){ ay += (tAy - ay)*.08; if(Math.abs(tAy - ay) < .002) tAy = null; }
+    else if(!dragging && now > idleUntil && !reduce) ay += vy;
+    project();
+    ctx.clearRect(0,0,W,H);
+    // conexiones
+    for(const [a,b] of E){
+      const A = proj[a], B = proj[b], on = (a===current || b===current);
+      const depth = (2 - (A.z + B.z)/2)/3;
+      ctx.beginPath(); ctx.moveTo(A.x,A.y); ctx.lineTo(B.x,B.y);
+      if(on){
+        ctx.setLineDash([6,6]); ctx.lineDashOffset = -now/40;
+        ctx.strokeStyle = `rgba(62,230,255,${.35 + .55*depth})`; ctx.lineWidth = 1.8;
+      } else { ctx.setLineDash([]); ctx.strokeStyle = `rgba(110,140,255,${.06 + .16*depth})`; ctx.lineWidth = 1; }
+      ctx.stroke();
+      if(on){ // paquete de datos que viaja por la conexión
+        const from = a===current ? A : B, to = a===current ? B : A, k = (now/1400 + (A.x+B.y)*.001) % 1;
+        ctx.setLineDash([]); ctx.fillStyle = '#fff'; ctx.shadowColor = '#3ee6ff'; ctx.shadowBlur = 10;
+        ctx.beginPath(); ctx.arc(from.x + (to.x-from.x)*k, from.y + (to.y-from.y)*k, 2.2, 0, 7); ctx.fill(); ctx.shadowBlur = 0;
+      }
+    }
+    ctx.setLineDash([]);
+    // esferas, de atrás hacia adelante
+    Object.keys(S).sort((a,b) => proj[b].z - proj[a].z).forEach(k => {
+      const p = proj[k], n = S[k], sel = k===current, lit = linked.has(k);
+      const [hi, mid, lo] = sel ? COL.c : COL[n.g];
+      const alpha = (lit ? 1 : .32) * (.55 + .45*(1 - (p.z + 1)/2) + .2);
+      ctx.globalAlpha = Math.min(1, alpha);
+      if(sel || k===hover){ ctx.shadowColor = sel ? '#3ee6ff' : mid; ctx.shadowBlur = sel ? 40 : 22; }
+      const g = ctx.createRadialGradient(p.x - p.r*.35, p.y - p.r*.4, p.r*.08, p.x, p.y, p.r);
+      g.addColorStop(0, hi); g.addColorStop(.45, mid); g.addColorStop(1, lo);
+      ctx.fillStyle = g; ctx.beginPath(); ctx.arc(p.x, p.y, p.r, 0, 7); ctx.fill(); ctx.shadowBlur = 0;
+      // anillo orbital en la esfera seleccionada
+      if(sel){
+        ctx.strokeStyle = 'rgba(62,230,255,.55)'; ctx.lineWidth = 1.2;
+        ctx.beginPath(); ctx.ellipse(p.x, p.y, p.r*1.55, p.r*.45, now/2200, 0, 7); ctx.stroke();
+        ctx.fillStyle = '#fff'; const t = now/700;
+        ctx.beginPath(); ctx.arc(p.x + Math.cos(t)*p.r*1.55*Math.cos(now/2200) - Math.sin(t)*p.r*.45*Math.sin(now/2200),
+                                 p.y + Math.cos(t)*p.r*1.55*Math.sin(now/2200) + Math.sin(t)*p.r*.45*Math.cos(now/2200), 2.5, 0, 7); ctx.fill();
+      }
+      // etiqueta
+      const fsz = Math.max(10, (W < 560 ? 11.5 : 13.5)*p.s*(n.base > 1.2 ? 1.25 : 1));
+      ctx.font = `600 ${fsz}px 'Chakra Petch', system-ui, sans-serif`;
+      ctx.textAlign = 'center'; ctx.textBaseline = 'top';
+      ctx.fillStyle = '#e9eeff'; ctx.shadowColor = 'rgba(0,0,0,.9)'; ctx.shadowBlur = 6;
+      if(k==='IA'){ ctx.textBaseline = 'middle'; ctx.fillText(label(k), p.x, p.y); }
+      else ctx.fillText(label(k), p.x, p.y + p.r + 4);
+      ctx.shadowBlur = 0; ctx.globalAlpha = 1;
+    });
+    requestAnimationFrame(draw);
+  }
+
+  // Interacción: arrastrar para girar, tocar para seleccionar
+  let dragging = false, sx = 0, sy = 0, moved = 0, pid = null;
+  function pick(e){
+    const r = c.getBoundingClientRect(), x = e.clientX - r.left, y = e.clientY - r.top;
+    let best = null;
+    Object.keys(S).forEach(k => { const p = proj[k]; if(p && Math.hypot(x-p.x, y-p.y) < p.r + 8 && (!best || p.z < proj[best].z)) best = k; });
+    return best;
+  }
+  c.addEventListener('pointerdown', e => { dragging = true; moved = 0; sx = e.clientX; sy = e.clientY; pid = e.pointerId; tAy = null; });
+  addEventListener('pointermove', e => {
+    if(dragging && e.pointerId === pid){
+      const dx = e.clientX - sx, dy = e.clientY - sy; moved += Math.abs(dx) + Math.abs(dy);
+      if(moved > 6 && e.pointerType === 'mouse' || moved > 14){ ay += dx*.008; ax = Math.max(-1, Math.min(1, ax + dy*.006)); idleUntil = performance.now() + 3000; }
+      sx = e.clientX; sy = e.clientY;
+    } else if(e.target === c){ hover = pick(e); c.style.cursor = hover ? 'pointer' : 'grab'; }
+  });
+  addEventListener('pointercancel', () => { dragging = false; });
+  addEventListener('pointerup', e => {
+    if(!dragging || e.pointerId !== pid) return;
+    dragging = false;
+    if(moved < 14){ const k = pick(e); if(k){ select(k); e.stopPropagation(); } }
+  });
+
   function select(k){
-    const linked = new Set([k]);
-    lines.forEach(o => { const on = o.a===k||o.b===k; o.l.classList.toggle('on',on); if(on){linked.add(o.a);linked.add(o.b);} });
-    Object.entries(groups).forEach(([n,g]) => { g.classList.toggle('sel',n===k); g.classList.toggle('lit',linked.has(n)&&n!==k); g.classList.toggle('dim',!linked.has(n)); });
-    current = k; const L = window.LANG || 'es';
-    document.getElementById('i-title').textContent = L==='en' && S[k].en ? S[k].en : k;
+    current = k; linked = new Set([k]);
+    E.forEach(([a,b]) => { if(a===k) linked.add(b); if(b===k) linked.add(a); });
+    if(k !== 'IA'){ // girar para traer la esfera al frente
+      const n = S[k], target = Math.atan2(n.x, n.z) + Math.PI;
+      const d = ((target - ay) % (Math.PI*2) + Math.PI*3) % (Math.PI*2) - Math.PI;
+      tAy = ay + d; idleUntil = performance.now() + 4000;
+    }
+    const L = window.LANG || 'es';
+    document.getElementById('i-title').textContent = label(k);
     document.getElementById('i-text').textContent = S[k].t[L];
   }
-  // Posiciones: escritorio (las de S) o celular (óvalo vertical alrededor de IA)
-  const svg = document.getElementById('graph');
-  const ring = ['Python','SQL','Datos','Ventas','Producto','Web','Git','Verilog','MATLAB','C / C++','Java','Electrónica'];
-  Object.values(S).forEach(v => { v.dx = v.x; v.dy = v.y; });
-  let mode = '';
-  function layout(){
-    const narrow = svg.parentElement.clientWidth < 560;
-    if((narrow ? 'n' : 'w') === mode) return;
-    mode = narrow ? 'n' : 'w';
-    if(narrow){
-      svg.setAttribute('viewBox','0 0 400 620');
-      S['IA'].x = 200; S['IA'].y = 310;
-      ring.forEach((k,i) => { const a = (-90 + i*30) * Math.PI/180;
-        S[k].x = 200 + 158*Math.cos(a); S[k].y = 310 + 250*Math.sin(a); });
-    } else {
-      svg.setAttribute('viewBox','0 -10 800 540');
-      Object.values(S).forEach(v => { v.x = v.dx; v.y = v.dy; });
-    }
-    Object.values(S).forEach(v => { v.c.setAttribute('cx',v.x); v.c.setAttribute('cy',v.y); v.tx.setAttribute('x',v.x); v.tx.setAttribute('y',v.y+5); });
-    lines.forEach(o => { o.l.setAttribute('x1',S[o.a].x); o.l.setAttribute('y1',S[o.a].y); o.l.setAttribute('x2',S[o.b].x); o.l.setAttribute('y2',S[o.b].y); });
-  }
-  layout(); addEventListener('resize', layout);
-  window.relabelSkills = () => {
-    const L = window.LANG || 'es';
-    Object.entries(labels).forEach(([k,t]) => t.textContent = L==='en' && S[k].en ? S[k].en : k);
-    select(current);
-  };
+  window.relabelSkills = () => select(current);
   select('IA');
+  requestAnimationFrame(draw);
 })();
+
+/* ── Tarjetas "Lo que aporto" con inclinación 3D ── */
+document.querySelectorAll('.vcard').forEach(card => {
+  card.addEventListener('pointermove', e => {
+    if(e.pointerType !== 'mouse') return;
+    const r = card.getBoundingClientRect(), x = (e.clientX - r.left)/r.width, y = (e.clientY - r.top)/r.height;
+    card.style.transform = `rotateX(${(.5 - y)*10}deg) rotateY(${(x - .5)*12}deg) translateY(-4px)`;
+    card.style.setProperty('--mx', x*100 + '%'); card.style.setProperty('--my', y*100 + '%');
+  });
+  card.addEventListener('pointerleave', () => { card.style.transform = ''; });
+});
 
 /* ── IDIOMA ES / EN ── */
 (() => {
   const EN = {
-    'Sobre mí':'About me','Experiencia':'Experience','IA':'AI','Formación':'Education',
+    'Sobre mí':'About me','Lo que aporto':'What I bring',
+    'Ingeniería en Computación · Marketing de producto y ventas':'Computer Engineering · Product marketing &amp; sales',
+    'Combino ingeniería, economía y experiencia en ventas internacionales para conectar productos tecnológicos con las personas que los usan.':'I combine engineering, economics and international sales experience to connect tech products with the people who use them.',
+    'Entiendo la tecnología que vendo':'I understand the tech I sell',
+    'Como ingeniera, puedo explicar cómo funciona un producto técnico y por qué importa, sin perder al cliente en el camino.':'As an engineer, I can explain how a technical product works and why it matters, without losing the customer along the way.',
+    'Experiencia real en ventas':'Real sales experience',
+    'Vendí cara a cara en EE.UU., en inglés, a clientes de todo el mundo, cerrando cada venta en el momento.':'I sold face to face in the US, in English, to customers from all over the world, closing each sale on the spot.',
+    'Comunicación sin fronteras':'Communication without borders',
+    'Hablo español, inglés e italiano, y tengo facilidad para conectar con personas de distintas culturas.':'I speak Spanish, English and Italian, and I connect easily with people from different cultures.',
+    'Producto, datos y desarrollo web':'Product, data &amp; web development','Experiencia':'Experience','IA':'AI','Formación':'Education',
     'Estoy en el último año de Ingeniería en Computación, con formación en economía y experiencia en ventas internacionales. Me interesa el punto donde la tecnología se encuentra con las personas.':'I’m in my final year of Computer Engineering, with a background in economics and international sales experience. What excites me most is where technology meets people.',
     'Ver experiencia':'See my experience','Escribime':'Let’s talk',
     'Me gusta entender qué necesita una persona y convertirlo en algo concreto: una web, un sistema o una forma más clara de contar el valor de un producto.':'I love figuring out what people actually need and turning it into something real: a website, a tool, or a clearer way to show why a product matters.',
