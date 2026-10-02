@@ -273,7 +273,7 @@ footer{padding:8rem clamp(1.2rem,6vw,6rem) 3rem;text-align:center}
       <div class="actions">
         <a class="btn btn-main" href="#experiencia">Ver experiencia</a>
         <a class="btn btn-ghost" href="https://www.linkedin.com/in/mar%C3%ADa-pilar-sabena-19a236238" target="_blank" rel="noopener">Escribime</a>
-        <a class="btn btn-ghost btn-dl" id="cvdl" href="Maria-Pilar-Sabena-CV-ES.pdf" download><span class="dl">↓</span> <span>Descargar CV</span></a>
+        <a class="btn btn-ghost btn-dl" id="cvdl" href="Maria-Pilar-Sabena-CV-ES.pdf?v=2" download="Maria-Pilar-Sabena-CV.pdf"><span class="dl">↓</span> <span>Descargar CV</span></a>
       </div>
     </div>
   </header>
@@ -895,7 +895,7 @@ document.querySelectorAll('.vcard').forEach(card => {
   function setLang(L){
     window.LANG = L;
     document.documentElement.lang = L;
-    const dl = document.getElementById('cvdl'); if(dl) dl.href = L === 'en' ? 'Maria-Pilar-Sabena-CV-EN.pdf' : 'Maria-Pilar-Sabena-CV-ES.pdf';
+    const dl = document.getElementById('cvdl'); if(dl) dl.href = L === 'en' ? 'Maria-Pilar-Sabena-CV-EN.pdf?v=2' : 'Maria-Pilar-Sabena-CV-ES.pdf?v=2';
     els.forEach(o => o.el.innerHTML = o[L]);
     btns.forEach(b => b.setAttribute('aria-pressed', b.dataset.l === L));
     document.title = L === 'en' ? 'María Pilar Sabena · Computer Engineering' : 'María Pilar Sabena · Ingeniería en Computación';
