@@ -1,0 +1,834 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>María Pilar Sabena · Ingeniería en Computación</title>
+<meta name="description" content="CV de María Pilar Sabena, estudiante de último año de Ingeniería en Computación (UNC). Tecnología, producto y comunicación.">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚡</text></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@500;600;700&family=Sora:wght@300;400;500;600&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet">
+<style>
+:root{
+  --void:#04060e;
+  --deep:#0a1024;
+  --panel:rgba(14,22,48,.55);
+  --line:rgba(96,140,255,.18);
+  --blue:#3d7bff;
+  --cyan:#3ee6ff;
+  --violet:#8b5cf6;
+  --text:#e4eaff;
+  --muted:#8a95bf;
+  --display:'Chakra Petch',system-ui,sans-serif;
+  --body:'Sora',system-ui,sans-serif;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;overflow-x:clip}
+body{
+  font-family:var(--body);font-weight:300;color:var(--text);line-height:1.7;
+  background:radial-gradient(1200px 700px at 80% -10%,rgba(139,92,246,.16),transparent 60%),
+             radial-gradient(900px 600px at -10% 40%,rgba(61,123,255,.12),transparent 60%),
+             var(--void);
+  min-height:100vh;overflow-x:hidden;
+}
+#bg{position:fixed;inset:0;width:100%;height:100%;z-index:0;pointer-events:none}
+main,footer,nav{position:relative;z-index:1}
+a{color:var(--cyan)}
+:focus-visible{outline:2px solid var(--cyan);outline-offset:3px;border-radius:4px}
+
+/* NAV */
+nav{position:fixed;top:0;left:0;right:0;z-index:10;display:flex;justify-content:space-between;align-items:center;
+  padding:1rem clamp(1.2rem,4vw,3rem);background:linear-gradient(var(--void),rgba(4,6,14,0));}
+.gh{display:flex;align-items:center;gap:.5rem;color:var(--text);text-decoration:none;font-family:var(--display);font-weight:600;font-size:.95rem;padding:.45rem .9rem;border:1px solid var(--line);border-radius:6px;transition:all .2s}
+.gh:hover{color:var(--cyan);border-color:var(--cyan);box-shadow:0 0 18px rgba(62,230,255,.25)}
+.right{display:flex;align-items:center;gap:.8rem}
+.langsw{display:flex;border:1px solid var(--line);border-radius:6px;overflow:hidden}
+.langsw button{background:none;border:0;color:var(--muted);font-family:var(--display);font-weight:600;font-size:.85rem;padding:.45rem .75rem;cursor:pointer;transition:all .2s}
+.langsw button:hover{color:var(--text)}
+.langsw button[aria-pressed="true"]{background:linear-gradient(120deg,var(--blue),var(--violet));color:#fff}
+.brand{font-family:var(--display);font-weight:700;font-size:1.1rem;color:var(--text);text-decoration:none;letter-spacing:.5px}
+.brand span{color:var(--cyan)}
+nav ul{display:flex;gap:1.6rem;list-style:none}
+nav ul a{color:var(--muted);text-decoration:none;font-size:.88rem;transition:color .2s}
+nav ul a:hover{color:var(--text)}
+@media(max-width:720px){nav ul{display:none}nav{justify-content:flex-end;padding:.8rem 1rem}
+  .gh span{display:none}.gh{padding:.45rem .6rem}
+  section.block{padding:4rem 1.2rem}.node{padding:1.2rem}
+  .node:hover,.node:focus,.node:focus-within{transform:none}}
+
+/* HERO */
+.hero{min-height:100vh;min-height:100svh;display:grid;align-items:center;padding:6rem clamp(1.2rem,6vw,6rem) 4rem;position:relative}
+#net{position:absolute;inset:0;width:100%;height:100%}
+#namefx{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;z-index:2}
+h1.fx{background:none;color:transparent;-webkit-text-fill-color:transparent}
+.hero-inner{position:relative;max-width:900px}
+.status{display:inline-flex;align-items:center;gap:.6rem;font-size:.85rem;color:var(--muted);margin-bottom:1.6rem}
+.status i{width:8px;height:8px;border-radius:50%;background:var(--cyan);box-shadow:0 0 12px var(--cyan);animation:blink 2.4s infinite}
+@keyframes blink{50%{opacity:.35}}
+h1{font-family:var(--display);font-weight:700;font-size:clamp(2.8rem,max(8vw,min(14vw,3.6rem)),6.2rem);line-height:.98;letter-spacing:-1px;
+  background:linear-gradient(100deg,#fff 20%,#a9c3ff 55%,#b79bff 90%);-webkit-background-clip:text;background-clip:text;color:transparent}
+.role{font-family:var(--display);font-weight:500;font-size:clamp(1.1rem,2.4vw,1.5rem);color:var(--cyan);margin:1.2rem 0 1.4rem}
+.lead{max-width:58ch;color:#c3cbeb;font-size:1.05rem}
+.actions{display:flex;flex-wrap:wrap;gap:.9rem;margin-top:2.2rem}
+.btn{font-family:var(--display);font-weight:600;font-size:.95rem;text-decoration:none;padding:.8rem 1.5rem;border-radius:6px;transition:all .25s}
+.btn-main{background:linear-gradient(120deg,var(--blue),var(--violet));color:#fff;box-shadow:0 0 0 1px rgba(255,255,255,.08) inset,0 8px 30px rgba(61,123,255,.35)}
+.btn-main:hover{box-shadow:0 0 0 1px rgba(255,255,255,.2) inset,0 10px 40px rgba(62,230,255,.45);transform:translateY(-2px)}
+.btn-ghost{border:1px solid var(--line);color:var(--text)}
+.btn-ghost:hover{border-color:var(--cyan);color:var(--cyan)}
+
+/* SECTIONS */
+section.block{padding:6rem clamp(1.2rem,6vw,6rem);max-width:1200px;margin:0 auto}
+h2{font-family:var(--display);font-weight:700;font-size:clamp(1.9rem,4vw,2.8rem);margin-bottom:2.4rem;display:flex;align-items:center;gap:.8rem}
+h2::before{content:'';width:10px;height:10px;background:var(--cyan);box-shadow:0 0 14px var(--cyan)}
+.sub{color:var(--muted);max-width:60ch;margin-bottom:3rem}
+
+/* ABOUT */
+.about{display:grid;grid-template-columns:1.4fr 1fr;gap:3rem;align-items:start}
+.about p{color:#c9d1ef;margin-bottom:1rem;max-width:62ch}
+.facts{border-left:1px solid var(--line);padding-left:1.6rem;display:grid;gap:1.3rem}
+.facts div strong{display:block;font-family:var(--display);font-size:1.25rem;color:var(--text)}
+.facts div span{color:var(--muted);font-size:.9rem}
+@media(max-width:820px){.about{grid-template-columns:1fr}}
+
+/* TIMELINE */
+.timeline{position:relative;padding-left:2.6rem}
+.timeline::before{content:'';position:absolute;left:11px;top:6px;bottom:6px;width:2px;
+  background:linear-gradient(var(--cyan),var(--blue),var(--violet));opacity:.55}
+.node{position:relative;margin-bottom:2.2rem;padding:1.4rem 1.6rem;border:1px solid var(--line);border-radius:10px;
+  background:var(--panel);backdrop-filter:blur(8px);transition:transform .35s,border-color .35s,box-shadow .35s;cursor:default;outline:none}
+.node::before{content:'';position:absolute;left:-2.6rem;top:1.7rem;width:14px;height:14px;margin-left:5px;border-radius:50%;
+  background:var(--void);border:2px solid var(--cyan);transition:all .35s}
+.node::after{content:'';position:absolute;left:calc(-2.6rem + 10px);top:0;width:4px;height:14px;border-radius:2px;
+  background:var(--cyan);box-shadow:0 0 10px var(--cyan);opacity:0}
+.node:hover,.node:focus-within,.node:focus{transform:scale(1.015);border-color:rgba(62,230,255,.55);
+  box-shadow:0 0 40px rgba(62,230,255,.12),0 0 0 1px rgba(62,230,255,.15) inset}
+.node:hover::before,.node:focus::before{background:var(--cyan);box-shadow:0 0 18px var(--cyan),0 0 40px var(--blue)}
+.node:hover::after,.node:focus::after{animation:packet 1.1s ease-in-out infinite}
+@keyframes packet{0%{top:-10px;opacity:0}30%{opacity:1}100%{top:calc(100% + 10px);opacity:0}}
+.when{font-family:'JetBrains Mono',monospace;font-size:.8rem;color:var(--cyan)}
+.node h3{font-family:var(--display);font-weight:600;font-size:1.35rem;margin:.2rem 0}
+.node .org{color:var(--muted);font-size:.92rem}
+.more{display:grid;grid-template-rows:0fr;transition:grid-template-rows .45s ease,opacity .45s;opacity:.0}
+.more>div{overflow:hidden}
+.node:hover .more,.node:focus .more,.node:focus-within .more{grid-template-rows:1fr;opacity:1}
+.more ul{list-style:none;margin-top:1rem;display:grid;gap:.7rem}
+.more li{padding-left:1.2rem;position:relative;color:#c9d1ef;font-size:.95rem;max-width:70ch}
+.more li::before{content:'';position:absolute;left:0;top:.65em;width:6px;height:6px;background:var(--violet);box-shadow:0 0 8px var(--violet)}
+.more li b{color:var(--text);font-weight:500}
+.hint{font-size:.8rem;color:var(--muted);margin-top:-1.8rem;margin-bottom:2rem}
+@media(hover:none){.more{grid-template-rows:1fr;opacity:1}.hint{display:none}}
+
+/* AI */
+.ai{position:relative;border:1px solid rgba(139,92,246,.4);border-radius:14px;padding:clamp(1.6rem,4vw,3rem);
+  background:linear-gradient(135deg,rgba(61,123,255,.12),rgba(139,92,246,.14));overflow:hidden}
+.ai::before{content:'';position:absolute;inset:-1px;background:linear-gradient(90deg,transparent,rgba(62,230,255,.25),transparent);
+  transform:translateX(-100%);animation:scan 6s linear infinite}
+@keyframes scan{to{transform:translateX(100%)}}
+.ai{text-align:center}
+.ai p{position:relative;max-width:62ch;margin:0 auto;color:#d3d9f5;font-size:1.05rem}
+.tools{position:relative;display:flex;flex-wrap:wrap;justify-content:center;gap:.7rem;margin:2rem auto 0;max-width:680px}
+.tools span{flex:0 0 calc(25% - .53rem);text-align:center;font-family:var(--display);font-size:.88rem;padding:.4rem .9rem;border:1px solid rgba(62,230,255,.35);border-radius:4px;color:var(--cyan);background:rgba(4,6,14,.4)}
+
+/* VALUE */
+.value{display:grid;grid-template-columns:repeat(3,1fr);gap:1.4rem;perspective:900px}
+.vcard{position:relative;padding:2rem 1.6rem;border-radius:14px;border:1px solid var(--line);overflow:hidden;
+  background:linear-gradient(160deg,rgba(61,123,255,.14),rgba(139,92,246,.10) 60%,rgba(4,6,14,.4));
+  transition:transform .4s,border-color .4s,box-shadow .4s;transform-style:preserve-3d}
+.vcard::after{content:'';position:absolute;inset:0;background:radial-gradient(400px circle at var(--mx,50%) var(--my,0%),rgba(62,230,255,.16),transparent 45%);opacity:0;transition:opacity .3s;pointer-events:none}
+.vcard:hover{border-color:rgba(62,230,255,.5);box-shadow:0 20px 50px rgba(61,123,255,.25)}
+.vcard:hover::after{opacity:1}
+.vnum{font-family:var(--display);font-weight:700;font-size:3rem;line-height:1;display:block;margin-bottom:1rem;
+  background:linear-gradient(120deg,var(--cyan),var(--violet));-webkit-background-clip:text;background-clip:text;color:transparent}
+.vcard h3{font-family:var(--display);font-weight:600;font-size:1.3rem;margin-bottom:.6rem;transform:translateZ(30px)}
+.vcard p{color:#c9d1ef;font-size:.95rem;transform:translateZ(20px)}
+@media(max-width:900px){.value{grid-template-columns:1fr}}
+
+/* SKILLS */
+.g3d{position:relative;width:100%;aspect-ratio:1/0.82;cursor:grab;touch-action:pan-y}
+.g3d:active{cursor:grabbing}
+#graph3d{width:100%;height:100%;display:block}
+.legend{position:absolute;left:0;top:0;display:flex;gap:1.2rem;font-size:.82rem;color:var(--muted);pointer-events:none}
+.legend span{display:flex;align-items:center;gap:.45rem}
+.legend span::before{content:'';width:10px;height:10px;border-radius:50%}
+.legend .lm::before{background:radial-gradient(circle at 35% 35%,#ffd1f0,#c45cff 50%,#3a1366)}
+.legend .lt::before{background:radial-gradient(circle at 35% 35%,#c9f6ff,#2f8cff 50%,#0b2466)}
+@media(max-width:560px){.g3d{aspect-ratio:1/1.05}}
+.skills{display:grid;grid-template-columns:1.6fr 1fr;gap:2rem;align-items:center}
+#graph{width:100%;height:auto;display:block;overflow:visible}
+#graph line{stroke:rgba(96,140,255,.22);stroke-width:1.2;transition:stroke .3s,stroke-width .3s}
+#graph line.on{stroke:var(--cyan);stroke-width:2;stroke-dasharray:6 6;animation:flow 1s linear infinite}
+@keyframes flow{to{stroke-dashoffset:-12}}
+#graph g.sk{cursor:pointer}
+#graph g.sk circle{fill:#0b1330;stroke:var(--blue);stroke-width:1.5;transition:all .3s}
+#graph g.sk text{fill:var(--text);font-family:var(--display);font-size:14px;font-weight:600;text-anchor:middle;pointer-events:none}
+#graph g.sk:hover circle,#graph g.sk:focus circle{stroke:var(--cyan)}
+#graph g.sk.lit circle{fill:#11235a;stroke:var(--cyan);filter:drop-shadow(0 0 8px var(--cyan))}
+#graph g.sk.sel circle{fill:url(#selGrad);stroke:#fff}
+#graph g.sk.dim{opacity:.35}
+.info{border:1px solid var(--line);border-radius:10px;padding:1.6rem;background:var(--panel);min-height:200px}
+.info h3{font-family:var(--display);font-size:1.5rem;color:var(--cyan);margin-bottom:.6rem}
+.info p{color:#c9d1ef;font-size:.95rem}
+.info small{display:block;margin-top:1rem;color:var(--muted)}
+@media(max-width:900px){.skills{grid-template-columns:1fr}.info{min-height:0}}
+@media(max-width:560px){.tools span{flex-basis:calc(50% - .35rem)}}
+
+/* EDUCATION + LANG */
+.edu{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:1.4rem}
+.edu article{border-top:2px solid var(--blue);padding-top:1.2rem}
+.edu h3{font-family:var(--display);font-weight:600;font-size:1.2rem}
+.edu .org{color:var(--muted);font-size:.9rem;margin-bottom:.6rem}
+.edu p{color:#c9d1ef;font-size:.93rem}
+.areas{margin-top:3rem;display:flex;flex-wrap:wrap;gap:.8rem}
+.areas h4{font-family:var(--display);font-weight:600;font-size:1rem;letter-spacing:1.5px;text-transform:uppercase;color:var(--cyan);
+  padding:.6rem 1.2rem;border:1px solid rgba(62,230,255,.35);border-radius:6px;background:rgba(4,6,14,.45);transition:all .25s}
+.areas h4:hover{border-color:var(--cyan);box-shadow:0 0 20px rgba(62,230,255,.25);transform:translateY(-2px)}
+.langs{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1.4rem}
+.lang strong{font-family:var(--display);font-size:1.2rem;display:block}
+.lang span{color:var(--muted);font-size:.9rem}
+.bar{display:flex;gap:4px;margin-top:.6rem}
+.bar i{flex:1;height:6px;border-radius:1px;background:rgba(96,140,255,.18)}
+.bar i.f{background:linear-gradient(90deg,var(--blue),var(--cyan));box-shadow:0 0 8px rgba(62,230,255,.4)}
+
+/* FOOTER */
+footer{padding:8rem clamp(1.2rem,6vw,6rem) 3rem;text-align:center}
+.cta-big{font-family:var(--display);font-weight:700;font-size:clamp(2rem,6vw,4.2rem);line-height:1.05;
+  background:linear-gradient(100deg,#fff,#9fc0ff,#b79bff);-webkit-background-clip:text;background-clip:text;color:transparent}
+.contact{display:flex;justify-content:center;flex-wrap:wrap;gap:1.4rem;margin:2.4rem 0 4rem}
+.contact a{color:var(--text);text-decoration:none;border-bottom:1px solid var(--line);padding-bottom:2px;transition:all .2s}
+.contact a:hover{color:var(--cyan);border-color:var(--cyan)}
+.copy{color:var(--muted);font-size:.8rem}
+.toast{position:fixed;left:50%;bottom:2rem;transform:translate(-50%,20px);opacity:0;pointer-events:none;z-index:20;
+  font-family:var(--display);font-weight:600;padding:.7rem 1.3rem;border-radius:6px;color:#fff;
+  background:linear-gradient(120deg,var(--blue),var(--violet));box-shadow:0 8px 30px rgba(61,123,255,.4);transition:all .3s}
+.toast.show{opacity:1;transform:translate(-50%,0)}
+
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+<canvas id="bg" aria-hidden="true"></canvas>
+
+<nav>
+  <ul>
+    <li><a href="#sobre-mi">Sobre mí</a></li>
+    <li><a href="#aporte">Lo que aporto</a></li>
+    <li><a href="#experiencia">Experiencia</a></li>
+    <li><a href="#ia">IA</a></li>
+    <li><a href="#skills">Skills</a></li>
+    <li><a href="#formacion">Formación</a></li>
+  </ul>
+  <div class="right">
+  <div class="langsw" role="group" aria-label="Idioma / Language">
+    <button type="button" data-l="es" aria-pressed="true">ES</button>
+    <button type="button" data-l="en" aria-pressed="false">EN</button>
+  </div>
+  <a href="https://github.com/pilarsabena" class="gh" target="_blank" rel="noopener" aria-label="GitHub de María Pilar Sabena">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 .5C5.7.5.5 5.7.5 12c0 5.1 3.3 9.4 7.9 10.9.6.1.8-.3.8-.6v-2c-3.2.7-3.9-1.5-3.9-1.5-.5-1.3-1.3-1.7-1.3-1.7-1-.7.1-.7.1-.7 1.2.1 1.8 1.2 1.8 1.2 1 1.8 2.8 1.3 3.5 1 .1-.8.4-1.3.7-1.6-2.6-.3-5.3-1.3-5.3-5.7 0-1.3.5-2.3 1.2-3.1-.1-.3-.5-1.5.1-3.1 0 0 1-.3 3.2 1.2a11 11 0 0 1 5.8 0c2.2-1.5 3.2-1.2 3.2-1.2.6 1.6.2 2.8.1 3.1.8.8 1.2 1.9 1.2 3.1 0 4.4-2.7 5.4-5.3 5.7.4.4.8 1.1.8 2.2v3.3c0 .3.2.7.8.6A11.5 11.5 0 0 0 23.5 12C23.5 5.7 18.3.5 12 .5z"/></svg>
+    <span>pilarsabena</span>
+  </a>
+  </div>
+</nav>
+
+<main>
+  <header class="hero" id="inicio">
+    <canvas id="net" aria-hidden="true"></canvas>
+    <canvas id="namefx" aria-hidden="true"></canvas>
+    <div class="hero-inner">
+      <h1>María Pilar<br>Sabena</h1>
+      <p class="role">Ingeniería en Computación · Marketing de producto y ventas</p>
+      <p class="lead">Combino ingeniería, economía y experiencia en ventas internacionales para conectar productos tecnológicos con las personas que los usan.</p>
+      <div class="actions">
+        <a class="btn btn-main" href="#experiencia">Ver experiencia</a>
+        <a class="btn btn-ghost" href="https://www.linkedin.com/in/mar%C3%ADa-pilar-sabena-19a236238" target="_blank" rel="noopener">Escribime</a>
+      </div>
+    </div>
+  </header>
+
+  <section class="block" id="sobre-mi">
+    <h2>Sobre mí</h2>
+    <div class="about">
+      <div>
+        <p>Me gusta entender qué necesita una persona y convertirlo en algo concreto: una web, un sistema o una forma más clara de contar el valor de un producto.</p>
+        <p>Combino una base técnica sólida con experiencia comercial y un fuerte interés por las culturas y los idiomas. Uso la inteligencia artificial como aliada diaria para crear, analizar y comunicar.</p>
+      </div>
+      <div class="facts">
+        <div><strong>5° año</strong><span>Ingeniería en Computación, UNC</span></div>
+        <div><strong>3 idiomas</strong><span>Español, inglés e italiano</span></div>
+        <div><strong>Ciudadanía argentina e italiana</strong></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="block" id="aporte">
+    <h2>Lo que aporto</h2>
+    <div class="value">
+      <article class="vcard"><span class="vnum">01</span><h3>Entiendo la tecnología que vendo</h3><p>Como ingeniera, puedo explicar cómo funciona un producto técnico y por qué importa, sin perder al cliente en el camino.</p></article>
+      <article class="vcard"><span class="vnum">02</span><h3>Experiencia real en ventas</h3><p>Vendí cara a cara en EE.UU., en inglés, a clientes de todo el mundo, cerrando cada venta en el momento.</p></article>
+      <article class="vcard"><span class="vnum">03</span><h3>Comunicación sin fronteras</h3><p>Hablo español, inglés e italiano, y tengo facilidad para conectar con personas de distintas culturas.</p></article>
+    </div>
+  </section>
+
+  <section class="block" id="experiencia">
+    <h2>Experiencia</h2>
+    <div class="timeline">
+      <article class="node" tabindex="0">
+        <span class="when">2025 — hoy</span>
+        <h3>Producto, datos y desarrollo web</h3>
+        <p class="org">Forest S.R.L. · Córdoba</p>
+        <div class="more"><div><ul>
+          <li><b>Sistema de gestión, en desarrollo (Proyecto Integrador y Práctica Supervisada).</b> Estoy desarrollando una app para registrar las visitas a cada servicio (qué se vio, qué se hizo y qué falta) y seguir los pedidos de insumos desde el pedido hasta la entrega, midiendo los tiempos de cada etapa.</li>
+          <li><b>Sitio web institucional.</b> Desarrollo y publicación de forestsrl.com.ar.</li>
+          <li><b>Análisis de datos contables</b> para apoyar la gestión administrativa y el control interno.</li>
+        </ul></div></div>
+      </article>
+      <article class="node" tabindex="0">
+        <span class="when">2023 — 2024</span>
+        <h3>Clases particulares</h3>
+        <p class="org">Estudiantes universitarios</p>
+        <div class="more"><div><ul>
+          <li>Clases de apoyo en Física, Análisis Matemático y Electrónica.</li>
+        </ul></div></div>
+      </article>
+      <article class="node" tabindex="0">
+        <span class="when">2022 — 2023</span>
+        <h3>Encargada de ventas</h3>
+        <p class="org">Programa Work and Travel · California, EE.UU.</p>
+        <div class="more"><div><ul>
+          <li>Venta directa de productos de cuidado de la piel en inglés, con clientes de distintos países y culturas.</li>
+          <li>Ciclo completo de venta en el día: sampling, demostración del producto, detección de necesidades, negociación y cierre.</li>
+          <li><b>Superé de forma consistente los objetivos de venta.</b></li>
+        </ul></div></div>
+      </article>
+    </div>
+  </section>
+
+  <section class="block" id="ia">
+    <h2>La IA como aliada</h2>
+    <div class="ai">
+      <p>Uso la inteligencia artificial como herramienta de trabajo diaria para diseñar, programar y documentar soluciones. Mi foco está en entender el problema, definir qué se necesita y revisar críticamente lo que se genera, apoyándome en mi formación en algoritmos e ingeniería de software.</p>
+      <div class="tools"><span>Claude</span><span>Claude Code</span><span>ChatGPT</span><span>Codex</span><span>Cursor</span><span>Gemini</span><span>DeepSeek</span></div>
+    </div>
+  </section>
+
+  <section class="block" id="skills">
+    <h2>Skills</h2>
+    <div class="skills">
+      <div class="g3d"><canvas id="graph3d" role="img" aria-label="Red de habilidades en 3D"></canvas><div class="legend"><span class="lm">Marketing y ventas</span><span class="lt">Tecnología</span></div></div>
+      <div class="info" aria-live="polite">
+        <h3 id="i-title">IA</h3>
+        <p id="i-text"></p>
+      </div>
+    </div>
+  </section>
+
+  <section class="block" id="formacion">
+    <h2>Formación</h2>
+    <div class="edu">
+      <article>
+        <h3>Ingeniería en Computación</h3>
+        <p class="org">Universidad Nacional de Córdoba · 2022 — en curso</p>
+        <p>Último cuatrimestre. Proyecto Integrador y Práctica Supervisada en Forest S.R.L. Optativa: Gestión de Calidad del Software. Cursando Arquitectura de Computadoras.</p>
+      </article>
+      <article>
+        <h3>Bachiller en Ciencias Económicas</h3>
+        <p class="org">Colegio La Salle Argüello · 2015 — 2020</p>
+        <p>Promedio 8,45 y menciones de honor. Delegada del Consejo de Convivencia, representando a más de 200 estudiantes.</p>
+      </article>
+      <article>
+        <h3>Inglés</h3>
+        <p class="org">Instituto Saint Marks · 2015 — 2020</p>
+        <p>Seis años de formación. Reconocida como mejor estudiante y mejor compañera.</p>
+      </article>
+    </div>
+    <div class="areas">
+      <h4>Software</h4><h4>Sistemas y redes</h4><h4>Hardware</h4><h4>Modelado y datos</h4>
+    </div>
+
+    <h2 style="margin-top:5rem">Idiomas</h2>
+    <div class="langs" style="margin-top:2rem">
+      <div class="lang"><strong>Español</strong><span>Nativo</span><div class="bar"><i class="f"></i><i class="f"></i><i class="f"></i><i class="f"></i><i class="f"></i></div></div>
+      <div class="lang"><strong>Inglés</strong><span>Avanzado / bilingüe</span><div class="bar"><i class="f"></i><i class="f"></i><i class="f"></i><i class="f"></i><i class="f"></i></div></div>
+      <div class="lang"><strong>Italiano</strong><span>Conversacional</span><div class="bar"><i class="f"></i><i class="f"></i><i class="f"></i><i></i><i></i></div></div>
+      <div class="lang"><strong>Portugués</strong><span>Comprensión lectora</span><div class="bar"><i class="f"></i><i class="f"></i><i></i><i></i><i></i></div></div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <p class="cta-big">Let's build something interesting.</p>
+  <div class="contact">
+    <a href="mailto:pilar.sabena@mi.unc.edu.ar" id="mail">pilar.sabena@mi.unc.edu.ar</a>
+    <a href="https://www.linkedin.com/in/mar%C3%ADa-pilar-sabena-19a236238" target="_blank" rel="noopener">LinkedIn</a>
+  </div>
+  <p class="copy">© 2026 María Pilar Sabena</p>
+</footer>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script>
+const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+const mouse = {x:-9999, y:-9999};
+let touchTm;
+addEventListener('pointermove', e => { mouse.x = e.clientX; mouse.y = e.clientY; });
+addEventListener('pointerdown', e => { mouse.x = e.clientX; mouse.y = e.clientY; });
+addEventListener('pointerup', e => { if(e.pointerType !== 'mouse'){ clearTimeout(touchTm); touchTm = setTimeout(() => { mouse.x = mouse.y = -9999; }, 700); } });
+addEventListener('pointercancel', () => { mouse.x = mouse.y = -9999; });
+document.addEventListener('mouseleave', () => { mouse.x = mouse.y = -9999; });
+const ripples = [];
+addEventListener('click', e => ripples.push({x:e.clientX, y:e.clientY, r:0, a:.6}));
+
+/* ── FONDO: lluvia de bits + partículas ── */
+(() => {
+  const c = document.getElementById('bg'), ctx = c.getContext('2d');
+  let W, H, cols = [], parts = [];
+  const FS = 14, GAP = 26;
+  // Las partículas rodean la sección que se está mirando y después vuelven a su lugar
+  let mode = 'free', modeT = 0, active = null, prevGlow = 0;
+  const secs = [...document.querySelectorAll('section.block')];
+  function perim(r, u){
+    const w = r.w, h = r.h, P = 2*(w+h); let d = ((u%1)+1)%1 * P;
+    if(d < w) return [r.x + d, r.y]; d -= w;
+    if(d < h) return [r.x + w, r.y + d]; d -= h;
+    if(d < w) return [r.x + w - d, r.y + h]; d -= w;
+    return [r.x, r.y + h - d];
+  }
+  function check(){
+    if(reduce) return;
+    const mid = innerHeight*.45; let cur = null;
+    for(const sec of secs){ const r = sec.getBoundingClientRect(); if(r.top < mid && r.bottom > mid){ cur = sec; break; } }
+    if(cur === active) return;
+    active = cur;
+    if(!cur){ if(mode === 'gather'){ mode = 'release'; modeT = performance.now(); } return; }
+    if(mode === 'free') parts.forEach(p => { p.hx = p.x; p.hy = p.y; p.svx = p.vx; p.svy = p.vy; });
+    mode = 'gather'; modeT = performance.now();
+  }
+  addEventListener('scroll', check, {passive:true});
+  addEventListener('resize', check);
+  function init(){
+    W = c.width = innerWidth; H = c.height = innerHeight;
+    cols = Array.from({length: Math.ceil(W/GAP)}, (_,i) => ({
+      x: i*GAP + 6, y: Math.random()*H*-1, v: .4 + Math.random()*1.1,
+      len: 5 + (Math.random()*9|0), bits: Array.from({length:14}, () => Math.random()<.5?'0':'1'),
+      hue: Math.random()<.7 ? '62,230,255' : '139,92,246', on: Math.random()<.55
+    }));
+    const n = Math.min(70, Math.max(40, (W*H)/22000|0)); mode = 'free';
+    parts = Array.from({length:n}, () => ({x:Math.random()*W, y:Math.random()*H, vx:(Math.random()-.5)*.25, vy:(Math.random()-.5)*.25, s:Math.random()<.35?3:1.6}));
+  }
+  init(); let lastW = innerWidth;
+  addEventListener('resize', () => { if(innerWidth !== lastW){ lastW = innerWidth; init(); } else { H = c.height = innerHeight; } });
+  ctx.font = FS + "px 'JetBrains Mono', monospace";
+  function frame(){
+    ctx.clearRect(0,0,W,H);
+    ctx.font = FS + "px 'JetBrains Mono', monospace";
+    // lluvia
+    cols.forEach(col => {
+      if(!col.on) return;
+      col.y += col.v;
+      if(col.y - col.len*FS > H){ col.y = -Math.random()*200; col.v = .4 + Math.random()*1.1; }
+      if(Math.random()<.03) col.bits[Math.random()*14|0] = Math.random()<.5?'0':'1';
+      const dx = col.x - mouse.x, near = Math.abs(dx) < 60;
+      const shift = near ? Math.sign(dx||1)*(60-Math.abs(dx))*.35 : 0;
+      for(let k=0;k<col.len;k++){
+        const y = col.y - k*FS;
+        if(y < -FS || y > H+FS) continue;
+        const a = (k===0 ? .55 : .22*(1-k/col.len)) * (near ? 1.8 : 1);
+        ctx.fillStyle = `rgba(${col.hue},${Math.min(a,.9)})`;
+        ctx.fillText(col.bits[k%14], col.x + shift, y);
+      }
+    });
+    // partículas y conexiones
+    const now = performance.now(), mt = now - modeT;
+    if(mode === 'release' && mt > 1800){ mode = 'free'; parts.forEach(p => { p.vx = p.svx; p.vy = p.svy; }); }
+    let rr = null;
+    if(mode === 'gather' && active){
+      const b = active.getBoundingClientRect(), ins = Math.min(28, b.width*.04);
+      rr = {x: b.left + ins, y: b.top + ins, w: b.width - ins*2, h: b.height - ins*2};
+    }
+    const glow = mode === 'gather' ? (prevGlow = Math.min(1, Math.max(prevGlow, mt/600))) : mode === 'release' ? (prevGlow = 0, Math.max(0, 1 - mt/900)) : 0;
+    parts.forEach((p,i) => {
+      let d;
+      if(mode === 'free'){
+        p.x += p.vx; p.y += p.vy;
+        const dx = p.x - mouse.x, dy = p.y - mouse.y; d = Math.hypot(dx,dy);
+        if(d < 120 && d > 0){ p.x += dx/d*.8; p.y += dy/d*.8; }
+        if(p.x<0)p.x=W; if(p.x>W)p.x=0; if(p.y<0)p.y=H; if(p.y>H)p.y=0;
+      } else {
+        const [tx,ty] = rr ? perim(rr, i/parts.length + mt*.00003) : [p.hx, p.hy];
+        p.vx += (tx - p.x)*.02; p.vy += (ty - p.y)*.02; p.vx *= .86; p.vy *= .86;
+        p.x += p.vx; p.y += p.vy; d = 9999;
+      }
+      ctx.fillStyle = glow > 0 ? `rgba(62,230,255,${.45 + .5*glow})` : d < 160 ? 'rgba(62,230,255,.9)' : 'rgba(96,140,255,.45)';
+      const sz = p.s*(1 + glow*.9); ctx.fillRect(p.x - sz/2, p.y - sz/2, sz, sz);
+      if(d < 170){
+        ctx.strokeStyle = `rgba(62,230,255,${(1-d/170)*.4})`; ctx.lineWidth = .8;
+        ctx.beginPath(); ctx.moveTo(p.x,p.y); ctx.lineTo(mouse.x,mouse.y); ctx.stroke();
+      }
+    });
+    for(let i=0;i<parts.length;i++) for(let j=i+1;j<parts.length;j++){
+      const a = parts[i], b = parts[j], d = Math.hypot(a.x-b.x, a.y-b.y);
+      if(d < 110){ ctx.strokeStyle = glow > 0 ? `rgba(62,230,255,${(1-d/110)*(.14 + .6*glow)})` : `rgba(96,140,255,${(1-d/110)*.14})`; ctx.lineWidth = .6 + .9*glow;
+        ctx.beginPath(); ctx.moveTo(a.x,a.y); ctx.lineTo(b.x,b.y); ctx.stroke(); }
+    }
+    // ondas al hacer click
+    for(let i=ripples.length-1;i>=0;i--){
+      const r = ripples[i]; r.r += 3; r.a -= .012;
+      if(r.a <= 0){ ripples.splice(i,1); continue; }
+      ctx.strokeStyle = `rgba(62,230,255,${r.a})`; ctx.lineWidth = 1.2;
+      ctx.beginPath(); ctx.arc(r.x, r.y, r.r, 0, Math.PI*2); ctx.stroke();
+    }
+    if(!reduce) requestAnimationFrame(frame);
+  }
+  frame();
+})();
+
+/* ── HERO: red de nodos alrededor del nombre ── */
+(() => {
+  const c = document.getElementById('net'), ctx = c.getContext('2d');
+  let W, H, nodes = [], rect;
+  function init(){
+    rect = c.getBoundingClientRect();
+    W = c.width = rect.width; H = c.height = rect.height;
+    const n = Math.min(55, (W*H)/14000|0);
+    nodes = Array.from({length:n}, () => ({x:Math.random()*W, y:Math.random()*H, vx:(Math.random()-.5)*.35, vy:(Math.random()-.5)*.35, r:1+Math.random()*2, ph:Math.random()*6}));
+  }
+  init(); let lastWn = innerWidth;
+  addEventListener('resize', () => { if(innerWidth !== lastWn){ lastWn = innerWidth; init(); } });
+  let t = 0;
+  function frame(){
+    rect = c.getBoundingClientRect(); t += .02;
+    const mx = mouse.x - rect.left, my = mouse.y - rect.top;
+    ctx.clearRect(0,0,W,H);
+    nodes.forEach(n => {
+      n.x += n.vx; n.y += n.vy;
+      if(n.x<0||n.x>W) n.vx*=-1; if(n.y<0||n.y>H) n.vy*=-1;
+      const d = Math.hypot(n.x-mx, n.y-my);
+      if(d < 180){ n.x += (mx-n.x)*.004; n.y += (my-n.y)*.004; }
+    });
+    for(let i=0;i<nodes.length;i++) for(let j=i+1;j<nodes.length;j++){
+      const a=nodes[i], b=nodes[j], d=Math.hypot(a.x-b.x,a.y-b.y);
+      if(d < 150){
+        const nearM = Math.hypot((a.x+b.x)/2-mx, (a.y+b.y)/2-my) < 180;
+        ctx.strokeStyle = nearM ? `rgba(62,230,255,${(1-d/150)*.6})` : `rgba(139,92,246,${(1-d/150)*.22})`;
+        ctx.lineWidth = nearM ? 1.1 : .7;
+        ctx.beginPath(); ctx.moveTo(a.x,a.y); ctx.lineTo(b.x,b.y); ctx.stroke();
+        // paquete de datos viajando por la conexión
+        if(nearM){ const k=(t*.6+i*.13)%1; ctx.fillStyle='rgba(255,255,255,.85)';
+          ctx.fillRect(a.x+(b.x-a.x)*k-1, a.y+(b.y-a.y)*k-1, 2.5, 2.5); }
+      }
+    }
+    nodes.forEach(n => {
+      const glow = .55 + Math.sin(t+n.ph)*.3;
+      ctx.beginPath(); ctx.arc(n.x,n.y,n.r,0,Math.PI*2);
+      ctx.fillStyle = `rgba(62,230,255,${glow})`; ctx.shadowColor='#3ee6ff'; ctx.shadowBlur=8; ctx.fill(); ctx.shadowBlur=0;
+    });
+    if(!reduce) requestAnimationFrame(frame);
+  }
+  frame();
+})();
+
+
+/* ── NOMBRE ARMADO POR BITS ── */
+(() => {
+  const c = document.getElementById('namefx'), ctx = c.getContext('2d');
+  const h1 = document.querySelector('.hero h1');
+  const DPR = Math.min(devicePixelRatio || 1, 2);
+  const cols = [[255,255,255],[169,195,255],[183,155,255]];
+  let parts = [], fs = 10, sq = 5, W, H, start = 0, lastW = innerWidth;
+
+  function mix(t){
+    const i = t < .5 ? 0 : 1, k = t < .5 ? t*2 : (t-.5)*2;
+    const a = cols[i], b = cols[i+1];
+    return a.map((v,j) => Math.round(v + (b[j]-v)*k));
+  }
+
+  function build(instant){
+    const cr = c.getBoundingClientRect(), hr = h1.getBoundingClientRect();
+    W = cr.width; H = cr.height;
+    c.width = W*DPR; c.height = H*DPR; ctx.setTransform(DPR,0,0,DPR,0,0);
+    const st = getComputedStyle(h1), size = parseFloat(st.fontSize);
+    const lh = parseFloat(st.lineHeight) || size;
+    const lines = h1.innerHTML.split(/<br\s*\/?>/i).map(t => t.replace(/<[^>]+>/g,'').trim());
+    const off = document.createElement('canvas'), o = off.getContext('2d');
+    off.width = Math.ceil(hr.width); off.height = Math.ceil(hr.height);
+    o.font = `${st.fontWeight} ${size}px ${st.fontFamily}`;
+    if('letterSpacing' in o) o.letterSpacing = st.letterSpacing;
+    o.textBaseline = 'middle'; o.fillStyle = '#fff';
+    lines.forEach((t,i) => o.fillText(t, 0, lh*i + lh/2));
+    const data = o.getImageData(0,0,off.width,off.height).data;
+    const gap = Math.max(4, Math.round(size/15));
+    fs = gap*1.45; sq = gap*.78;
+    const ox = hr.left - cr.left, oy = hr.top - cr.top;
+    parts = [];
+    for(let y=0; y<off.height; y+=gap) for(let x=0; x<off.width; x+=gap){
+      if(data[(y*off.width + x)*4 + 3] > 140){
+        const tx = ox + x, ty = oy + y, [r,g,b] = mix(x/off.width);
+        const sx = tx + (Math.random()-.5)*60, sy = -Math.random()*H*.6 - 20;
+        parts.push({tx, ty, sx, sy, x: sx, y: sy, vx:0, vy:0,
+          t0: Math.random()*2200 + (x/off.width)*800, dur: 1600 + Math.random()*400,
+          ch: Math.random()<.5?'0':'1', bit: Math.random()<.14, col:`${r},${g},${b}`, ph: Math.random()*6});
+      }
+    }
+    if(reduce || instant) parts.forEach(p => { p.x = p.tx; p.y = p.ty; p.t0 = 0; p.dur = 0; });
+    start = performance.now();
+    h1.classList.add('fx');
+  }
+
+  function frame(now){
+    const el = now - start, cr = c.getBoundingClientRect();
+    const mx = mouse.x - cr.left, my = mouse.y - cr.top, R = Math.max(70, fs*9);
+    ctx.clearRect(0,0,W,H);
+    ctx.font = `${fs}px 'JetBrains Mono', monospace`;
+    ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+    for(const p of parts){
+      const falling = el < p.t0 + p.dur;
+      if(falling){                           // cae lento, en unos 5 segundos en total
+        const k = Math.max(0, (el - p.t0)/p.dur), e = 1 - Math.pow(1-k, 3);
+        p.x = p.sx + (p.tx - p.sx)*e; p.y = p.sy + (p.ty - p.sy)*e;
+      } else {
+        p.vx += (p.tx - p.x)*.03; p.vy += (p.ty - p.y)*.03;   // vuelve a su lugar
+        const dx = p.x - mx, dy = p.y - my, d = Math.hypot(dx,dy);
+        if(d < R && d > 0){ const f = (1 - d/R)*2.4; p.vx += dx/d*f; p.vy += dy/d*f; }  // se dispersa
+        p.vx *= .84; p.vy *= .84; p.x += p.vx; p.y += p.vy;
+      }
+      if(Math.random() < .004) p.ch = p.ch === '0' ? '1' : '0';
+      const settled = Math.abs(p.x-p.tx) + Math.abs(p.y-p.ty) < 2;
+      const a = falling ? .35 + .5*Math.min(1, Math.max(0,(el - p.t0)/p.dur)) : settled ? .82 + Math.sin(now/600 + p.ph)*.18 : 1;
+      ctx.fillStyle = `rgba(${p.col},${a})`;
+      if(p.bit || falling) ctx.fillText(p.ch, p.x, p.y);   // algunos se ven como 0 / 1
+      else ctx.fillRect(p.x - sq/2, p.y - sq/2, sq, sq);     // el resto, como bits cuadrados
+    }
+    if(!reduce || el < 50) requestAnimationFrame(frame);
+  }
+
+  const go = () => { try{ build(); requestAnimationFrame(frame); }catch(e){ h1.classList.remove('fx'); } };
+  (document.fonts ? document.fonts.ready : Promise.resolve()).then(go);
+  addEventListener('resize', () => { if(innerWidth !== lastW){ lastW = innerWidth; build(true); } });
+  // al cambiar de idioma no cambia el nombre, pero sí puede moverse el layout
+  document.querySelectorAll('.langsw button').forEach(b => b.addEventListener('click', () => setTimeout(() => build(true), 50)));
+})();
+
+/* ── SKILLS 3D: dos órbitas alrededor de IA (negocio arriba, tecnología abajo) ── */
+(() => {
+  const S = {
+    'IA':           {en:'AI', g:'c', t:{es:'Uso diario de Claude, Claude Code, ChatGPT, Codex, Cursor, Gemini y DeepSeek para crear, analizar y comunicar. Mi foco: definir bien el problema y revisar lo que se genera.',en:'I use Claude, Claude Code, ChatGPT, Codex, Cursor, Gemini and DeepSeek every day to create, analyze and communicate. My focus is on asking the right questions and reviewing what comes out.'}},
+    'Ventas':       {en:'Sales', g:'m', t:{es:'Venta cara a cara: hacer probar el producto, mostrar su valor, negociar y cerrar en el momento.',en:'Face-to-face selling: letting people try the product, showing its value, negotiating and closing on the spot.'}},
+    'Marketing':    {en:'Marketing', g:'m', t:{es:'Sampling y demostraciones de producto: lograr que el cliente lo pruebe, lo entienda y lo quiera.',en:'Sampling and product demos: getting people to try it, understand it and want it.'}},
+    'Producto':     {en:'Product', g:'m', t:{es:'Relevar necesidades reales de usuarios y convertirlas en soluciones concretas.',en:'Listening to what users really need and turning it into something that works.'}},
+    'Comunicación': {en:'Communication', g:'m', t:{es:'Explicar ideas complejas de forma simple, en español, inglés e italiano.',en:'Explaining complex ideas simply, in Spanish, English and Italian.'}},
+    'Negociación':  {en:'Negotiation', g:'m', t:{es:'Entender qué necesita el cliente y encontrar el acuerdo que funcione para los dos.',en:'Understanding what the customer needs and finding the deal that works for both sides.'}},
+    'Datos':        {en:'Data', g:'m', t:{es:'Análisis de datos para apoyar la toma de decisiones y el control de gestión.',en:'Turning numbers into insights that help teams decide.'}},
+    'Python':       {g:'t', t:{es:'Programación, automatización y procesamiento de datos.',en:'Programming, automation and working with data.'}},
+    'SQL':          {g:'t', t:{es:'Consultas y modelado de bases de datos relacionales.',en:'Building and querying databases.'}},
+    'Web':          {g:'t', t:{es:'HTML, CSS y JavaScript. Creación, publicación y mantenimiento de sitios web.',en:'HTML, CSS and JavaScript. Building, launching and looking after websites.'}},
+    'C / C++':      {g:'t', t:{es:'Programación estructurada y de bajo nivel.',en:'Structured and low-level programming.'}},
+    'Verilog':      {g:'t', t:{es:'Diseño de hardware digital. Implementación de un microprocesador completo sobre placa.',en:'Digital hardware design. I built a complete microprocessor running on a real board.'}},
+    'Electrónica':  {en:'Electronics', g:'t', t:{es:'Electrónica digital, arquitectura de computadoras y teoría de señales.',en:'Digital electronics, computer architecture and signals.'}}
+  };
+  // Órbitas: cada esfera en su lugar fijo, sin superposiciones
+  const ORB = {
+    'Ventas':0,'Marketing':60,'Producto':120,'Datos':180,'Comunicación':240,'Negociación':300,
+    'Verilog':30,'Electrónica':90,'Web':150,'SQL':210,'Python':270,'C / C++':330
+  };
+  const RY = {m:-1.05, t:1.05};
+  for(const k in ORB){ const a = ORB[k]*Math.PI/180; Object.assign(S[k], {x:Math.sin(a), z:-Math.cos(a), y:RY[S[k].g], base:1}); }
+  Object.assign(S['IA'], {x:0, y:0, z:0, base:1.35});
+  const E = Object.keys(ORB).map(k => ['IA',k]).concat([['Producto','Web'],['Datos','SQL'],['Datos','Python'],['Electrónica','Verilog'],['Verilog','C / C++']]);
+
+  const c = document.getElementById('graph3d'), ctx = c.getContext('2d'), box = c.parentElement;
+  const DPR = Math.min(devicePixelRatio || 1, 2);
+  let W, H, R, XS = 1.2, ay = 0, ax = -.5, current = 'IA', proj = {}, hover = null;
+  let tAy = null, idleUntil = 0, linked = new Set(Object.keys(S)), dragging = false;
+  function size(){ W = box.clientWidth; H = box.clientHeight; c.width = W*DPR; c.height = H*DPR; ctx.setTransform(DPR,0,0,DPR,0,0);
+    const narrow = W < 560; R = Math.min(W*(narrow ? .34 : .33), H*.28); XS = narrow ? 1.05 : 1.25; }
+  size(); addEventListener('resize', size);
+  const COL = { m:['#ffd1f0','#c45cff','#3a1366'], t:['#c9f6ff','#2f8cff','#0b2466'], c:['#ffffff','#3ee6ff','#2a3fd0'] };
+
+  function P(x,y,z){
+    const ca = Math.cos(ay), sa = Math.sin(ay), cb = Math.cos(ax), sb = Math.sin(ax), F = 4.5;
+    const x1 = x*ca - z*sa, z1 = x*sa + z*ca, y2 = y*cb - z1*sb, z2 = y*sb + z1*cb, sc = F/(F + z2);
+    return {x: W/2 + x1*R*XS*sc, y: H/2 + 14 + y2*R*sc, z: z2, s: sc};
+  }
+  const label = k => (window.LANG==='en' && S[k].en) ? S[k].en : k;
+
+  function draw(now){
+    if(tAy !== null){ ay += (tAy - ay)*.07; if(Math.abs(tAy - ay) < .002) tAy = null; }
+    else if(!dragging && now > idleUntil && !reduce) ay += .0022;
+    for(const k in S){ const n = S[k], p = P(n.x, n.y, n.z); p.r = (W < 560 ? 16 : 22)*n.base*p.s; proj[k] = p; }
+    ctx.clearRect(0,0,W,H);
+    // órbitas
+    for(const g of ['m','t']){
+      const col = g==='m' ? '196,92,255' : '47,140,255';
+      for(let i=0;i<72;i++){
+        const a1 = i/72*Math.PI*2, a2 = (i+1)/72*Math.PI*2;
+        const A = P(Math.sin(a1), RY[g], -Math.cos(a1)), B = P(Math.sin(a2), RY[g], -Math.cos(a2));
+        ctx.strokeStyle = `rgba(${col},${.12 + .3*(1 - (A.z + 1)/2)})`; ctx.lineWidth = 1.4;
+        ctx.beginPath(); ctx.moveTo(A.x,A.y); ctx.lineTo(B.x,B.y); ctx.stroke();
+      }
+    }
+    // conexiones: solo se destacan las de la esfera elegida
+    for(const [a,b] of E){
+      const A = proj[a], B = proj[b], on = a===current || b===current;
+      const depth = 1 - ((A.z + B.z)/2 + 1)/2;
+      ctx.beginPath(); ctx.moveTo(A.x,A.y); ctx.lineTo(B.x,B.y);
+      if(on){ ctx.setLineDash([5,7]); ctx.lineDashOffset = -now/40; ctx.strokeStyle = `rgba(62,230,255,${.25 + .6*depth})`; ctx.lineWidth = 1.6; }
+      else { ctx.setLineDash([]); ctx.strokeStyle = `rgba(120,150,255,${.03 + .07*depth})`; ctx.lineWidth = 1; }
+      ctx.stroke(); ctx.setLineDash([]);
+      if(on){
+        const f = a===current ? A : B, t = a===current ? B : A, k = (now/1600 + ORB[a===current ? b : a]/360) % 1;
+        ctx.fillStyle = '#fff'; ctx.shadowColor = '#3ee6ff'; ctx.shadowBlur = 10;
+        ctx.beginPath(); ctx.arc(f.x + (t.x-f.x)*k, f.y + (t.y-f.y)*k, 2.2, 0, 7); ctx.fill(); ctx.shadowBlur = 0;
+      }
+    }
+    // esferas de atrás hacia adelante
+    Object.keys(S).sort((a,b) => proj[b].z - proj[a].z).forEach(k => {
+      const p = proj[k], n = S[k], sel = k===current, front = 1 - (p.z + 1)/2;
+      const [hi, mid, lo] = sel ? COL.c : COL[n.g];
+      ctx.globalAlpha = (linked.has(k) ? 1 : .35) * (.45 + .55*front);
+      if(sel || k===hover){ ctx.shadowColor = sel ? '#3ee6ff' : mid; ctx.shadowBlur = sel ? 36 : 20; }
+      const g = ctx.createRadialGradient(p.x - p.r*.35, p.y - p.r*.4, p.r*.08, p.x, p.y, p.r);
+      g.addColorStop(0, hi); g.addColorStop(.45, mid); g.addColorStop(1, lo);
+      ctx.fillStyle = g; ctx.beginPath(); ctx.arc(p.x, p.y, p.r, 0, 7); ctx.fill(); ctx.shadowBlur = 0;
+      if(sel){
+        const rot = now/2400; ctx.strokeStyle = 'rgba(62,230,255,.6)'; ctx.lineWidth = 1.2;
+        ctx.beginPath(); ctx.ellipse(p.x, p.y, p.r*1.6, p.r*.42, rot, 0, 7); ctx.stroke();
+        const t = now/650, ex = Math.cos(t)*p.r*1.6, ey = Math.sin(t)*p.r*.42;
+        ctx.fillStyle = '#fff'; ctx.beginPath();
+        ctx.arc(p.x + ex*Math.cos(rot) - ey*Math.sin(rot), p.y + ex*Math.sin(rot) + ey*Math.cos(rot), 2.4, 0, 7); ctx.fill();
+      }
+      const fsz = (W < 560 ? 11 : 13.5)*(k==='IA' ? 1.25 : 1)*(.85 + .15*p.s);
+      ctx.font = `600 ${fsz}px 'Chakra Petch', system-ui, sans-serif`; ctx.textAlign = 'center';
+      ctx.fillStyle = '#eef2ff'; ctx.shadowColor = 'rgba(0,0,0,.95)'; ctx.shadowBlur = 6;
+      if(k==='IA'){ ctx.textBaseline = 'middle'; ctx.fillText(label(k), p.x, p.y); }
+      else { ctx.textBaseline = 'top'; ctx.fillText(label(k), p.x, p.y + p.r + 5); }
+      ctx.shadowBlur = 0; ctx.globalAlpha = 1;
+    });
+    requestAnimationFrame(draw);
+  }
+
+  // Arrastrar para girar, tocar para elegir
+  let sx = 0, sy = 0, moved = 0, pid = null;
+  function pick(e){
+    const r = c.getBoundingClientRect(), x = e.clientX - r.left, y = e.clientY - r.top; let best = null;
+    for(const k in proj){ const p = proj[k]; if(Math.hypot(x-p.x, y-p.y) < p.r + 10 && (!best || p.z < proj[best].z)) best = k; }
+    return best;
+  }
+  c.addEventListener('pointerdown', e => { dragging = true; moved = 0; sx = e.clientX; sy = e.clientY; pid = e.pointerId; tAy = null; });
+  addEventListener('pointermove', e => {
+    if(dragging && e.pointerId === pid){
+      const dx = e.clientX - sx, dy = e.clientY - sy; moved += Math.abs(dx) + Math.abs(dy);
+      if(moved > (e.pointerType === 'mouse' ? 6 : 14)){ ay += dx*.008; ax = Math.max(-.8, Math.min(-.2, ax + dy*.004)); idleUntil = performance.now() + 3000; }
+      sx = e.clientX; sy = e.clientY;
+    } else if(e.target === c){ hover = pick(e); c.style.cursor = hover ? 'pointer' : 'grab'; }
+  });
+  addEventListener('pointercancel', () => { dragging = false; });
+  addEventListener('pointerup', e => {
+    if(!dragging || e.pointerId !== pid) return; dragging = false;
+    if(moved < 14){ const k = pick(e); if(k) select(k); }
+  });
+  function select(k){
+    current = k; linked = new Set([k]);
+    E.forEach(([a,b]) => { if(a===k) linked.add(b); if(b===k) linked.add(a); });
+    if(k !== 'IA'){ const n = S[k], target = Math.atan2(n.x, n.z) + Math.PI;
+      const d = ((target - ay) % (Math.PI*2) + Math.PI*3) % (Math.PI*2) - Math.PI; tAy = ay + d; idleUntil = performance.now() + 5000; }
+    document.getElementById('i-title').textContent = label(k);
+    document.getElementById('i-text').textContent = S[k].t[window.LANG || 'es'];
+  }
+  window.relabelSkills = () => select(current);
+  select('IA');
+  requestAnimationFrame(draw);
+})();
+
+/* ── Tarjetas "Lo que aporto" con inclinación 3D ── */
+document.querySelectorAll('.vcard').forEach(card => {
+  card.addEventListener('pointermove', e => {
+    if(e.pointerType !== 'mouse') return;
+    const r = card.getBoundingClientRect(), x = (e.clientX - r.left)/r.width, y = (e.clientY - r.top)/r.height;
+    card.style.transform = `rotateX(${(.5 - y)*10}deg) rotateY(${(x - .5)*12}deg) translateY(-4px)`;
+    card.style.setProperty('--mx', x*100 + '%'); card.style.setProperty('--my', y*100 + '%');
+  });
+  card.addEventListener('pointerleave', () => { card.style.transform = ''; });
+});
+
+/* ── IDIOMA ES / EN ── */
+(() => {
+  const EN = {
+    'Marketing y ventas':'Marketing &amp; sales','Tecnología':'Technology',
+    'Sobre mí':'About me','Lo que aporto':'What I bring',
+    'Ingeniería en Computación · Marketing de producto y ventas':'Computer Engineering · Product marketing &amp; sales',
+    'Combino ingeniería, economía y experiencia en ventas internacionales para conectar productos tecnológicos con las personas que los usan.':'I combine engineering, economics and international sales experience to connect tech products with the people who use them.',
+    'Entiendo la tecnología que vendo':'I understand the tech I sell',
+    'Como ingeniera, puedo explicar cómo funciona un producto técnico y por qué importa, sin perder al cliente en el camino.':'As an engineer, I can explain how a technical product works and why it matters, without losing the customer along the way.',
+    'Experiencia real en ventas':'Real sales experience',
+    'Vendí cara a cara en EE.UU., en inglés, a clientes de todo el mundo, cerrando cada venta en el momento.':'I sold face to face in the US, in English, to customers from all over the world, closing each sale on the spot.',
+    'Comunicación sin fronteras':'Communication without borders',
+    'Hablo español, inglés e italiano, y tengo facilidad para conectar con personas de distintas culturas.':'I speak Spanish, English and Italian, and I connect easily with people from different cultures.',
+    'Producto, datos y desarrollo web':'Product, data &amp; web development','Experiencia':'Experience','IA':'AI','Formación':'Education',
+    'Estoy en el último año de Ingeniería en Computación, con formación en economía y experiencia en ventas internacionales. Me interesa el punto donde la tecnología se encuentra con las personas.':'I’m in my final year of Computer Engineering, with a background in economics and international sales experience. What excites me most is where technology meets people.',
+    'Ver experiencia':'See my experience','Escribime':'Let’s talk',
+    'Me gusta entender qué necesita una persona y convertirlo en algo concreto: una web, un sistema o una forma más clara de contar el valor de un producto.':'I love figuring out what people actually need and turning it into something real: a website, a tool, or a clearer way to show why a product matters.',
+    'Combino una base técnica sólida con experiencia comercial y un fuerte interés por las culturas y los idiomas. Uso la inteligencia artificial como aliada diaria para crear, analizar y comunicar.':'I bring together a solid technical background, real sales experience and a genuine love for languages and cultures. AI is part of my everyday toolkit for creating, analyzing and communicating.',
+    '5° año':'Final year','Ingeniería en Computación, UNC':'Computer Engineering, UNC',
+    '3 idiomas':'3 languages','Español, inglés e italiano':'Spanish, English and Italian',
+    'Ciudadanía argentina e italiana':'Argentinian and Italian citizen',
+    '2025 — hoy':'2025 — present',
+    'Desarrollo, producto y análisis de datos':'Development, product &amp; data',
+    '<b>Sistema de gestión, en desarrollo (Proyecto Integrador y Práctica Supervisada).</b> Estoy desarrollando una app para registrar las visitas a cada servicio (qué se vio, qué se hizo y qué falta) y seguir los pedidos de insumos desde el pedido hasta la entrega, midiendo los tiempos de cada etapa.':'<b>Management app (my capstone project, in progress).</b> I’m building a tool that helps supervisors log each site visit (what they saw, what was done and what’s still needed) and follows every supply order from request to delivery, so the team can see how long each step really takes.',
+    '<b>Sitio web institucional.</b> Desarrollo y publicación de forestsrl.com.ar.':'<b>Company website.</b> Built and launched forestsrl.com.ar.',
+    '<b>Análisis de datos contables</b> para apoyar la gestión administrativa y el control interno.':'<b>Accounting data analysis</b> that helps the team make better decisions and keep things on track.',
+    'Clases particulares':'Private tutoring','Estudiantes universitarios':'University students',
+    'Clases de apoyo en Física, Análisis Matemático y Electrónica.':'Tutored fellow students in physics, calculus and electronics.',
+    'Encargada de ventas':'Sales lead','Programa Work and Travel · California, EE.UU.':'Work and Travel · California, USA',
+    'Venta directa de productos de cuidado de la piel en inglés, con clientes de distintos países y culturas.':'Sold skincare products face to face, in English, to people from all over the world.',
+    'Ciclo completo de venta en el día: sampling, demostración del producto, detección de necesidades, negociación y cierre.':'Handled the whole sale in a single conversation: letting people try the product, showing how it works, understanding what they needed and closing the deal.',
+    '<b>Superé de forma consistente los objetivos de venta.</b>':'<b>Consistently beat my sales targets.</b>',
+    'La IA como aliada':'AI as an ally',
+    'Uso la inteligencia artificial como herramienta de trabajo diaria para diseñar, programar y documentar soluciones. Mi foco está en entender el problema, definir qué se necesita y revisar críticamente lo que se genera, apoyándome en mi formación en algoritmos e ingeniería de software.':'AI is part of how I work every day: I use it to design, build and document solutions. What I bring is knowing which problem to solve, asking the right questions and taking a critical look at the results, backed by a solid foundation in software engineering.',
+    'Ingeniería en Computación':'Computer Engineering',
+    'Universidad Nacional de Córdoba · 2022 — en curso':'National University of Córdoba · 2022 — present',
+    'Último cuatrimestre. Proyecto Integrador y Práctica Supervisada en Forest S.R.L. Optativa: Gestión de Calidad del Software. Cursando Arquitectura de Computadoras.':'In my final semester, doing my capstone project and internship at Forest S.R.L., plus an elective in Software Quality Management and a Computer Architecture course.',
+    'Bachiller en Ciencias Económicas':'High school diploma in Economics',
+    'Promedio 8,45 y menciones de honor. Delegada del Consejo de Convivencia, representando a más de 200 estudiantes.':'Graduated with an 8.45/10 average and honors. My classmates elected me to represent more than 200 students on the student council.',
+    'Inglés':'English',
+    'Seis años de formación. Reconocida como mejor estudiante y mejor compañera.':'Six years of English studies, where I was named both best student and best classmate.',
+    'Sistemas y redes':'Systems and networks','Modelado y datos':'Modeling and data',
+    'Idiomas':'Languages','Español':'Spanish','Nativo':'Native','Avanzado / bilingüe':'Fluent',
+    'Italiano':'Italian','Conversacional':'Conversational','Portugués':'Portuguese','Comprensión lectora':'Reading'
+  };
+  const els = [];
+  document.querySelectorAll('nav a, p, h2, h3, h4, strong, span, li, .btn').forEach(el => {
+    if(el.id === 'i-title' || el.id === 'i-text') return;
+    const es = el.innerHTML.trim();
+    if(EN[es]) els.push({el, es, en: EN[es]});
+  });
+  const btns = document.querySelectorAll('.langsw button');
+  function setLang(L){
+    window.LANG = L;
+    document.documentElement.lang = L;
+    els.forEach(o => o.el.innerHTML = o[L]);
+    btns.forEach(b => b.setAttribute('aria-pressed', b.dataset.l === L));
+    document.title = L === 'en' ? 'María Pilar Sabena · Computer Engineering' : 'María Pilar Sabena · Ingeniería en Computación';
+    if(window.relabelSkills) window.relabelSkills();
+    try{ localStorage.setItem('lang', L); }catch(e){}
+  }
+  btns.forEach(b => b.addEventListener('click', e => { e.stopPropagation(); setLang(b.dataset.l); }));
+  let saved = 'es'; try{ saved = localStorage.getItem('lang') || 'es'; }catch(e){}
+  setLang(saved);
+})();
+
+/* ── Copiar mail al hacer click ── */
+(() => {
+  const a = document.getElementById('mail'), toast = document.getElementById('toast');
+  let tm;
+  a.addEventListener('click', e => {
+    if(!navigator.clipboard) return;
+    e.preventDefault();
+    navigator.clipboard.writeText('pilar.sabena@mi.unc.edu.ar').then(() => {
+      toast.textContent = window.LANG === 'en' ? 'Email copied!' : '¡Mail copiado!';
+      toast.classList.add('show'); clearTimeout(tm);
+      tm = setTimeout(() => toast.classList.remove('show'), 2200);
+    }).catch(() => { location.href = a.href; });
+  });
+})();
+</script>
+</body>
+</html>
