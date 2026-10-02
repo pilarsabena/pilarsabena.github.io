@@ -59,7 +59,7 @@ nav ul a:hover{color:var(--text)}
 
 /* HERO */
 .hero{min-height:100vh;min-height:100svh;display:grid;align-items:center;padding:6rem clamp(1.2rem,6vw,6rem) 4rem;position:relative}
-#net{position:absolute;inset:0;width:100%;height:100%}
+#net{display:none}
 #namefx{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;z-index:2}
 h1.fx{background:none;color:transparent;-webkit-text-fill-color:transparent}
 .hero-inner{position:relative;max-width:900px}
@@ -144,7 +144,38 @@ h2::before{content:'';width:10px;height:10px;background:var(--cyan);box-shadow:0
 .vcard p{color:#c9d1ef;font-size:.95rem;transform:translateZ(20px)}
 @media(max-width:900px){.value{grid-template-columns:1fr}}
 
+/* AI ORBIT */
+.aiorbit{position:relative;width:100%;height:480px;margin-top:1rem}
+#aicanvas{width:100%;height:100%;display:block;cursor:default}
+.sr{position:absolute!important;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+@media(max-width:560px){.aiorbit{height:340px}}
+
 /* SKILLS */
+.hexwrap{position:relative;padding-top:2.6rem}
+.hexgrid{--w:clamp(58px,9.2vw,118px);--h:calc(var(--w)*1.1547);--g:6px;perspective:900px;display:flex;flex-direction:column;align-items:center}
+.hrow{display:flex;gap:var(--g)}
+.hrow + .hrow{margin-top:calc(var(--h)*-.25 + var(--g)*.87)}
+.hex{position:relative;width:var(--w);height:var(--h);border:0;background:none;padding:0;cursor:pointer;color:inherit;font:inherit;
+  transition:transform .35s cubic-bezier(.2,.8,.2,1),filter .35s,opacity .35s;transform-style:preserve-3d}
+.hex::before,.hx{position:absolute;clip-path:polygon(50% 0,100% 25%,100% 75%,50% 100%,0 75%,0 25%)}
+.hex::before{content:'';inset:0;background:var(--edge)}
+.hx{inset:2px;display:flex;align-items:center;justify-content:center;padding:0 6px;background:var(--fill);overflow:hidden}
+.hx::after{content:'';position:absolute;inset:-40%;background:linear-gradient(115deg,transparent 40%,rgba(255,255,255,.22) 50%,transparent 60%);transform:translateX(-100%);transition:transform .7s}
+.hl{position:relative;z-index:1;font-family:var(--display);font-weight:600;font-size:clamp(.62rem,1.15vw,.95rem);line-height:1.1;text-align:center}
+.hl.long{font-size:clamp(.5rem,.95vw,.8rem);letter-spacing:-.2px}
+.hm{--edge:linear-gradient(160deg,#e9a8ff,#7c3aed);--fill:linear-gradient(160deg,rgba(124,58,237,.55),rgba(30,10,60,.92))}
+.ht{--edge:linear-gradient(160deg,#9fd8ff,#2563eb);--fill:linear-gradient(160deg,rgba(37,99,235,.5),rgba(6,16,48,.92))}
+.hc{--edge:linear-gradient(160deg,#ffffff,#3ee6ff);--fill:radial-gradient(circle at 35% 30%,#7ff3ff,#1a7fd6 60%,#0b2466)}
+.hc .hl{font-size:clamp(.9rem,1.8vw,1.4rem);color:#03122e}
+.hex:hover,.hex:focus-visible{transform:translateZ(30px) scale(1.08);filter:drop-shadow(0 0 14px rgba(62,230,255,.55))}
+.hex:hover .hx::after{transform:translateX(100%)}
+.hex.dim{opacity:.32}
+.hex.lit{filter:drop-shadow(0 0 10px rgba(62,230,255,.45))}
+.hex.sel{transform:translateZ(40px) scale(1.12);filter:drop-shadow(0 0 22px rgba(62,230,255,.85));z-index:2}
+.hex.ping .hx{animation:ping .9s ease-out}
+@keyframes ping{0%{filter:brightness(1)}35%{filter:brightness(1.9)}100%{filter:brightness(1)}}
+@media(max-width:900px){.hexgrid{--w:min(110px,calc((100vw - 70px)/5));--g:4px}.hl{font-size:clamp(.58rem,2.6vw,.85rem)}.hl.long{font-size:clamp(.48rem,2.05vw,.75rem)}.hc .hl{font-size:1rem}}
+
 .g3d{position:relative;width:100%;aspect-ratio:1/0.82;cursor:grab;touch-action:pan-y}
 .g3d:active{cursor:grabbing}
 #graph3d{width:100%;height:100%;display:block}
@@ -307,14 +338,20 @@ footer{padding:8rem clamp(1.2rem,6vw,6rem) 3rem;text-align:center}
     <h2>La IA como aliada</h2>
     <div class="ai">
       <p>Uso la inteligencia artificial como herramienta de trabajo diaria para diseñar, programar y documentar soluciones. Mi foco está en entender el problema, definir qué se necesita y revisar críticamente lo que se genera, apoyándome en mi formación en algoritmos e ingeniería de software.</p>
-      <div class="tools"><span>Claude</span><span>Claude Code</span><span>ChatGPT</span><span>Codex</span><span>Cursor</span><span>Gemini</span><span>DeepSeek</span></div>
+      <div class="tools sr"><span>Claude</span><span>Claude Code</span><span>ChatGPT</span><span>Codex</span><span>Cursor</span><span>Gemini</span><span>DeepSeek</span></div>
     </div>
+      <div class="aiorbit"><canvas id="aicanvas" role="img" aria-label="Herramientas de IA: Claude, Claude Code, ChatGPT, Codex, Cursor, Gemini y DeepSeek"></canvas></div>
   </section>
 
   <section class="block" id="skills">
     <h2>Skills</h2>
     <div class="skills">
-      <div class="g3d"><canvas id="graph3d" role="img" aria-label="Red de habilidades en 3D"></canvas><div class="legend"><span class="lm">Marketing y ventas</span><span class="lt">Tecnología</span></div></div>
+      <div class="hexwrap"><div class="legend"><span class="lm">Marketing y ventas</span><span class="lt">Tecnología</span></div>
+      <div class="hexgrid">
+        <div class="hrow"><button class="hex hm" data-k="Ventas"><span class="hx"><span class="hl">Ventas</span></span></button><button class="hex hm" data-k="Marketing"><span class="hx"><span class="hl">Marketing</span></span></button><button class="hex ht" data-k="Web"><span class="hx"><span class="hl">Web</span></span></button><button class="hex ht" data-k="SQL"><span class="hx"><span class="hl">SQL</span></span></button></div>
+        <div class="hrow"><button class="hex hm" data-k="Negociación"><span class="hx"><span class="hl">Negociación</span></span></button><button class="hex hm" data-k="Comunicación"><span class="hx"><span class="hl">Comunicación</span></span></button><button class="hex hc" data-k="IA"><span class="hx"><span class="hl">IA</span></span></button><button class="hex ht" data-k="Python"><span class="hx"><span class="hl">Python</span></span></button><button class="hex ht" data-k="C / C++"><span class="hx"><span class="hl">C / C++</span></span></button></div>
+        <div class="hrow"><button class="hex hm" data-k="Producto"><span class="hx"><span class="hl">Producto</span></span></button><button class="hex hm" data-k="Datos"><span class="hx"><span class="hl">Datos</span></span></button><button class="hex ht" data-k="Verilog"><span class="hx"><span class="hl">Verilog</span></span></button><button class="hex ht" data-k="Electrónica"><span class="hx"><span class="hl">Electrónica</span></span></button></div>
+      </div></div>
       <div class="info" aria-live="polite">
         <h3 id="i-title">IA</h3>
         <p id="i-text"></p>
@@ -380,11 +417,12 @@ addEventListener('click', e => ripples.push({x:e.clientX, y:e.clientY, r:0, a:.6
 /* ── FONDO: lluvia de bits + partículas ── */
 (() => {
   const c = document.getElementById('bg'), ctx = c.getContext('2d');
-  let W, H, cols = [], parts = [];
+  let W, H, cols = [];
   const FS = 14, GAP = 26;
-  // Las partículas rodean la sección que se está mirando y después vuelven a su lugar
-  let mode = 'free', modeT = 0, active = null, prevGlow = 0;
-  const secs = [...document.querySelectorAll('section.block')];
+  // Red 3D: forma una esfera junto al nombre y, al bajar, enmarca la sección que se está viendo
+  let parts = [], edges = [], active = null, since = 0, sphK = 1, ay = 0, ax = -.25, ayM = 0, axM = 0;
+  const secs = [...document.querySelectorAll('section.block'), document.querySelector('footer')];
+  const hero = document.querySelector('.hero');
   function perim(r, u){
     const w = r.w, h = r.h, P = 2*(w+h); let d = ((u%1)+1)%1 * P;
     if(d < w) return [r.x + d, r.y]; d -= w;
@@ -393,14 +431,10 @@ addEventListener('click', e => ripples.push({x:e.clientX, y:e.clientY, r:0, a:.6
     return [r.x, r.y + h - d];
   }
   function check(){
-    if(reduce) return;
+    if(reduce){ active = null; return; }
     const mid = innerHeight*.45; let cur = null;
     for(const sec of secs){ const r = sec.getBoundingClientRect(); if(r.top < mid && r.bottom > mid){ cur = sec; break; } }
-    if(cur === active) return;
-    active = cur;
-    if(!cur){ if(mode === 'gather'){ mode = 'release'; modeT = performance.now(); } return; }
-    if(mode === 'free') parts.forEach(p => { p.hx = p.x; p.hy = p.y; p.svx = p.vx; p.svy = p.vy; });
-    mode = 'gather'; modeT = performance.now();
+    if(cur !== active){ active = cur; since = performance.now(); }
   }
   addEventListener('scroll', check, {passive:true});
   addEventListener('resize', check);
@@ -411,8 +445,26 @@ addEventListener('click', e => ripples.push({x:e.clientX, y:e.clientY, r:0, a:.6
       len: 5 + (Math.random()*9|0), bits: Array.from({length:14}, () => Math.random()<.5?'0':'1'),
       hue: Math.random()<.7 ? '62,230,255' : '139,92,246', on: Math.random()<.55
     }));
-    const n = Math.min(70, Math.max(40, (W*H)/22000|0)); mode = 'free';
-    parts = Array.from({length:n}, () => ({x:Math.random()*W, y:Math.random()*H, vx:(Math.random()-.5)*.25, vy:(Math.random()-.5)*.25, s:Math.random()<.35?3:1.6}));
+    const big = W >= 900, nO = big ? 120 : 80, nI = big ? 16 : 10;
+    parts = [];
+    for(let i=0;i<nO;i++){                       // nodos de la superficie (esfera de Fibonacci)
+      const y = 1 - (i + .5)/nO*2, r = Math.sqrt(1 - y*y), a = i*2.39996, j = .93 + Math.random()*.12;
+      parts.push({ux: Math.cos(a)*r*j, uy: y*j, uz: Math.sin(a)*r*j, inner:false,
+        hub: Math.random() < .08, white: Math.random() < .3, x: Math.random()*W, y: Math.random()*H, vx:0, vy:0});
+    }
+    for(let i=0;i<nI;i++){                       // núcleo violeta adentro
+      const t = Math.random()*6.283, f = Math.acos(2*Math.random()-1), r = .25 + Math.random()*.45;
+      parts.push({ux: Math.sin(f)*Math.cos(t)*r, uy: Math.cos(f)*r, uz: Math.sin(f)*Math.sin(t)*r, inner:true,
+        hub:false, white:false, x: Math.random()*W, y: Math.random()*H, vx:0, vy:0});
+    }
+    // cada nodo se une con sus 3 vecinos más cercanos (de su mismo grupo)
+    const seen = new Set(); edges = [];
+    parts.forEach((p,i) => {
+      parts.map((q,j) => [j, (p.ux-q.ux)**2 + (p.uy-q.uy)**2 + (p.uz-q.uz)**2])
+        .filter(([j]) => j !== i && parts[j].inner === p.inner).sort((A,B) => A[1]-B[1]).slice(0,3)
+        .forEach(([j]) => { const key = Math.min(i,j) + '-' + Math.max(i,j); if(!seen.has(key)){ seen.add(key); edges.push([i,j]); } });
+    });
+    check();
   }
   init(); let lastW = innerWidth;
   addEventListener('resize', () => { if(innerWidth !== lastW){ lastW = innerWidth; init(); } else { H = c.height = innerHeight; } });
@@ -436,39 +488,63 @@ addEventListener('click', e => ripples.push({x:e.clientX, y:e.clientY, r:0, a:.6
         ctx.fillText(col.bits[k%14], col.x + shift, y);
       }
     });
-    // partículas y conexiones
-    const now = performance.now(), mt = now - modeT;
-    if(mode === 'release' && mt > 1800){ mode = 'free'; parts.forEach(p => { p.vx = p.svx; p.vy = p.svy; }); }
+    // esfera / marco
+    const now = performance.now();
+    sphK += ((active ? 0 : 1) - sphK)*.05;
+    const hr = hero.getBoundingClientRect(), big = W >= 900;
+    const cx = big ? hr.left + hr.width*.72 : W*.56, cy = big ? hr.top + hr.height*.5 : hr.top + hr.height*.36;
+    const rad = big ? Math.min(W*.2, H*.37) : W*.45, vis = big ? 1 : .55;
+    if(mouse.x > -999){ ayM += (((mouse.x - cx)/W)*1.2 - ayM)*.03; axM += (((mouse.y - cy)/H)*.8 - axM)*.03; }
+    if(!reduce) ay += .0028;
+    const A = ay + ayM, B = ax + axM, ca = Math.cos(A), sa = Math.sin(A), cb = Math.cos(B), sb = Math.sin(B);
     let rr = null;
-    if(mode === 'gather' && active){
+    if(active){
       const b = active.getBoundingClientRect(), ins = Math.min(28, b.width*.04);
       rr = {x: b.left + ins, y: b.top + ins, w: b.width - ins*2, h: b.height - ins*2};
     }
-    const glow = mode === 'gather' ? (prevGlow = Math.min(1, Math.max(prevGlow, mt/600))) : mode === 'release' ? (prevGlow = 0, Math.max(0, 1 - mt/900)) : 0;
     parts.forEach((p,i) => {
-      let d;
-      if(mode === 'free'){
-        p.x += p.vx; p.y += p.vy;
-        const dx = p.x - mouse.x, dy = p.y - mouse.y; d = Math.hypot(dx,dy);
-        if(d < 120 && d > 0){ p.x += dx/d*.8; p.y += dy/d*.8; }
-        if(p.x<0)p.x=W; if(p.x>W)p.x=0; if(p.y<0)p.y=H; if(p.y>H)p.y=0;
-      } else {
-        const [tx,ty] = rr ? perim(rr, i/parts.length + mt*.00003) : [p.hx, p.hy];
-        p.vx += (tx - p.x)*.02; p.vy += (ty - p.y)*.02; p.vx *= .86; p.vy *= .86;
-        p.x += p.vx; p.y += p.vy; d = 9999;
-      }
-      ctx.fillStyle = glow > 0 ? `rgba(62,230,255,${.45 + .5*glow})` : d < 160 ? 'rgba(62,230,255,.9)' : 'rgba(96,140,255,.45)';
-      const sz = p.s*(1 + glow*.9); ctx.fillRect(p.x - sz/2, p.y - sz/2, sz, sz);
-      if(d < 170){
-        ctx.strokeStyle = `rgba(62,230,255,${(1-d/170)*.4})`; ctx.lineWidth = .8;
-        ctx.beginPath(); ctx.moveTo(p.x,p.y); ctx.lineTo(mouse.x,mouse.y); ctx.stroke();
-      }
+      const x1 = p.ux*ca - p.uz*sa, z1 = p.ux*sa + p.uz*ca, y2 = p.uy*cb - z1*sb, z2 = p.uy*sb + z1*cb, sc = 3/(3 + z2);
+      p.sz = z2; p.sc = sc;
+      let tx, ty;
+      if(rr){ [tx, ty] = perim(rr, i/parts.length + now*.00003); }
+      else { tx = cx + x1*rad*sc; ty = cy + y2*rad*sc; }
+      // viaje suave al cambiar de sección y después quedan "pegados" al borde, sin retraso
+      p.vx += (tx - p.x)*.08; p.vy += (ty - p.y)*.08; p.vx *= .72; p.vy *= .72;
+      p.x += p.vx; p.y += p.vy;
+      const lock = Math.min(1, Math.max(0, (now - since - 350)/450));
+      if(lock > 0){ p.x += (tx - p.x)*lock; p.y += (ty - p.y)*lock; if(lock === 1){ p.vx = p.vy = 0; } }
+      if(!rr){ const dx = p.x - mouse.x, dy = p.y - mouse.y, d = Math.hypot(dx,dy);
+        if(d < 90 && d > 0){ p.x += dx/d*(90-d)*.12; p.y += dy/d*(90-d)*.12; } }
     });
-    for(let i=0;i<parts.length;i++) for(let j=i+1;j<parts.length;j++){
-      const a = parts[i], b = parts[j], d = Math.hypot(a.x-b.x, a.y-b.y);
-      if(d < 110){ ctx.strokeStyle = glow > 0 ? `rgba(62,230,255,${(1-d/110)*(.14 + .6*glow)})` : `rgba(96,140,255,${(1-d/110)*.14})`; ctx.lineWidth = .6 + .9*glow;
-        ctx.beginPath(); ctx.moveTo(a.x,a.y); ctx.lineTo(b.x,b.y); ctx.stroke(); }
+    // líneas de la esfera
+    if(sphK > .02){
+      ctx.lineWidth = .8;
+      edges.forEach(([i,j]) => {
+        const p = parts[i], q = parts[j], depth = 1 - ((p.sz + q.sz)/2 + 1)/2;
+        const a = (.12 + .45*depth)*sphK*vis;
+        ctx.strokeStyle = p.inner ? `rgba(160,110,255,${a})` : `rgba(62,230,255,${a})`;
+        ctx.beginPath(); ctx.moveTo(p.x,p.y); ctx.lineTo(q.x,q.y); ctx.stroke();
+      });
     }
+    // líneas del marco
+    if(sphK < .98){
+      ctx.lineWidth = 1.2;
+      for(let i=0;i<parts.length;i++) for(let j=i+1;j<parts.length;j++){
+        const a = parts[i], b = parts[j], d = Math.hypot(a.x-b.x, a.y-b.y);
+        if(d < 80){ ctx.strokeStyle = `rgba(62,230,255,${(1-d/80)*.6*(1-sphK)})`;
+          ctx.beginPath(); ctx.moveTo(a.x,a.y); ctx.lineTo(b.x,b.y); ctx.stroke(); }
+      }
+    }
+    // nodos
+    parts.forEach(p => {
+      const depth = 1 - (p.sz + 1)/2, inS = sphK;
+      const al = (inS*(.35 + .65*depth)*vis + (1-inS)*.9);
+      let sz = (p.hub ? 4.2 : p.inner ? 2.6 : 2.2) * (inS*p.sc + (1-inS)*1.1);
+      const col = p.inner ? '180,130,255' : p.white ? '235,245,255' : '62,230,255';
+      if(p.hub && inS > .5){ ctx.shadowColor = '#3ee6ff'; ctx.shadowBlur = 12; }
+      ctx.fillStyle = `rgba(${col},${al})`;
+      ctx.beginPath(); ctx.arc(p.x, p.y, sz/2 + .4, 0, 6.283); ctx.fill(); ctx.shadowBlur = 0;
+    });
     // ondas al hacer click
     for(let i=ripples.length-1;i>=0;i--){
       const r = ripples[i]; r.r += 3; r.a -= .012;
@@ -607,7 +683,7 @@ addEventListener('click', e => ripples.push({x:e.clientX, y:e.clientY, r:0, a:.6
   document.querySelectorAll('.langsw button').forEach(b => b.addEventListener('click', () => setTimeout(() => build(true), 50)));
 })();
 
-/* ── SKILLS 3D: dos órbitas alrededor de IA (negocio arriba, tecnología abajo) ── */
+/* ── SKILLS: panal de hexágonos con pulso de datos desde IA ── */
 (() => {
   const S = {
     'IA':           {en:'AI', g:'c', t:{es:'Uso diario de Claude, Claude Code, ChatGPT, Codex, Cursor, Gemini y DeepSeek para crear, analizar y comunicar. Mi foco: definir bien el problema y revisar lo que se genera.',en:'I use Claude, Claude Code, ChatGPT, Codex, Cursor, Gemini and DeepSeek every day to create, analyze and communicate. My focus is on asking the right questions and reviewing what comes out.'}},
@@ -624,117 +700,130 @@ addEventListener('click', e => ripples.push({x:e.clientX, y:e.clientY, r:0, a:.6
     'Verilog':      {g:'t', t:{es:'Diseño de hardware digital. Implementación de un microprocesador completo sobre placa.',en:'Digital hardware design. I built a complete microprocessor running on a real board.'}},
     'Electrónica':  {en:'Electronics', g:'t', t:{es:'Electrónica digital, arquitectura de computadoras y teoría de señales.',en:'Digital electronics, computer architecture and signals.'}}
   };
-  // Órbitas: cada esfera en su lugar fijo, sin superposiciones
-  const ORB = {
-    'Ventas':0,'Marketing':60,'Producto':120,'Datos':180,'Comunicación':240,'Negociación':300,
-    'Verilog':30,'Electrónica':90,'Web':150,'SQL':210,'Python':270,'C / C++':330
-  };
-  const RY = {m:-1.05, t:1.05};
-  for(const k in ORB){ const a = ORB[k]*Math.PI/180; Object.assign(S[k], {x:Math.sin(a), z:-Math.cos(a), y:RY[S[k].g], base:1}); }
-  Object.assign(S['IA'], {x:0, y:0, z:0, base:1.35});
-  const E = Object.keys(ORB).map(k => ['IA',k]).concat([['Producto','Web'],['Datos','SQL'],['Datos','Python'],['Electrónica','Verilog'],['Verilog','C / C++']]);
-
-  const c = document.getElementById('graph3d'), ctx = c.getContext('2d'), box = c.parentElement;
-  const DPR = Math.min(devicePixelRatio || 1, 2);
-  let W, H, R, XS = 1.2, ay = 0, ax = -.5, current = 'IA', proj = {}, hover = null;
-  let tAy = null, idleUntil = 0, linked = new Set(Object.keys(S)), dragging = false;
-  function size(){ W = box.clientWidth; H = box.clientHeight; c.width = W*DPR; c.height = H*DPR; ctx.setTransform(DPR,0,0,DPR,0,0);
-    const narrow = W < 560; R = Math.min(W*(narrow ? .34 : .33), H*.28); XS = narrow ? 1.05 : 1.25; }
-  size(); addEventListener('resize', size);
-  const COL = { m:['#ffd1f0','#c45cff','#3a1366'], t:['#c9f6ff','#2f8cff','#0b2466'], c:['#ffffff','#3ee6ff','#2a3fd0'] };
-
-  function P(x,y,z){
-    const ca = Math.cos(ay), sa = Math.sin(ay), cb = Math.cos(ax), sb = Math.sin(ax), F = 4.5;
-    const x1 = x*ca - z*sa, z1 = x*sa + z*ca, y2 = y*cb - z1*sb, z2 = y*sb + z1*cb, sc = F/(F + z2);
-    return {x: W/2 + x1*R*XS*sc, y: H/2 + 14 + y2*R*sc, z: z2, s: sc};
-  }
+  const E = Object.keys(S).filter(k => k !== 'IA').map(k => ['IA',k]).concat([
+    ['Ventas','Marketing'],['Ventas','Negociación'],['Ventas','Comunicación'],['Marketing','Producto'],['Marketing','Comunicación'],
+    ['Negociación','Comunicación'],['Producto','Datos'],['Producto','Web'],['Datos','Python'],['Datos','SQL'],['Python','SQL'],
+    ['C / C++','Python'],['C / C++','Verilog'],['Verilog','Electrónica']]);
+  const hexes = [...document.querySelectorAll('.hex')], byK = {};
+  hexes.forEach(h => { byK[h.dataset.k] = h; h.addEventListener('click', () => select(h.dataset.k)); });
   const label = k => (window.LANG==='en' && S[k].en) ? S[k].en : k;
+  let current = 'IA';
+  function select(k){
+    current = k; const linked = new Set([k]);
+    E.forEach(([a,b]) => { if(a===k) linked.add(b); if(b===k) linked.add(a); });
+    hexes.forEach(h => { const n = h.dataset.k; h.classList.toggle('sel', n===k); h.classList.toggle('lit', linked.has(n) && n!==k); h.classList.toggle('dim', k!=='IA' && !linked.has(n)); });
+    document.getElementById('i-title').textContent = label(k);
+    document.getElementById('i-text').textContent = S[k].t[window.LANG || 'es'];
+  }
+  window.relabelSkills = () => { hexes.forEach(h => { const l = h.querySelector('.hl'); l.textContent = label(h.dataset.k); l.classList.toggle('long', l.textContent.length > 9); }); select(current); };
+  // pulso: una onda de luz sale de IA hacia afuera cada pocos segundos
+  function pulse(){
+    const c = byK['IA'].getBoundingClientRect(), cx = c.left + c.width/2, cy = c.top + c.height/2;
+    hexes.forEach(h => { const r = h.getBoundingClientRect(), d = Math.hypot(r.left + r.width/2 - cx, r.top + r.height/2 - cy);
+      setTimeout(() => { h.classList.remove('ping'); void h.offsetWidth; h.classList.add('ping'); }, d*2.2); });
+  }
+  if(!reduce) setInterval(pulse, 3800);
+  window.relabelSkills();
+})();
 
+/* ── IA: sistema planetario con cada herramienta en su propia órbita ── */
+(() => {
+  const c = document.getElementById('aicanvas'); if(!c) return;
+  const ctx = c.getContext('2d'), box = c.parentElement, DPR = Math.min(devicePixelRatio || 1, 2);
+  const PL = [
+    {n:'Gemini',      sub:{es:'Google',en:'Google'},                 col:['#e6dcff','#8b6cf6','#2a1b66'], r:.50, sz:.9},
+    {n:'Claude',      sub:{es:'Anthropic',en:'Anthropic'},           col:['#ffd9c7','#d97757','#5a2412'], r:.62, sz:1.25},
+    {n:'Codex',       sub:{es:'OpenAI',en:'OpenAI'},                 col:['#d6fff0','#2bbf8f','#0b4a36'], r:.73, sz:.9},
+    {n:'DeepSeek',    sub:{es:'Modelos abiertos',en:'Open models'},  col:['#dbe4ff','#4d6bfe','#14215e'], r:.84, sz:.9},
+    {n:'Claude Code', sub:{es:'Anthropic',en:'Anthropic'},           col:['#ffe3d1','#e8925f','#6a3418'], r:.95, sz:1.0},
+    {n:'ChatGPT',     sub:{es:'OpenAI',en:'OpenAI'},                 col:['#d9fff0','#10a37f','#06402f'], r:1.06, sz:1.1},
+    {n:'Cursor',      sub:{es:'Editor con IA',en:'AI code editor'},  col:['#ffffff','#c9cfdc','#4a5060'], r:1.16, sz:1.0}
+  ];
+  PL.forEach((p,i) => { p.a = i*2.39996; p.w = .00011/Math.pow(p.r,1.5); p.inc = (i%2 ? 1 : -1)*(.06 + (i%3)*.05); p.trail = []; });
+  let W, H, R, XS, hover = null;
+  let AX = .78, cA = Math.cos(AX), sA = Math.sin(AX);
+  function size(){ W = box.clientWidth; H = box.clientHeight; c.width = W*DPR; c.height = H*DPR; ctx.setTransform(DPR,0,0,DPR,0,0);
+    const nar = W < 560; AX = nar ? 1.1 : .78; cA = Math.cos(AX); sA = Math.sin(AX);
+    XS = nar ? 1 : 1.45; R = Math.min(W*(nar ? .47 : .42)/(1.16*XS), H*.34/(1.16*sA)); }
+  size(); addEventListener('resize', size);
+  function proj(r, a, inc){
+    let x = Math.cos(a)*r, z = Math.sin(a)*r, y = -z*Math.sin(inc); z = z*Math.cos(inc);
+    const y2 = y*cA - z*sA, z2 = y*sA + z*cA, sc = 3.2/(3.2 + z2);
+    return {x: W/2 + x*R*XS*sc, y: H/2 + y2*R*sc, z: z2, s: sc};
+  }
+  function sphere(x, y, r, col, glow){
+    if(glow){ ctx.shadowColor = col[1]; ctx.shadowBlur = glow; }
+    const g = ctx.createRadialGradient(x - r*.35, y - r*.4, r*.1, x, y, r);
+    g.addColorStop(0, col[0]); g.addColorStop(.5, col[1]); g.addColorStop(1, col[2]);
+    ctx.fillStyle = g; ctx.beginPath(); ctx.arc(x, y, r, 0, 7); ctx.fill(); ctx.shadowBlur = 0;
+  }
+  let last = performance.now();
   function draw(now){
-    if(tAy !== null){ ay += (tAy - ay)*.07; if(Math.abs(tAy - ay) < .002) tAy = null; }
-    else if(!dragging && now > idleUntil && !reduce) ay += .0022;
-    for(const k in S){ const n = S[k], p = P(n.x, n.y, n.z); p.r = (W < 560 ? 16 : 22)*n.base*p.s; proj[k] = p; }
+    const dt = Math.min(50, now - last); last = now;
     ctx.clearRect(0,0,W,H);
-    // órbitas
-    for(const g of ['m','t']){
-      const col = g==='m' ? '196,92,255' : '47,140,255';
-      for(let i=0;i<72;i++){
-        const a1 = i/72*Math.PI*2, a2 = (i+1)/72*Math.PI*2;
-        const A = P(Math.sin(a1), RY[g], -Math.cos(a1)), B = P(Math.sin(a2), RY[g], -Math.cos(a2));
-        ctx.strokeStyle = `rgba(${col},${.12 + .3*(1 - (A.z + 1)/2)})`; ctx.lineWidth = 1.4;
-        ctx.beginPath(); ctx.moveTo(A.x,A.y); ctx.lineTo(B.x,B.y); ctx.stroke();
+    const L = window.LANG || 'es', base = W < 560 ? 11 : 18;
+    // órbitas punteadas
+    ctx.setLineDash([3,6]); ctx.lineWidth = 1;
+    PL.forEach(p => {
+      ctx.strokeStyle = p === hover ? 'rgba(62,230,255,.45)' : 'rgba(140,160,255,.16)';
+      ctx.beginPath();
+      for(let i=0;i<=80;i++){ const q = proj(p.r, i/80*6.283, p.inc); i ? ctx.lineTo(q.x,q.y) : ctx.moveTo(q.x,q.y); }
+      ctx.stroke();
+    });
+    ctx.setLineDash([]);
+    // posiciones
+    PL.forEach(p => { if(!reduce && p !== hover) p.a += p.w*dt; p.q = proj(p.r, p.a, p.inc);
+      p.trail.push([p.q.x, p.q.y]); if(p.trail.length > 22) p.trail.shift(); });
+    const sun = {x: W/2, y: H/2, z: 0, s: 1, sun: true};
+    // haces de luz desde el centro + datos viajando
+    PL.forEach((p,i) => {
+      const on = p === hover;
+      ctx.strokeStyle = on ? 'rgba(62,230,255,.8)' : 'rgba(120,150,255,.18)'; ctx.lineWidth = on ? 1.6 : 1;
+      ctx.beginPath(); ctx.moveTo(sun.x, sun.y); ctx.lineTo(p.q.x, p.q.y); ctx.stroke();
+      const k = ((now/1800) + i*.37) % 1;
+      ctx.fillStyle = on ? '#fff' : 'rgba(255,255,255,.7)';
+      ctx.beginPath(); ctx.arc(sun.x + (p.q.x - sun.x)*k, sun.y + (p.q.y - sun.y)*k, on ? 2.6 : 1.8, 0, 7); ctx.fill();
+    });
+    // estelas
+    PL.forEach(p => {
+      for(let i=1;i<p.trail.length;i++){
+        ctx.strokeStyle = p.col[1] + Math.round(i/p.trail.length*90).toString(16).padStart(2,'0');
+        ctx.lineWidth = 2.2*p.q.s*i/p.trail.length;
+        ctx.beginPath(); ctx.moveTo(p.trail[i-1][0], p.trail[i-1][1]); ctx.lineTo(p.trail[i][0], p.trail[i][1]); ctx.stroke();
       }
-    }
-    // conexiones: solo se destacan las de la esfera elegida
-    for(const [a,b] of E){
-      const A = proj[a], B = proj[b], on = a===current || b===current;
-      const depth = 1 - ((A.z + B.z)/2 + 1)/2;
-      ctx.beginPath(); ctx.moveTo(A.x,A.y); ctx.lineTo(B.x,B.y);
-      if(on){ ctx.setLineDash([5,7]); ctx.lineDashOffset = -now/40; ctx.strokeStyle = `rgba(62,230,255,${.25 + .6*depth})`; ctx.lineWidth = 1.6; }
-      else { ctx.setLineDash([]); ctx.strokeStyle = `rgba(120,150,255,${.03 + .07*depth})`; ctx.lineWidth = 1; }
-      ctx.stroke(); ctx.setLineDash([]);
-      if(on){
-        const f = a===current ? A : B, t = a===current ? B : A, k = (now/1600 + ORB[a===current ? b : a]/360) % 1;
-        ctx.fillStyle = '#fff'; ctx.shadowColor = '#3ee6ff'; ctx.shadowBlur = 10;
-        ctx.beginPath(); ctx.arc(f.x + (t.x-f.x)*k, f.y + (t.y-f.y)*k, 2.2, 0, 7); ctx.fill(); ctx.shadowBlur = 0;
+    });
+    // planetas y centro, ordenados por profundidad
+    [...PL, sun].sort((a,b) => (b.q ? b.q.z : 0) - (a.q ? a.q.z : 0)).forEach(o => {
+      if(o.sun){
+        const r = W < 560 ? 24 : 40;
+        sphere(o.x, o.y, r, ['#e8fdff','#3ee6ff','#2a3fd0'], 45);
+        ctx.strokeStyle = 'rgba(62,230,255,.55)'; ctx.lineWidth = 1.3;
+        ctx.beginPath(); ctx.ellipse(o.x, o.y, r*1.65, r*.42, 0, 0, 7); ctx.stroke();
+        ctx.font = `700 ${W < 560 ? 13 : 16}px 'Chakra Petch', system-ui, sans-serif`; ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+        ctx.fillStyle = '#04102a'; ctx.fillText('Pilar', o.x, o.y + 1);
+        return;
       }
-    }
-    // esferas de atrás hacia adelante
-    Object.keys(S).sort((a,b) => proj[b].z - proj[a].z).forEach(k => {
-      const p = proj[k], n = S[k], sel = k===current, front = 1 - (p.z + 1)/2;
-      const [hi, mid, lo] = sel ? COL.c : COL[n.g];
-      ctx.globalAlpha = (linked.has(k) ? 1 : .35) * (.45 + .55*front);
-      if(sel || k===hover){ ctx.shadowColor = sel ? '#3ee6ff' : mid; ctx.shadowBlur = sel ? 36 : 20; }
-      const g = ctx.createRadialGradient(p.x - p.r*.35, p.y - p.r*.4, p.r*.08, p.x, p.y, p.r);
-      g.addColorStop(0, hi); g.addColorStop(.45, mid); g.addColorStop(1, lo);
-      ctx.fillStyle = g; ctx.beginPath(); ctx.arc(p.x, p.y, p.r, 0, 7); ctx.fill(); ctx.shadowBlur = 0;
-      if(sel){
-        const rot = now/2400; ctx.strokeStyle = 'rgba(62,230,255,.6)'; ctx.lineWidth = 1.2;
-        ctx.beginPath(); ctx.ellipse(p.x, p.y, p.r*1.6, p.r*.42, rot, 0, 7); ctx.stroke();
-        const t = now/650, ex = Math.cos(t)*p.r*1.6, ey = Math.sin(t)*p.r*.42;
-        ctx.fillStyle = '#fff'; ctx.beginPath();
-        ctx.arc(p.x + ex*Math.cos(rot) - ey*Math.sin(rot), p.y + ex*Math.sin(rot) + ey*Math.cos(rot), 2.4, 0, 7); ctx.fill();
-      }
-      const fsz = (W < 560 ? 11 : 13.5)*(k==='IA' ? 1.25 : 1)*(.85 + .15*p.s);
-      ctx.font = `600 ${fsz}px 'Chakra Petch', system-ui, sans-serif`; ctx.textAlign = 'center';
-      ctx.fillStyle = '#eef2ff'; ctx.shadowColor = 'rgba(0,0,0,.95)'; ctx.shadowBlur = 6;
-      if(k==='IA'){ ctx.textBaseline = 'middle'; ctx.fillText(label(k), p.x, p.y); }
-      else { ctx.textBaseline = 'top'; ctx.fillText(label(k), p.x, p.y + p.r + 5); }
+      const on = o === hover, q = o.q, r = base*o.sz*q.s*(on ? 1.3 : 1);
+      ctx.globalAlpha = .55 + .45*(1 - (q.z + 1)/2);
+      sphere(q.x, q.y, r, o.col, on ? 40 : 18);
+      ctx.textAlign = 'center'; ctx.textBaseline = 'top';
+      ctx.shadowColor = 'rgba(0,0,0,.95)'; ctx.shadowBlur = 6;
+      ctx.font = `600 ${(W < 560 ? 11.5 : 14)*(.85 + .2*q.s)}px 'Chakra Petch', system-ui, sans-serif`;
+      ctx.fillStyle = on ? '#ffffff' : '#e6ebff'; ctx.fillText(o.n, q.x, q.y + r + 5);
+      if(W >= 560){ ctx.font = `400 11px 'Sora', system-ui, sans-serif`;
+        ctx.fillStyle = '#8a95bf'; ctx.fillText(o.sub[L], q.x, q.y + r + 23); }
       ctx.shadowBlur = 0; ctx.globalAlpha = 1;
     });
     requestAnimationFrame(draw);
   }
-
-  // Arrastrar para girar, tocar para elegir
-  let sx = 0, sy = 0, moved = 0, pid = null;
   function pick(e){
-    const r = c.getBoundingClientRect(), x = e.clientX - r.left, y = e.clientY - r.top; let best = null;
-    for(const k in proj){ const p = proj[k]; if(Math.hypot(x-p.x, y-p.y) < p.r + 10 && (!best || p.z < proj[best].z)) best = k; }
+    const b = c.getBoundingClientRect(), x = e.clientX - b.left, y = e.clientY - b.top; let best = null, bd = 1e9;
+    PL.forEach(p => { if(!p.q) return; const d = Math.hypot(x - p.q.x, y - p.q.y); if(d < 30 && d < bd){ bd = d; best = p; } });
     return best;
   }
-  c.addEventListener('pointerdown', e => { dragging = true; moved = 0; sx = e.clientX; sy = e.clientY; pid = e.pointerId; tAy = null; });
-  addEventListener('pointermove', e => {
-    if(dragging && e.pointerId === pid){
-      const dx = e.clientX - sx, dy = e.clientY - sy; moved += Math.abs(dx) + Math.abs(dy);
-      if(moved > (e.pointerType === 'mouse' ? 6 : 14)){ ay += dx*.008; ax = Math.max(-.8, Math.min(-.2, ax + dy*.004)); idleUntil = performance.now() + 3000; }
-      sx = e.clientX; sy = e.clientY;
-    } else if(e.target === c){ hover = pick(e); c.style.cursor = hover ? 'pointer' : 'grab'; }
-  });
-  addEventListener('pointercancel', () => { dragging = false; });
-  addEventListener('pointerup', e => {
-    if(!dragging || e.pointerId !== pid) return; dragging = false;
-    if(moved < 14){ const k = pick(e); if(k) select(k); }
-  });
-  function select(k){
-    current = k; linked = new Set([k]);
-    E.forEach(([a,b]) => { if(a===k) linked.add(b); if(b===k) linked.add(a); });
-    if(k !== 'IA'){ const n = S[k], target = Math.atan2(n.x, n.z) + Math.PI;
-      const d = ((target - ay) % (Math.PI*2) + Math.PI*3) % (Math.PI*2) - Math.PI; tAy = ay + d; idleUntil = performance.now() + 5000; }
-    document.getElementById('i-title').textContent = label(k);
-    document.getElementById('i-text').textContent = S[k].t[window.LANG || 'es'];
-  }
-  window.relabelSkills = () => select(current);
-  select('IA');
+  c.addEventListener('pointermove', e => { hover = pick(e); c.style.cursor = hover ? 'pointer' : 'default'; });
+  c.addEventListener('pointerleave', () => { hover = null; });
+  c.addEventListener('pointerdown', e => { hover = pick(e); });
   requestAnimationFrame(draw);
 })();
 
