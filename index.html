@@ -148,6 +148,11 @@ h2::before{content:'';width:10px;height:10px;background:var(--cyan);box-shadow:0
 .g3d{position:relative;width:100%;aspect-ratio:1/0.82;cursor:grab;touch-action:pan-y}
 .g3d:active{cursor:grabbing}
 #graph3d{width:100%;height:100%;display:block}
+.legend{position:absolute;left:0;top:0;display:flex;gap:1.2rem;font-size:.82rem;color:var(--muted);pointer-events:none}
+.legend span{display:flex;align-items:center;gap:.45rem}
+.legend span::before{content:'';width:10px;height:10px;border-radius:50%}
+.legend .lm::before{background:radial-gradient(circle at 35% 35%,#ffd1f0,#c45cff 50%,#3a1366)}
+.legend .lt::before{background:radial-gradient(circle at 35% 35%,#c9f6ff,#2f8cff 50%,#0b2466)}
 @media(max-width:560px){.g3d{aspect-ratio:1/1.05}}
 .skills{display:grid;grid-template-columns:1.6fr 1fr;gap:2rem;align-items:center}
 #graph{width:100%;height:auto;display:block;overflow:visible}
@@ -309,7 +314,7 @@ footer{padding:8rem clamp(1.2rem,6vw,6rem) 3rem;text-align:center}
   <section class="block" id="skills">
     <h2>Skills</h2>
     <div class="skills">
-      <div class="g3d"><canvas id="graph3d" role="img" aria-label="Red de habilidades en 3D"></canvas></div>
+      <div class="g3d"><canvas id="graph3d" role="img" aria-label="Red de habilidades en 3D"></canvas><div class="legend"><span class="lm">Marketing y ventas</span><span class="lt">Tecnología</span></div></div>
       <div class="info" aria-live="polite">
         <h3 id="i-title">IA</h3>
         <p id="i-text"></p>
@@ -602,7 +607,7 @@ addEventListener('click', e => ripples.push({x:e.clientX, y:e.clientY, r:0, a:.6
   document.querySelectorAll('.langsw button').forEach(b => b.addEventListener('click', () => setTimeout(() => build(true), 50)));
 })();
 
-/* ── SKILLS 3D: esferas que giran, se arrastran y se seleccionan ── */
+/* ── SKILLS 3D: dos órbitas alrededor de IA (negocio arriba, tecnología abajo) ── */
 (() => {
   const S = {
     'IA':           {en:'AI', g:'c', t:{es:'Uso diario de Claude, Claude Code, ChatGPT, Codex, Cursor, Gemini y DeepSeek para crear, analizar y comunicar. Mi foco: definir bien el problema y revisar lo que se genera.',en:'I use Claude, Claude Code, ChatGPT, Codex, Cursor, Gemini and DeepSeek every day to create, analyze and communicate. My focus is on asking the right questions and reviewing what comes out.'}},
@@ -619,127 +624,114 @@ addEventListener('click', e => ripples.push({x:e.clientX, y:e.clientY, r:0, a:.6
     'Verilog':      {g:'t', t:{es:'Diseño de hardware digital. Implementación de un microprocesador completo sobre placa.',en:'Digital hardware design. I built a complete microprocessor running on a real board.'}},
     'Electrónica':  {en:'Electronics', g:'t', t:{es:'Electrónica digital, arquitectura de computadoras y teoría de señales.',en:'Digital electronics, computer architecture and signals.'}}
   };
-  const E = Object.keys(S).filter(k => k!=='IA').map(k => ['IA',k]).concat([
-    ['Ventas','Marketing'],['Ventas','Negociación'],['Ventas','Comunicación'],['Marketing','Producto'],
-    ['Marketing','Comunicación'],['Negociación','Comunicación'],['Producto','Datos'],['Producto','Web'],
-    ['Datos','Python'],['Datos','SQL'],['Python','SQL'],['C / C++','Python'],['C / C++','Verilog'],['Verilog','Electrónica']]);
-
-  // Posiciones en una esfera (los de marketing y ventas arriba, los técnicos abajo)
-  const keys = Object.keys(S).filter(k => k!=='IA'), N = keys.length;
-  keys.forEach((k,i) => {
-    const y = 1 - (i + .5)/N*2, r = Math.sqrt(1 - y*y), a = i*2.39996;
-    Object.assign(S[k], {x: Math.cos(a)*r, y: -y*.92, z: Math.sin(a)*r, base: S[k].g==='m' ? 1 : .86});
-  });
-  Object.assign(S['IA'], {x:0, y:0, z:0, base:1.3});
+  // Órbitas: cada esfera en su lugar fijo, sin superposiciones
+  const ORB = {
+    'Ventas':0,'Marketing':60,'Producto':120,'Datos':180,'Comunicación':240,'Negociación':300,
+    'Verilog':30,'Electrónica':90,'Web':150,'SQL':210,'Python':270,'C / C++':330
+  };
+  const RY = {m:-1.05, t:1.05};
+  for(const k in ORB){ const a = ORB[k]*Math.PI/180; Object.assign(S[k], {x:Math.sin(a), z:-Math.cos(a), y:RY[S[k].g], base:1}); }
+  Object.assign(S['IA'], {x:0, y:0, z:0, base:1.35});
+  const E = Object.keys(ORB).map(k => ['IA',k]).concat([['Producto','Web'],['Datos','SQL'],['Datos','Python'],['Electrónica','Verilog'],['Verilog','C / C++']]);
 
   const c = document.getElementById('graph3d'), ctx = c.getContext('2d'), box = c.parentElement;
   const DPR = Math.min(devicePixelRatio || 1, 2);
-  let W, H, R, XS = 1.18, ay = .4, ax = -.25, vy = .0025, current = 'IA', proj = {}, hover = null;
-  let tAy = null, idleUntil = 0, linked = new Set(Object.keys(S));
-  function size(){ W = box.clientWidth; H = box.clientHeight; c.width = W*DPR; c.height = H*DPR; ctx.setTransform(DPR,0,0,DPR,0,0); R = Math.min(W*(W < 560 ? .34 : .38), H*.42); XS = W < 560 ? 1 : 1.18; }
+  let W, H, R, XS = 1.2, ay = 0, ax = -.5, current = 'IA', proj = {}, hover = null;
+  let tAy = null, idleUntil = 0, linked = new Set(Object.keys(S)), dragging = false;
+  function size(){ W = box.clientWidth; H = box.clientHeight; c.width = W*DPR; c.height = H*DPR; ctx.setTransform(DPR,0,0,DPR,0,0);
+    const narrow = W < 560; R = Math.min(W*(narrow ? .34 : .33), H*.28); XS = narrow ? 1.05 : 1.25; }
   size(); addEventListener('resize', size);
-
   const COL = { m:['#ffd1f0','#c45cff','#3a1366'], t:['#c9f6ff','#2f8cff','#0b2466'], c:['#ffffff','#3ee6ff','#2a3fd0'] };
 
-  function project(){
-    const ca = Math.cos(ay), sa = Math.sin(ay), cb = Math.cos(ax), sb = Math.sin(ax), F = 3.2;
-    for(const k in S){
-      const n = S[k];
-      let x = n.x*ca - n.z*sa, z = n.x*sa + n.z*ca, y = n.y;
-      const y2 = y*cb - z*sb, z2 = y*sb + z*cb;
-      const sc = F/(F + z2);
-      proj[k] = {x: W/2 + x*R*XS*sc, y: H/2 + y2*R*sc, z: z2, s: sc, r: (W < 560 ? 15 : 24)*n.base*sc};
-    }
+  function P(x,y,z){
+    const ca = Math.cos(ay), sa = Math.sin(ay), cb = Math.cos(ax), sb = Math.sin(ax), F = 4.5;
+    const x1 = x*ca - z*sa, z1 = x*sa + z*ca, y2 = y*cb - z1*sb, z2 = y*sb + z1*cb, sc = F/(F + z2);
+    return {x: W/2 + x1*R*XS*sc, y: H/2 + 14 + y2*R*sc, z: z2, s: sc};
   }
-
-  function label(k){ return (window.LANG==='en' && S[k].en) ? S[k].en : k; }
+  const label = k => (window.LANG==='en' && S[k].en) ? S[k].en : k;
 
   function draw(now){
-    if(tAy !== null){ ay += (tAy - ay)*.08; if(Math.abs(tAy - ay) < .002) tAy = null; }
-    else if(!dragging && now > idleUntil && !reduce) ay += vy;
-    project();
+    if(tAy !== null){ ay += (tAy - ay)*.07; if(Math.abs(tAy - ay) < .002) tAy = null; }
+    else if(!dragging && now > idleUntil && !reduce) ay += .0022;
+    for(const k in S){ const n = S[k], p = P(n.x, n.y, n.z); p.r = (W < 560 ? 16 : 22)*n.base*p.s; proj[k] = p; }
     ctx.clearRect(0,0,W,H);
-    // conexiones
-    for(const [a,b] of E){
-      const A = proj[a], B = proj[b], on = (a===current || b===current);
-      const depth = (2 - (A.z + B.z)/2)/3;
-      ctx.beginPath(); ctx.moveTo(A.x,A.y); ctx.lineTo(B.x,B.y);
-      if(on){
-        ctx.setLineDash([6,6]); ctx.lineDashOffset = -now/40;
-        ctx.strokeStyle = `rgba(62,230,255,${.35 + .55*depth})`; ctx.lineWidth = 1.8;
-      } else { ctx.setLineDash([]); ctx.strokeStyle = `rgba(110,140,255,${.06 + .16*depth})`; ctx.lineWidth = 1; }
-      ctx.stroke();
-      if(on){ // paquete de datos que viaja por la conexión
-        const from = a===current ? A : B, to = a===current ? B : A, k = (now/1400 + (A.x+B.y)*.001) % 1;
-        ctx.setLineDash([]); ctx.fillStyle = '#fff'; ctx.shadowColor = '#3ee6ff'; ctx.shadowBlur = 10;
-        ctx.beginPath(); ctx.arc(from.x + (to.x-from.x)*k, from.y + (to.y-from.y)*k, 2.2, 0, 7); ctx.fill(); ctx.shadowBlur = 0;
+    // órbitas
+    for(const g of ['m','t']){
+      const col = g==='m' ? '196,92,255' : '47,140,255';
+      for(let i=0;i<72;i++){
+        const a1 = i/72*Math.PI*2, a2 = (i+1)/72*Math.PI*2;
+        const A = P(Math.sin(a1), RY[g], -Math.cos(a1)), B = P(Math.sin(a2), RY[g], -Math.cos(a2));
+        ctx.strokeStyle = `rgba(${col},${.12 + .3*(1 - (A.z + 1)/2)})`; ctx.lineWidth = 1.4;
+        ctx.beginPath(); ctx.moveTo(A.x,A.y); ctx.lineTo(B.x,B.y); ctx.stroke();
       }
     }
-    ctx.setLineDash([]);
-    // esferas, de atrás hacia adelante
+    // conexiones: solo se destacan las de la esfera elegida
+    for(const [a,b] of E){
+      const A = proj[a], B = proj[b], on = a===current || b===current;
+      const depth = 1 - ((A.z + B.z)/2 + 1)/2;
+      ctx.beginPath(); ctx.moveTo(A.x,A.y); ctx.lineTo(B.x,B.y);
+      if(on){ ctx.setLineDash([5,7]); ctx.lineDashOffset = -now/40; ctx.strokeStyle = `rgba(62,230,255,${.25 + .6*depth})`; ctx.lineWidth = 1.6; }
+      else { ctx.setLineDash([]); ctx.strokeStyle = `rgba(120,150,255,${.03 + .07*depth})`; ctx.lineWidth = 1; }
+      ctx.stroke(); ctx.setLineDash([]);
+      if(on){
+        const f = a===current ? A : B, t = a===current ? B : A, k = (now/1600 + ORB[a===current ? b : a]/360) % 1;
+        ctx.fillStyle = '#fff'; ctx.shadowColor = '#3ee6ff'; ctx.shadowBlur = 10;
+        ctx.beginPath(); ctx.arc(f.x + (t.x-f.x)*k, f.y + (t.y-f.y)*k, 2.2, 0, 7); ctx.fill(); ctx.shadowBlur = 0;
+      }
+    }
+    // esferas de atrás hacia adelante
     Object.keys(S).sort((a,b) => proj[b].z - proj[a].z).forEach(k => {
-      const p = proj[k], n = S[k], sel = k===current, lit = linked.has(k);
+      const p = proj[k], n = S[k], sel = k===current, front = 1 - (p.z + 1)/2;
       const [hi, mid, lo] = sel ? COL.c : COL[n.g];
-      const alpha = (lit ? 1 : .32) * (.55 + .45*(1 - (p.z + 1)/2) + .2);
-      ctx.globalAlpha = Math.min(1, alpha);
-      if(sel || k===hover){ ctx.shadowColor = sel ? '#3ee6ff' : mid; ctx.shadowBlur = sel ? 40 : 22; }
+      ctx.globalAlpha = (linked.has(k) ? 1 : .35) * (.45 + .55*front);
+      if(sel || k===hover){ ctx.shadowColor = sel ? '#3ee6ff' : mid; ctx.shadowBlur = sel ? 36 : 20; }
       const g = ctx.createRadialGradient(p.x - p.r*.35, p.y - p.r*.4, p.r*.08, p.x, p.y, p.r);
       g.addColorStop(0, hi); g.addColorStop(.45, mid); g.addColorStop(1, lo);
       ctx.fillStyle = g; ctx.beginPath(); ctx.arc(p.x, p.y, p.r, 0, 7); ctx.fill(); ctx.shadowBlur = 0;
-      // anillo orbital en la esfera seleccionada
       if(sel){
-        ctx.strokeStyle = 'rgba(62,230,255,.55)'; ctx.lineWidth = 1.2;
-        ctx.beginPath(); ctx.ellipse(p.x, p.y, p.r*1.55, p.r*.45, now/2200, 0, 7); ctx.stroke();
-        ctx.fillStyle = '#fff'; const t = now/700;
-        ctx.beginPath(); ctx.arc(p.x + Math.cos(t)*p.r*1.55*Math.cos(now/2200) - Math.sin(t)*p.r*.45*Math.sin(now/2200),
-                                 p.y + Math.cos(t)*p.r*1.55*Math.sin(now/2200) + Math.sin(t)*p.r*.45*Math.cos(now/2200), 2.5, 0, 7); ctx.fill();
+        const rot = now/2400; ctx.strokeStyle = 'rgba(62,230,255,.6)'; ctx.lineWidth = 1.2;
+        ctx.beginPath(); ctx.ellipse(p.x, p.y, p.r*1.6, p.r*.42, rot, 0, 7); ctx.stroke();
+        const t = now/650, ex = Math.cos(t)*p.r*1.6, ey = Math.sin(t)*p.r*.42;
+        ctx.fillStyle = '#fff'; ctx.beginPath();
+        ctx.arc(p.x + ex*Math.cos(rot) - ey*Math.sin(rot), p.y + ex*Math.sin(rot) + ey*Math.cos(rot), 2.4, 0, 7); ctx.fill();
       }
-      // etiqueta
-      const fsz = Math.max(10, (W < 560 ? 11.5 : 13.5)*p.s*(n.base > 1.2 ? 1.25 : 1));
-      ctx.font = `600 ${fsz}px 'Chakra Petch', system-ui, sans-serif`;
-      ctx.textAlign = 'center'; ctx.textBaseline = 'top';
-      ctx.fillStyle = '#e9eeff'; ctx.shadowColor = 'rgba(0,0,0,.9)'; ctx.shadowBlur = 6;
+      const fsz = (W < 560 ? 11 : 13.5)*(k==='IA' ? 1.25 : 1)*(.85 + .15*p.s);
+      ctx.font = `600 ${fsz}px 'Chakra Petch', system-ui, sans-serif`; ctx.textAlign = 'center';
+      ctx.fillStyle = '#eef2ff'; ctx.shadowColor = 'rgba(0,0,0,.95)'; ctx.shadowBlur = 6;
       if(k==='IA'){ ctx.textBaseline = 'middle'; ctx.fillText(label(k), p.x, p.y); }
-      else ctx.fillText(label(k), p.x, p.y + p.r + 4);
+      else { ctx.textBaseline = 'top'; ctx.fillText(label(k), p.x, p.y + p.r + 5); }
       ctx.shadowBlur = 0; ctx.globalAlpha = 1;
     });
     requestAnimationFrame(draw);
   }
 
-  // Interacción: arrastrar para girar, tocar para seleccionar
-  let dragging = false, sx = 0, sy = 0, moved = 0, pid = null;
+  // Arrastrar para girar, tocar para elegir
+  let sx = 0, sy = 0, moved = 0, pid = null;
   function pick(e){
-    const r = c.getBoundingClientRect(), x = e.clientX - r.left, y = e.clientY - r.top;
-    let best = null;
-    Object.keys(S).forEach(k => { const p = proj[k]; if(p && Math.hypot(x-p.x, y-p.y) < p.r + 8 && (!best || p.z < proj[best].z)) best = k; });
+    const r = c.getBoundingClientRect(), x = e.clientX - r.left, y = e.clientY - r.top; let best = null;
+    for(const k in proj){ const p = proj[k]; if(Math.hypot(x-p.x, y-p.y) < p.r + 10 && (!best || p.z < proj[best].z)) best = k; }
     return best;
   }
   c.addEventListener('pointerdown', e => { dragging = true; moved = 0; sx = e.clientX; sy = e.clientY; pid = e.pointerId; tAy = null; });
   addEventListener('pointermove', e => {
     if(dragging && e.pointerId === pid){
       const dx = e.clientX - sx, dy = e.clientY - sy; moved += Math.abs(dx) + Math.abs(dy);
-      if(moved > 6 && e.pointerType === 'mouse' || moved > 14){ ay += dx*.008; ax = Math.max(-1, Math.min(1, ax + dy*.006)); idleUntil = performance.now() + 3000; }
+      if(moved > (e.pointerType === 'mouse' ? 6 : 14)){ ay += dx*.008; ax = Math.max(-.8, Math.min(-.2, ax + dy*.004)); idleUntil = performance.now() + 3000; }
       sx = e.clientX; sy = e.clientY;
     } else if(e.target === c){ hover = pick(e); c.style.cursor = hover ? 'pointer' : 'grab'; }
   });
   addEventListener('pointercancel', () => { dragging = false; });
   addEventListener('pointerup', e => {
-    if(!dragging || e.pointerId !== pid) return;
-    dragging = false;
-    if(moved < 14){ const k = pick(e); if(k){ select(k); e.stopPropagation(); } }
+    if(!dragging || e.pointerId !== pid) return; dragging = false;
+    if(moved < 14){ const k = pick(e); if(k) select(k); }
   });
-
   function select(k){
     current = k; linked = new Set([k]);
     E.forEach(([a,b]) => { if(a===k) linked.add(b); if(b===k) linked.add(a); });
-    if(k !== 'IA'){ // girar para traer la esfera al frente
-      const n = S[k], target = Math.atan2(n.x, n.z) + Math.PI;
-      const d = ((target - ay) % (Math.PI*2) + Math.PI*3) % (Math.PI*2) - Math.PI;
-      tAy = ay + d; idleUntil = performance.now() + 4000;
-    }
-    const L = window.LANG || 'es';
+    if(k !== 'IA'){ const n = S[k], target = Math.atan2(n.x, n.z) + Math.PI;
+      const d = ((target - ay) % (Math.PI*2) + Math.PI*3) % (Math.PI*2) - Math.PI; tAy = ay + d; idleUntil = performance.now() + 5000; }
     document.getElementById('i-title').textContent = label(k);
-    document.getElementById('i-text').textContent = S[k].t[L];
+    document.getElementById('i-text').textContent = S[k].t[window.LANG || 'es'];
   }
   window.relabelSkills = () => select(current);
   select('IA');
@@ -760,6 +752,7 @@ document.querySelectorAll('.vcard').forEach(card => {
 /* ── IDIOMA ES / EN ── */
 (() => {
   const EN = {
+    'Marketing y ventas':'Marketing &amp; sales','Tecnología':'Technology',
     'Sobre mí':'About me','Lo que aporto':'What I bring',
     'Ingeniería en Computación · Marketing de producto y ventas':'Computer Engineering · Product marketing &amp; sales',
     'Combino ingeniería, economía y experiencia en ventas internacionales para conectar productos tecnológicos con las personas que los usan.':'I combine engineering, economics and international sales experience to connect tech products with the people who use them.',
