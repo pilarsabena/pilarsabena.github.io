@@ -60,11 +60,13 @@ nav ul a:hover{color:var(--text)}
 /* HERO */
 .hero{min-height:100vh;min-height:100svh;display:grid;align-items:center;padding:6rem clamp(1.2rem,6vw,6rem) 4rem;position:relative}
 #net{position:absolute;inset:0;width:100%;height:100%}
+#namefx{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;z-index:2}
+h1.fx{background:none;color:transparent;-webkit-text-fill-color:transparent}
 .hero-inner{position:relative;max-width:900px}
 .status{display:inline-flex;align-items:center;gap:.6rem;font-size:.85rem;color:var(--muted);margin-bottom:1.6rem}
 .status i{width:8px;height:8px;border-radius:50%;background:var(--cyan);box-shadow:0 0 12px var(--cyan);animation:blink 2.4s infinite}
 @keyframes blink{50%{opacity:.35}}
-h1{font-family:var(--display);font-weight:700;font-size:clamp(2.8rem,8vw,6.2rem);line-height:.98;letter-spacing:-1px;
+h1{font-family:var(--display);font-weight:700;font-size:clamp(2.8rem,max(8vw,min(14vw,3.6rem)),6.2rem);line-height:.98;letter-spacing:-1px;
   background:linear-gradient(100deg,#fff 20%,#a9c3ff 55%,#b79bff 90%);-webkit-background-clip:text;background-clip:text;color:transparent}
 .role{font-family:var(--display);font-weight:500;font-size:clamp(1.1rem,2.4vw,1.5rem);color:var(--cyan);margin:1.2rem 0 1.4rem}
 .lead{max-width:58ch;color:#c3cbeb;font-size:1.05rem}
@@ -205,6 +207,7 @@ footer{padding:8rem clamp(1.2rem,6vw,6rem) 3rem;text-align:center}
 <main>
   <header class="hero" id="inicio">
     <canvas id="net" aria-hidden="true"></canvas>
+    <canvas id="namefx" aria-hidden="true"></canvas>
     <div class="hero-inner">
       <h1>María Pilar<br>Sabena</h1>
       <p class="role">Ingeniería en Computación</p>
@@ -452,6 +455,87 @@ addEventListener('click', e => ripples.push({x:e.clientX, y:e.clientY, r:0, a:.6
     if(!reduce) requestAnimationFrame(frame);
   }
   frame();
+})();
+
+
+/* ── NOMBRE ARMADO POR BITS ── */
+(() => {
+  const c = document.getElementById('namefx'), ctx = c.getContext('2d');
+  const h1 = document.querySelector('.hero h1');
+  const DPR = Math.min(devicePixelRatio || 1, 2);
+  const cols = [[255,255,255],[169,195,255],[183,155,255]];
+  let parts = [], fs = 10, sq = 5, W, H, start = 0, lastW = innerWidth;
+
+  function mix(t){
+    const i = t < .5 ? 0 : 1, k = t < .5 ? t*2 : (t-.5)*2;
+    const a = cols[i], b = cols[i+1];
+    return a.map((v,j) => Math.round(v + (b[j]-v)*k));
+  }
+
+  function build(instant){
+    const cr = c.getBoundingClientRect(), hr = h1.getBoundingClientRect();
+    W = cr.width; H = cr.height;
+    c.width = W*DPR; c.height = H*DPR; ctx.setTransform(DPR,0,0,DPR,0,0);
+    const st = getComputedStyle(h1), size = parseFloat(st.fontSize);
+    const lh = parseFloat(st.lineHeight) || size;
+    const lines = h1.innerHTML.split(/<br\s*\/?>/i).map(t => t.replace(/<[^>]+>/g,'').trim());
+    const off = document.createElement('canvas'), o = off.getContext('2d');
+    off.width = Math.ceil(hr.width); off.height = Math.ceil(hr.height);
+    o.font = `${st.fontWeight} ${size}px ${st.fontFamily}`;
+    if('letterSpacing' in o) o.letterSpacing = st.letterSpacing;
+    o.textBaseline = 'middle'; o.fillStyle = '#fff';
+    lines.forEach((t,i) => o.fillText(t, 0, lh*i + lh/2));
+    const data = o.getImageData(0,0,off.width,off.height).data;
+    const gap = Math.max(4, Math.round(size/15));
+    fs = gap*1.45; sq = gap*.78;
+    const ox = hr.left - cr.left, oy = hr.top - cr.top;
+    parts = [];
+    for(let y=0; y<off.height; y+=gap) for(let x=0; x<off.width; x+=gap){
+      if(data[(y*off.width + x)*4 + 3] > 140){
+        const tx = ox + x, ty = oy + y, [r,g,b] = mix(x/off.width);
+        const sx = tx + (Math.random()-.5)*60, sy = -Math.random()*H*.6 - 20;
+        parts.push({tx, ty, sx, sy, x: sx, y: sy, vx:0, vy:0,
+          t0: Math.random()*2200 + (x/off.width)*800, dur: 1600 + Math.random()*400,
+          ch: Math.random()<.5?'0':'1', bit: Math.random()<.14, col:`${r},${g},${b}`, ph: Math.random()*6});
+      }
+    }
+    if(reduce || instant) parts.forEach(p => { p.x = p.tx; p.y = p.ty; p.t0 = 0; p.dur = 0; });
+    start = performance.now();
+    h1.classList.add('fx');
+  }
+
+  function frame(now){
+    const el = now - start, cr = c.getBoundingClientRect();
+    const mx = mouse.x - cr.left, my = mouse.y - cr.top, R = Math.max(70, fs*9);
+    ctx.clearRect(0,0,W,H);
+    ctx.font = `${fs}px 'JetBrains Mono', monospace`;
+    ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+    for(const p of parts){
+      const falling = el < p.t0 + p.dur;
+      if(falling){                           // cae lento, en unos 5 segundos en total
+        const k = Math.max(0, (el - p.t0)/p.dur), e = 1 - Math.pow(1-k, 3);
+        p.x = p.sx + (p.tx - p.sx)*e; p.y = p.sy + (p.ty - p.sy)*e;
+      } else {
+        p.vx += (p.tx - p.x)*.03; p.vy += (p.ty - p.y)*.03;   // vuelve a su lugar
+        const dx = p.x - mx, dy = p.y - my, d = Math.hypot(dx,dy);
+        if(d < R && d > 0){ const f = (1 - d/R)*2.4; p.vx += dx/d*f; p.vy += dy/d*f; }  // se dispersa
+        p.vx *= .84; p.vy *= .84; p.x += p.vx; p.y += p.vy;
+      }
+      if(Math.random() < .004) p.ch = p.ch === '0' ? '1' : '0';
+      const settled = Math.abs(p.x-p.tx) + Math.abs(p.y-p.ty) < 2;
+      const a = falling ? .35 + .5*Math.min(1, Math.max(0,(el - p.t0)/p.dur)) : settled ? .82 + Math.sin(now/600 + p.ph)*.18 : 1;
+      ctx.fillStyle = `rgba(${p.col},${a})`;
+      if(p.bit || falling) ctx.fillText(p.ch, p.x, p.y);   // algunos se ven como 0 / 1
+      else ctx.fillRect(p.x - sq/2, p.y - sq/2, sq, sq);     // el resto, como bits cuadrados
+    }
+    if(!reduce || el < 50) requestAnimationFrame(frame);
+  }
+
+  const go = () => { try{ build(); requestAnimationFrame(frame); }catch(e){ h1.classList.remove('fx'); } };
+  (document.fonts ? document.fonts.ready : Promise.resolve()).then(go);
+  addEventListener('resize', () => { if(innerWidth !== lastW){ lastW = innerWidth; build(true); } });
+  // al cambiar de idioma no cambia el nombre, pero sí puede moverse el layout
+  document.querySelectorAll('.langsw button').forEach(b => b.addEventListener('click', () => setTimeout(() => build(true), 50)));
 })();
 
 /* ── SKILLS: red de nodos seleccionable ── */
