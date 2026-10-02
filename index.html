@@ -76,6 +76,7 @@ h1{font-family:var(--display);font-weight:700;font-size:clamp(2.8rem,max(8vw,min
 .btn-main:hover{box-shadow:0 0 0 1px rgba(255,255,255,.2) inset,0 10px 40px rgba(62,230,255,.45);transform:translateY(-2px)}
 .btn-ghost{border:1px solid var(--line);color:var(--text)}
 .btn-ghost:hover{border-color:var(--cyan);color:var(--cyan)}
+.btn-dl{display:inline-flex;align-items:center;gap:.5rem}.btn-dl .dl{color:var(--cyan);font-weight:700}
 
 /* SECTIONS */
 section.block{padding:6rem clamp(1.2rem,6vw,6rem);max-width:1200px;margin:0 auto}
@@ -272,6 +273,7 @@ footer{padding:8rem clamp(1.2rem,6vw,6rem) 3rem;text-align:center}
       <div class="actions">
         <a class="btn btn-main" href="#experiencia">Ver experiencia</a>
         <a class="btn btn-ghost" href="https://www.linkedin.com/in/mar%C3%ADa-pilar-sabena-19a236238" target="_blank" rel="noopener">Escribime</a>
+        <a class="btn btn-ghost btn-dl" id="cvdl" href="Maria-Pilar-Sabena-CV-ES.pdf" download><span class="dl">↓</span> <span>Descargar CV</span></a>
       </div>
     </div>
   </header>
@@ -853,7 +855,7 @@ document.querySelectorAll('.vcard').forEach(card => {
     'Hablo español, inglés e italiano, y tengo facilidad para conectar con personas de distintas culturas.':'I speak Spanish, English and Italian, and I connect easily with people from different cultures.',
     'Producto, datos y desarrollo web':'Product, data &amp; web development','Experiencia':'Experience','IA':'AI','Formación':'Education',
     'Estoy en el último año de Ingeniería en Computación, con formación en economía y experiencia en ventas internacionales. Me interesa el punto donde la tecnología se encuentra con las personas.':'I’m in my final year of Computer Engineering, with a background in economics and international sales experience. What excites me most is where technology meets people.',
-    'Ver experiencia':'See my experience','Escribime':'Let’s talk',
+    'Ver experiencia':'See my experience','Descargar CV':'Download CV','Escribime':'Let’s talk',
     'Me gusta entender qué necesita una persona y convertirlo en algo concreto: una web, un sistema o una forma más clara de contar el valor de un producto.':'I love figuring out what people actually need and turning it into something real: a website, a tool, or a clearer way to show why a product matters.',
     'Combino una base técnica sólida con experiencia comercial y un fuerte interés por las culturas y los idiomas. Uso la inteligencia artificial como aliada diaria para crear, analizar y comunicar.':'I bring together a solid technical background, real sales experience and a genuine love for languages and cultures. AI is part of my everyday toolkit for creating, analyzing and communicating.',
     '5° año':'Final year','Ingeniería en Computación, UNC':'Computer Engineering, UNC',
@@ -893,6 +895,7 @@ document.querySelectorAll('.vcard').forEach(card => {
   function setLang(L){
     window.LANG = L;
     document.documentElement.lang = L;
+    const dl = document.getElementById('cvdl'); if(dl) dl.href = L === 'en' ? 'Maria-Pilar-Sabena-CV-EN.pdf' : 'Maria-Pilar-Sabena-CV-ES.pdf';
     els.forEach(o => o.el.innerHTML = o[L]);
     btns.forEach(b => b.setAttribute('aria-pressed', b.dataset.l === L));
     document.title = L === 'en' ? 'María Pilar Sabena · Computer Engineering' : 'María Pilar Sabena · Ingeniería en Computación';
