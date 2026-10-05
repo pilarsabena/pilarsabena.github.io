@@ -397,7 +397,7 @@ footer{padding:8rem clamp(1.2rem,6vw,6rem) 3rem;text-align:center}
 <footer>
   <p class="cta-big">Let's build something interesting.</p>
   <div class="contact">
-    <a href="mailto:pilar.sabena@mi.unc.edu.ar" id="mail">pilar.sabena@mi.unc.edu.ar</a>
+    <a href="mailto:sabenamariapilar@gmail.com" id="mail">sabenamariapilar@gmail.com</a>
     <a href="https://www.linkedin.com/in/mar%C3%ADa-pilar-sabena-19a236238" target="_blank" rel="noopener">LinkedIn</a>
   </div>
   <p class="copy">© 2026 María Pilar Sabena</p>
@@ -699,7 +699,7 @@ addEventListener('click', e => ripples.push({x:e.clientX, y:e.clientY, r:0, a:.6
     'SQL':          {g:'t', t:{es:'Consultas y modelado de bases de datos relacionales.',en:'Building and querying databases.'}},
     'Web':          {g:'t', t:{es:'HTML, CSS y JavaScript. Creación, publicación y mantenimiento de sitios web.',en:'HTML, CSS and JavaScript. Building, launching and looking after websites.'}},
     'C / C++':      {g:'t', t:{es:'Programación estructurada y de bajo nivel.',en:'Structured and low-level programming.'}},
-    'Verilog':      {g:'t', t:{es:'Diseño de hardware digital. Implementación de un microprocesador completo sobre placa.',en:'Digital hardware design. I built a complete microprocessor running on a real board.'}},
+    'Verilog':      {g:'t', t:{es:'Diseño de hardware digital. Actualmente estoy desarrollando un microprocesador completo sobre placa.',en:'Digital hardware design. I’m currently building a complete microprocessor on a real board.'}},
     'Electrónica':  {en:'Electronics', g:'t', t:{es:'Electrónica digital, arquitectura de computadoras y teoría de señales.',en:'Digital electronics, computer architecture and signals.'}}
   };
   const E = Object.keys(S).filter(k => k !== 'IA').map(k => ['IA',k]).concat([
@@ -914,7 +914,7 @@ document.querySelectorAll('.vcard').forEach(card => {
   a.addEventListener('click', e => {
     if(!navigator.clipboard) return;
     e.preventDefault();
-    navigator.clipboard.writeText('pilar.sabena@mi.unc.edu.ar').then(() => {
+    navigator.clipboard.writeText('sabenamariapilar@gmail.com').then(() => {
       toast.textContent = window.LANG === 'en' ? 'Email copied!' : '¡Mail copiado!';
       toast.classList.add('show'); clearTimeout(tm);
       tm = setTimeout(() => toast.classList.remove('show'), 2200);
